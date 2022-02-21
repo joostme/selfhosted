@@ -1,0 +1,65 @@
+version: "3.4"
+services:
+  broker:
+    image: redis:6.0
+    restart: unless-stopped
+    networks:
+      - default
+
+  db:
+    image: postgres:13
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
+    networks:
+      - default
+
+  webserver:
+    image: jonaswinkler/paperless-ng:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+      - broker
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - data:/usr/src/paperless/data
+      - media:/usr/src/paperless/media
+      - ./export:/usr/src/paperless/export
+      - ./consume:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBHOST: db
+      PAPERLESS_TIME_ZONE: Europe/Berlin
+      PAPERLESS_OCR_LANGUAGE: deu
+      PAPERLESS_CONSUMER_POLLING: 300
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.paperless.rule=Host(`paperless.home`)
+      - traefik.http.services.paperless.loadbalancer.server.port=8000
+    networks:
+      - default
+      - traefik
+
+
+volumes:
+  pgdata:
+  data:
+  media:
+    driver: local
+    driver_opts:
+      type: "cifs"
+      device: "//192.168.178.29/Dokumente"
+      o: "uid=1000,gid=1000,guest,rw,file_mode=0770,dir_mode=0770"
+  
+networks:
+  default:
+  traefik:
+    external: true

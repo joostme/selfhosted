@@ -1,0 +1,41 @@
+version: "3"
+services:
+  db_recipes:
+    restart: always
+    image: postgres:11-alpine
+    volumes:
+      - tandoor-db:/var/lib/postgresql/data
+    environment:
+       SECRET_KEY: s3cr3t
+       POSTGRES_PASSWORD: s3cret
+    networks:
+      - default
+
+  web_recipes:
+    image: vabene1111/recipes
+    volumes:
+      - tandoor-staticfiles:/opt/recipes/staticfiles
+      - tandoor-mediafiles:/opt/recipes/mediafiles
+    depends_on:
+      - db_recipes
+    environment:
+      SECRET_KEY: s3cr3t
+      POSTGRES_PASSWORD: s3cret
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.tandoor.rule=Host(`tandoor.home`)
+      - traefik.http.services.tandoor.loadbalancer.server.port=8080
+    networks:
+      - default
+      - traefik
+      
+volumes:
+  tandoor-db:
+  tandoor-mediafiles:
+  tandoor-staticfiles:
+  
+networks:
+  default:
+  traefik:
+    external: true
+

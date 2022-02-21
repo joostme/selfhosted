@@ -1,0 +1,15 @@
+version: "3.4"
+services:
+  homeassistant:
+    image: home-assistant/home-assistant:stable
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - config:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.home`)"
+      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
+  
+volumes:
+  config:

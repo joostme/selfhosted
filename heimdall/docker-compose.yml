@@ -1,0 +1,20 @@
+version: "3.4"
+services:
+  heimdall:
+    image: linuxserver/heimdall:latest
+    restart: unless-stopped
+    networks:
+      - traefik
+    volumes:
+      - config:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.heimdall.rule=Host(`heimdall.home`)"
+      - "traefik.http.services.heimdall.loadbalancer.server.port=80"
+  
+networks:
+  traefik:
+    external: true
+
+volumes:
+  config:

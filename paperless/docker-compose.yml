@@ -31,7 +31,7 @@ services:
       retries: 5
     volumes:
       - data:/usr/src/paperless/data
-      - media:/usr/src/paperless/media
+      - /mnt/Dokumente:/usr/src/paperless/media
       - ./export:/usr/src/paperless/export
       - ./consume:/usr/src/paperless/consume
     environment:
@@ -52,11 +52,6 @@ services:
 volumes:
   pgdata:
   data:
-  media:
-    driver_opts:
-      type: "cifs"
-      device: "//192.168.178.29/Dokumente"
-      o: "uid=1000,gid=1000,guest,rw,file_mode=0770,dir_mode=0770"
   
 networks:
   default:

@@ -7,7 +7,9 @@ services:
     networks:
       - traefik
     environment:
-      - WEBSOCKET_ENABLED=true 
+      - WEBSOCKET_ENABLED=true
+    env_file:
+      - ./.env
     volumes:
       - vault:/data
     labels:

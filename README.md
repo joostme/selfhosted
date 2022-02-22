@@ -31,3 +31,20 @@ http:
   trusted_proxies:
     - 172.28.0.0/16
 ```
+
+### Adguard
+
+Configure the host to use local AdGuard instance
+
+```sh
+sudo nano /etc/dhcpcd.conf
+
+# Add following line
+static domain_name_servers=127.0.0.1
+
+# Restart service
+sudo service dhcpcd restart
+
+# Test if it works
+dig myservicer.mydomain.com
+```

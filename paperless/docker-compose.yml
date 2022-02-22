@@ -41,9 +41,20 @@ services:
       PAPERLESS_OCR_LANGUAGE: deu
       PAPERLESS_CONSUMER_POLLING: 300
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.paperless.rule=Host(`paperless.joost.io`)
-      - traefik.http.services.paperless.loadbalancer.server.port=8000
+      - "traefik.enable=true"
+      - "traefik.http.routers.paperless_https.entrypoints=websecure"
+      - "traefik.http.routers.paperless_https.rule=Host(`paperless.joost.io`)"
+      - "traefik.http.routers.paperless_https.tls=true"
+      - "traefik.http.routers.paperless_https.tls.certresolver=myresolver"
+      - "traefik.http.routers.paperless_https.service=adguard"
+      - "traefik.http.services.paperless_https.loadbalancer.server.port=8000"
+
+
+      - "traefik.http.routers.paperless_http.entrypoints=web"
+      - "traefik.http.routers.paperless_http.rule=Host(`paperless.joost.io`)"
+      - "traefik.http.routers.paperless_http.middlewares=https_redirect"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
     networks:
       - default
       - traefik

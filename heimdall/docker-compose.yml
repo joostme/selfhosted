@@ -9,8 +9,19 @@ services:
       - config:/config
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.heimdall.rule=Host(`heimdall.joost.io`)"
-      - "traefik.http.services.heimdall.loadbalancer.server.port=80"
+      - "traefik.http.routers.heimdall_https.entrypoints=websecure"
+      - "traefik.http.routers.heimdall_https.rule=Host(`heimdall.joost.io`)"
+      - "traefik.http.routers.heimdall_https.tls=true"
+      - "traefik.http.routers.heimdall_https.tls.certresolver=myresolver"
+      - "traefik.http.routers.heimdall_https.service=adguard"
+      - "traefik.http.services.heimdall_https.loadbalancer.server.port=80"
+
+
+      - "traefik.http.routers.heimdall_http.entrypoints=web"
+      - "traefik.http.routers.heimdall_http.rule=Host(`heimdall.joost.io`)"
+      - "traefik.http.routers.heimdall_http.middlewares=https_redirect"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
   
 networks:
   traefik:

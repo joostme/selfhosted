@@ -93,7 +93,7 @@ entryPoints:
 # Enable API and dashboard
 #
 api:
-  insecure: true
+  dashboard: true
 
 ################################################################
 # Ping configuration
@@ -116,9 +116,6 @@ providers:
   docker:
     exposedByDefault: false
     network: traefik
-
-serverstransport:
-  insecureskipverify: true
 
 
 ################################################################

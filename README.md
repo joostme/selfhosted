@@ -5,7 +5,7 @@
 ### Create traefik network
 
 ```sh
-docker network create traefik
+docker network create --subnet=172.28.0.0/16 traefik
 ```
 ### Create/copy acme.json
 
@@ -19,4 +19,15 @@ touch traefik/acme.json
 
 ```
 //192.168.178.29/Dokumente /mnt/Dokumente      cifs    uid=1000,gid=1000,guest,rw,file_mode=0770,dir_mode=0770     0     0
+```
+
+### Homeassistant Config anpassen
+
+For Homeassistant to work, traefik has to be set as a trusted reverse proxy. Add the following to the `configuration.yaml` of Homeassistant:
+
+```yaml
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.28.0.0/16
 ```

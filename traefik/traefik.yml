@@ -36,7 +36,7 @@ entryPoints:
 # Enabled by default and log to stdout
 #
 log:
-  level: DEBUG
+  level: ERROR
 
   # Sets the filepath for the traefik log. If not specified, stdout will be used.
   # Intermediate directories are created if necessary.
@@ -112,7 +112,7 @@ providers:
 
 serversTransport:
   insecureSkipVerify: true
-  
+
 ################################################################
 # SSL
 ################################################################

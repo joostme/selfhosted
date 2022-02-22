@@ -1,0 +1,30 @@
+version: "3"
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      - WEBSOCKET_ENABLED=true 
+    volumes:
+      - vault:/data
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.vault_https.entrypoints=websecure"
+      - "traefik.http.routers.vault_https.rule=Host(`vault.joost.io`)"
+      - "traefik.http.routers.vault_https.tls=true"
+      - "traefik.http.routers.vault_https.tls.certresolver=myresolver"
+      - "traefik.http.routers.vault_https.service=vault"
+
+      - "traefik.http.services.vault.loadbalancer.server.port=80"
+      
+volumes:
+  vault:
+  
+networks:
+  traefik:
+    external: true
+

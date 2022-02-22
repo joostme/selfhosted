@@ -14,7 +14,7 @@ services:
       - unifi:/unifi
     labels:
       - "traefik.enable=true"
-      
+
       - "traefik.http.routers.unifi_https.entrypoints=websecure"
       - "traefik.http.routers.unifi_https.rule=Host(`unifi.joost.io`)"
       - "traefik.http.routers.unifi_https.tls=true"
@@ -23,12 +23,6 @@ services:
 
       - "traefik.http.services.unifi.loadbalancer.server.port=8443"
       - "traefik.http.services.unifi.loadbalancer.server.scheme=https"
-
-      - "traefik.http.routers.unifi_http.entrypoints=web"
-      - "traefik.http.routers.unifi_http.rule=Host(`unifi.joost.io`)"
-      - "traefik.http.routers.unifi_http.middlewares=https_redirect"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
 
 volumes:
   run:

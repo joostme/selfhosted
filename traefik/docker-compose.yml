@@ -13,6 +13,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.yml:/etc/traefik/traefik.yml
+      - ./acme.json:/acme.json
     labels:
       - "traefik.enable=true"
 
@@ -21,12 +22,14 @@ services:
       - "traefik.http.routers.traefik_https.tls=true"
       - "traefik.http.routers.traefik_https.tls.certresolver=myresolver"
       - "traefik.http.routers.traefik_https.service=api@internal"
+      - "traefik.http.routers.traefik_https.tls.domains[0].main=*.joost.io"
+      - "traefik.http.routers.traefik_https.tls.domains[0].sans=*.joost.io"
 
-      - "traefik.http.routers.traefik_http.entrypoints=web"
-      - "traefik.http.routers.traefik_http.rule=Host(`traefik.joost.io`)"
-      - "traefik.http.routers.traefik_http.middlewares=https_redirect"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
   
 networks:
   traefik:

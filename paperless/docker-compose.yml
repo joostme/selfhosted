@@ -50,12 +50,6 @@ services:
       - "traefik.http.routers.paperless_https.service=paperless"
 
       - "traefik.http.services.paperless.loadbalancer.server.port=8000"
-
-      - "traefik.http.routers.paperless_http.entrypoints=web"
-      - "traefik.http.routers.paperless_http.rule=Host(`paperless.joost.io`)"
-      - "traefik.http.routers.paperless_http.middlewares=https_redirect"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
     networks:
       - default
       - traefik

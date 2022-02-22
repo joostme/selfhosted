@@ -16,12 +16,6 @@ services:
       - "traefik.http.routers.homeassistant_https.service=homeassistant"
 
       - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
-
-      - "traefik.http.routers.homeassistant_http.entrypoints=web"
-      - "traefik.http.routers.homeassistant_http.rule=Host(`homeassistant.joost.io`)"
-      - "traefik.http.routers.homeassistant_http.middlewares=https_redirect"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
   
 volumes:
   config:

@@ -31,12 +31,6 @@ services:
       - "traefik.http.routers.tandoor_https.service=tandoor"
 
       - "traefik.http.services.tandoor.loadbalancer.server.port=8080"
-
-      - "traefik.http.routers.tandoor_http.entrypoints=web"
-      - "traefik.http.routers.tandoor_http.rule=Host(`tandoor.joost.io`)"
-      - "traefik.http.routers.tandoor_http.middlewares=https_redirect"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
     networks:
       - default
       - traefik

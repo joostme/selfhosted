@@ -7,6 +7,11 @@
 ```sh
 docker network create traefik
 ```
+### Create/copy acme.json
+
+```sh
+touch traefik/acme.json
+```
 
 ### Mount Dokumente
 

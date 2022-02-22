@@ -14,11 +14,15 @@ services:
       - conf:/opt/adguardhome/conf
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.adguard.rule=Host(`adguard.home`)"
+      - "traefik.http.routers.adguard.entrypoints=websecure"
+      - "traefik.http.routers.adguard.rule=Host(`adguard.joost.io`)"
+      - "traefik.http.routers.adguard.tls=true"
+      - "traefik.http.routers.adguard.tls.certresolver=myresolver"
       - "traefik.http.routers.adguard.service=adguard"
-      - "traefik.http.services.adguard.loadbalancer.server.port=80"
+      - "traefik.http.services.adguard.loadbalancer.server.port=443"
 
-      - "traefik.http.routers.adguard2.rule=Host(`adguard.home`)"
+
+      - "traefik.http.routers.adguard2.rule=Host(`adguard.joost.io`)"
       - "traefik.http.routers.adguard2.service=adguard2"
       - "traefik.http.services.adguard2.loadbalancer.server.port=3000"
   

@@ -8,8 +8,8 @@ services:
       - config:/config
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.home`)"
-      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
+      - "traefik.http.routers.joost.ioassistant.rule=Host(`homeassistant.joost.io`)"
+      - "traefik.http.services.joost.ioassistant.loadbalancer.server.port=8123"
   
 volumes:
   config:

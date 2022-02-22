@@ -42,7 +42,7 @@ services:
       PAPERLESS_CONSUMER_POLLING: 300
     labels:
       - traefik.enable=true
-      - traefik.http.routers.paperless.rule=Host(`paperless.home`)
+      - traefik.http.routers.paperless.rule=Host(`paperless.joost.io`)
       - traefik.http.services.paperless.loadbalancer.server.port=8000
     networks:
       - default

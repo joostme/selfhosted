@@ -119,3 +119,18 @@ providers:
 
 serverstransport:
   insecureskipverify: true
+
+
+################################################################
+# SSL
+################################################################
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # Staging
+      email: "joost@zllnr.de"
+      storage: "acme.json"
+      dnsChallenge: 
+        provider: namecheap
+        delayBeforeCheck: 0

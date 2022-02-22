@@ -8,13 +8,14 @@ services:
       - config:/config
     labels:
       - "traefik.enable=true"
+      
       - "traefik.http.routers.homeassistant_https.entrypoints=websecure"
       - "traefik.http.routers.homeassistant_https.rule=Host(`homeassistant.joost.io`)"
       - "traefik.http.routers.homeassistant_https.tls=true"
       - "traefik.http.routers.homeassistant_https.tls.certresolver=myresolver"
-      - "traefik.http.routers.homeassistant_https.service=adguard"
-      - "traefik.http.services.homeassistant_https.loadbalancer.server.port=8123"
+      - "traefik.http.routers.homeassistant_https.service=homeassistant"
 
+      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
 
       - "traefik.http.routers.homeassistant_http.entrypoints=web"
       - "traefik.http.routers.homeassistant_http.rule=Host(`homeassistant.joost.io`)"

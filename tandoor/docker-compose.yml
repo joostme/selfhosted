@@ -24,14 +24,13 @@ services:
     labels:
       - "traefik.enable=true"
 
-      - "traefik.enable=true"
       - "traefik.http.routers.tandoor_https.entrypoints=websecure"
       - "traefik.http.routers.tandoor_https.rule=Host(`tandoor.joost.io`)"
       - "traefik.http.routers.tandoor_https.tls=true"
       - "traefik.http.routers.tandoor_https.tls.certresolver=myresolver"
-      - "traefik.http.routers.tandoor_https.service=adguard"
-      - "traefik.http.services.tandoor_https.loadbalancer.server.port=8080"
+      - "traefik.http.routers.tandoor_https.service=tandoor"
 
+      - "traefik.http.services.tandoor.loadbalancer.server.port=8080"
 
       - "traefik.http.routers.tandoor_http.entrypoints=web"
       - "traefik.http.routers.tandoor_http.rule=Host(`tandoor.joost.io`)"

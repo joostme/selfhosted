@@ -8,13 +8,14 @@ services:
       - portainer_data:/data
     labels:
       - "traefik.enable=true"
+      
       - "traefik.http.routers.portainer_https.entrypoints=websecure"
       - "traefik.http.routers.portainer_https.rule=Host(`portainer.joost.io`)"
       - "traefik.http.routers.portainer_https.tls=true"
       - "traefik.http.routers.portainer_https.tls.certresolver=myresolver"
-      - "traefik.http.routers.portainer_https.service=adguard"
-      - "traefik.http.services.portainer_https.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer_https.service=portainer"
 
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
 
       - "traefik.http.routers.portainer_http.entrypoints=web"
       - "traefik.http.routers.portainer_http.rule=Host(`portainer.joost.io`)"

@@ -4,7 +4,7 @@ services:
     restart: always
     image: postgres:11-alpine
     volumes:
-      - tandoor-db:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgresql/data
     environment:
        SECRET_KEY: s3cr3t
        POSTGRES_PASSWORD: s3cret
@@ -14,8 +14,8 @@ services:
   web_recipes:
     image: vabene1111/recipes
     volumes:
-      - tandoor-staticfiles:/opt/recipes/staticfiles
-      - tandoor-mediafiles:/opt/recipes/mediafiles
+      - ./data/static:/opt/recipes/staticfiles
+      - ./data/media:/opt/recipes/mediafiles
     depends_on:
       - db_recipes
     environment:
@@ -31,15 +31,12 @@ services:
       - "traefik.http.routers.tandoor_https.service=tandoor"
 
       - "traefik.http.services.tandoor.loadbalancer.server.port=8080"
+
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - default
       - traefik
       
-volumes:
-  tandoor-db:
-  tandoor-mediafiles:
-  tandoor-staticfiles:
-  
 networks:
   default:
   traefik:

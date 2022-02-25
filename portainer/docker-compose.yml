@@ -5,7 +5,7 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - ./data:/data
     labels:
       - "traefik.enable=true"
 
@@ -16,11 +16,10 @@ services:
       - "traefik.http.routers.portainer_https.service=portainer"
 
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik
-
-volumes:
-  portainer_data:
 
 networks:
   traefik:

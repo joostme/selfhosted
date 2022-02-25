@@ -30,6 +30,8 @@ services:
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+
+      - "com.centurylinklabs.watchtower.enable=true"
     # Extra Hosts for HomeAssistant mapping. As HA is running in host mode, it would map top 127.0.0.1
     extra_hosts:
       - host.docker.internal:172.17.0.1

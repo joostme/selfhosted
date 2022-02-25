@@ -14,7 +14,7 @@ services:
     env_file:
       - ./.env
     volumes:
-      - vault:/data
+      - ./data:/data
     labels:
       - "traefik.enable=true"
 
@@ -26,6 +26,7 @@ services:
 
       - "traefik.http.services.vault.loadbalancer.server.port=80"
 
+      # Properly forward websocket connection
       - "traefik.http.routers.vault-websocket-https.rule=Host(`vault.joost.io`) && Path(`/notifications/hub`)"
       - "traefik.http.routers.vault-websocket-https.entrypoints=websecure"
       - "traefik.http.routers.vault-websocket-https.tls=true"
@@ -35,9 +36,8 @@ services:
       - "traefik.http.routers.vault-websocket-http.middlewares=redirect-to-https"
       - "traefik.http.routers.vault-websocket-http.service=vault-websocket"
       - "traefik.http.services.vault-websocket.loadbalancer.server.port=3012"
-      
-volumes:
-  vault:
+
+      - "com.centurylinklabs.watchtower.enable=true"
   
 networks:
   traefik:

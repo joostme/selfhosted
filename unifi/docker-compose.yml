@@ -10,8 +10,8 @@ services:
       - "8080:8080"
       - "8443:8443"
     volumes:
-      - run:/var/run/unifi
-      - unifi:/unifi
+      - ./data/run:/var/run/unifi
+      - ./data/unifi:/unifi
     labels:
       - "traefik.enable=true"
 
@@ -24,9 +24,7 @@ services:
       - "traefik.http.services.unifi.loadbalancer.server.port=8443"
       - "traefik.http.services.unifi.loadbalancer.server.scheme=https"
 
-volumes:
-  run:
-  unifi:
+      - "com.centurylinklabs.watchtower.enable=true"
   
 networks:
   traefik:

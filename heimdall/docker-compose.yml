@@ -6,7 +6,7 @@ services:
     networks:
       - traefik
     volumes:
-      - config:/config
+      - ./data:/config
     labels:
       - "traefik.enable=true"
 
@@ -17,10 +17,8 @@ services:
       - "traefik.http.routers.heimdall_https.service=heimdall"
       
       - "traefik.http.services.heimdall.loadbalancer.server.port=80"
-  
+
+      - "com.centurylinklabs.watchtower.enable=true"
 networks:
   traefik:
     external: true
-
-volumes:
-  config:

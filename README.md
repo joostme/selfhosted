@@ -48,3 +48,11 @@ sudo service dhcpcd restart
 # Test if it works
 dig myservicer.mydomain.com
 ```
+
+### Start Tailscale
+
+```sh
+cd tailscale
+
+docker-compose tailscale tailscale up
+```

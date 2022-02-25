@@ -8,6 +8,8 @@ services:
       - traefik
     environment:
       - WEBSOCKET_ENABLED=true
+      - WEB_VAULT_ENABLED=true
+      - SIGNUPS_ALLOWED=false
     env_file:
       - ./.env
     volumes:
@@ -22,6 +24,16 @@ services:
       - "traefik.http.routers.vault_https.service=vault"
 
       - "traefik.http.services.vault.loadbalancer.server.port=80"
+
+      - "traefik.http.routers.vault-websocket-https.rule=Host(`vault.joost.io`) && Path(`/notifications/hub`)"
+      - "traefik.http.routers.vault-websocket-https.entrypoints=websecure"
+      - "traefik.http.routers.vault-websocket-https.tls=true"
+      - "traefik.http.routers.vault-websocket-https.service=vault-websocket"
+      - "traefik.http.routers.vault-websocket-http.rule=Host(`vault.joost.io`) && Path(`/notifications/hub`)"
+      - "traefik.http.routers.vault-websocket-http.entrypoints=web"
+      - "traefik.http.routers.vault-websocket-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.vault-websocket-http.service=vault-websocket"
+      - "traefik.http.services.vault-websocket.loadbalancer.server.port=3012"
       
 volumes:
   vault:

@@ -10,6 +10,7 @@ services:
       - WEBSOCKET_ENABLED=true
       - WEB_VAULT_ENABLED=true
       - SIGNUPS_ALLOWED=false
+      - DOMAIN=https://vault.joost.io
     env_file:
       - ./.env
     volumes:

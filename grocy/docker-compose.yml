@@ -1,0 +1,31 @@
+version: "3.4"
+services:
+  grocy:
+    image: lscr.io/linuxserver/grocy
+    container_name: grocy
+    environment:
+      - TZ=Europe/Berlin
+      - GROCY_CULTURE=de
+      - GROCY_CALENDAR_FIRST_DAY_OF_WEEK=1
+      - GROCY_CURRENCY=EUR
+    volumes:
+      - ./data/config:/config
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.grocy_https.entrypoints=websecure"
+      - "traefik.http.routers.grocy_https.rule=Host(`grocy.joost.io`)"
+      - "traefik.http.routers.grocy_https.tls=true"
+      - "traefik.http.routers.grocy_https.tls.certresolver=myresolver"
+      - "traefik.http.routers.grocy_https.service=grocy"
+      
+      - "traefik.http.services.grocy.loadbalancer.server.port=80"
+
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik:
+    external: true

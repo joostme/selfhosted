@@ -1,0 +1,41 @@
+listenAddressSingleHTTPFrontend: 0.0.0.0:1337 
+
+logLevel: "INFO"
+
+actions: 
+- title: Update container image
+  icon: restart
+  shell: cd /selfhosted/{{ service }} && docker-compose up --force-recreate --build -d && docker image prune -f
+  arguments:
+    - name: service
+      choices:
+        - title: AdGuard
+          value: adguard
+        - title: Gotify
+          value: gotify
+        - title: Grocy
+          value: grocy
+        - title: Heimdall
+          value: heimdall
+        - title: Homeassistant
+          value: homeassistant
+        - title: Monica
+          value: monica
+        - title: Olivetin
+          value: olivetin
+        - title: Paperless
+          value: paperless
+        - title: Portainer
+          value: portainer
+        - title: Tailscale
+          value: tailscale
+        - title: Tandoor
+          value: tandoor
+        - title: Traefik
+          value: traefik
+        - title: Unifi
+          value: unifi
+        - title: Vaultwarden
+          value: vaultwarden
+        - title: Watchtower
+          value: watchtower

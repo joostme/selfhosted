@@ -5,9 +5,8 @@ services:
     image: postgres:11-alpine
     volumes:
       - ./data/db:/var/lib/postgresql/data
-    environment:
-       SECRET_KEY: s3cr3t
-       POSTGRES_PASSWORD: s3cret
+    env_file:
+      - ./.env
     networks:
       - default
 
@@ -18,9 +17,8 @@ services:
       - ./data/media:/opt/recipes/mediafiles
     depends_on:
       - db_recipes
-    environment:
-      SECRET_KEY: s3cr3t
-      POSTGRES_PASSWORD: s3cret
+    env_file:
+      - ./.env
     labels:
       - "traefik.enable=true"
 

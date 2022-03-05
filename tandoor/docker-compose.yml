@@ -1,7 +1,7 @@
 version: "3"
 services:
   db_recipes:
-    restart: always
+    restart: unless-stopped
     image: postgres:11-alpine
     volumes:
       - ./data/db:/var/lib/postgresql/data
@@ -12,6 +12,7 @@ services:
 
   web_recipes:
     image: vabene1111/recipes
+    restart: unless-stopped
     volumes:
       - ./data/static:/opt/recipes/staticfiles
       - ./data/media:/opt/recipes/mediafiles

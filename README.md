@@ -18,7 +18,13 @@ touch traefik/acme.json
 `sudo nano /etc/fstab`
 
 ```
-//192.168.178.29/Dokumente /mnt/Dokumente      cifs    uid=1000,gid=1000,guest,rw,file_mode=0770,dir_mode=0770     0     0
+//192.168.178.29/Dokumente /mnt/Dokumente      cifs    uid=1000,gid=1000,credentials=/root/.smblogin,rw,file_mode=0770,dir_mode=0770     0     0
+```
+
+```
+# /root/.smblogin
+username=<SMB_USER>
+password=<SMB_PASS>
 ```
 
 ### Homeassistant Config anpassen
@@ -55,4 +61,21 @@ dig myservicer.mydomain.com
 cd tailscale
 
 docker-compose tailscale tailscale up
+```
+
+### Add Duplicacy filters
+
+`.duplicacy/filters`
+
+```
+i:^\w+/$
+i:^\w+/backup/
+e:^\w+/$
+e:.*
+```
+
+### Install SQLite
+
+```
+sudo apt-get install sqlite3
 ```

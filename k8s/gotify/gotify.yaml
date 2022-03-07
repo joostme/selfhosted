@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gotify
+spec:
+  selector:
+    matchLabels:
+      app: gotify
+  template:
+    metadata:
+      labels:
+        app: gotify
+    spec:
+      containers:
+        - name: gotify
+          image: gotify/server-arm7
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: gotify-data
+              mountPath: '/app/data'
+          livenessProbe:
+            httpGet:
+              port: 80
+          readinessProbe:
+            httpGet:
+              port: 80
+      volumes:
+        - name: gotify-data
+          persistentVolumeClaim:
+            claimName: gotify-volume-claim
+ 
+

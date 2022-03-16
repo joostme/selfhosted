@@ -88,7 +88,8 @@ data:
       local_domain_name: lan
       resolve_clients: true
       use_private_ptr_resolvers: true
-      local_ptr_upstreams: []
+      local_ptr_upstreams: 
+      - 192.168.178.1
     tls:
       enabled: false
       server_name: ""

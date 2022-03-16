@@ -6,7 +6,8 @@ services:
     networks:
       - traefik
     ports:
-      - "3478:3478"
+      - "3478:3478/udp"
+      - "3478:3478/tcp"
       - "8080:8080"
       - "8443:8443"
     volumes:

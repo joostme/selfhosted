@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: gotify
   name: gotify
 spec:
   selector:
@@ -8,6 +9,7 @@ spec:
       app: gotify
   template:
     metadata:
+      namespace: gotify
       labels:
         app: gotify
     spec:
@@ -24,6 +26,7 @@ spec:
           volumeMounts:
             - name: gotify-data
               mountPath: '/app/data'
+              subPath: gotify
           livenessProbe:
             httpGet:
               port: 80

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: adguard
+  namespace: adguard
 spec:
   selector:
     matchLabels:
@@ -48,7 +49,7 @@ spec:
             exec:
               command:
                 - nslookup
-                - 'example.com'
+                - 'adguard.dns'
                 - '127.0.0.1'
             initialDelaySeconds: 30
             periodSeconds: 60
@@ -56,14 +57,14 @@ spec:
             exec:
               command:
                 - nslookup
-                - 'example.com'
+                - 'adguard.dns'
                 - '127.0.0.1'
             initialDelaySeconds: 30
           startupProbe:
             exec:
               command:
                 - nslookup
-                - 'example.com'
+                - 'adguard.dns'
                 - '127.0.0.1'
             initialDelaySeconds: 30
             failureThreshold: 10

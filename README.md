@@ -55,6 +55,10 @@ sudo service dhcpcd restart
 dig myservicer.mydomain.com
 ```
 
+### Add Unifi DNS
+
+Add rewrite in AdGuard: `unifi` => `${IP of Unifi Controller}`
+
 ### Start Tailscale
 
 ```sh

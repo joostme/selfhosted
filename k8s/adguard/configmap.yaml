@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  namespace: adguard
   name: adguard-config
 data:
   adguard.yaml: |
@@ -37,8 +38,8 @@ data:
       ratelimit_whitelist: []
       refuse_any: true
       upstream_dns:
-      - '[/fritz.box/]192.168.178.1'
-      - '[/168.192.in-addr.arpa/]192.168.178.1'
+      - '[/fritz.box/]10.0.0.1'
+      - '[/0.10.in-addr.arpa/]10.0.0.1'
       - 1.1.1.1
       - 1.0.0.1
       - 8.8.8.8
@@ -81,15 +82,15 @@ data:
       parental_cache_size: 1048576
       cache_time: 30
       rewrites:
-      - domain: traefik.joost.io
-        answer: 192.168.178.52
+      - domain: adguard.dns
+        answer: 127.0.0.1
       blocked_services: []
       upstream_timeout: 10s
       local_domain_name: lan
       resolve_clients: true
       use_private_ptr_resolvers: true
       local_ptr_upstreams: 
-      - 192.168.178.1
+      - 10.0.0.1
     tls:
       enabled: false
       server_name: ""

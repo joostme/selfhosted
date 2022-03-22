@@ -10,7 +10,7 @@ data:
     beta_bind_port: 0
     users:
     - name: admin
-      password: <htpasswd bcrypt pass>
+      password: $2y$10$VpIZobqJnau6Km.XqJKu7u9HY8fskcysOgy2Y78fOtcJoLit8Hwfe
     auth_attempts: 5
     block_auth_min: 15
     http_proxy: ""

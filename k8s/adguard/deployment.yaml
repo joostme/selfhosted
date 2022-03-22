@@ -15,7 +15,7 @@ spec:
       # Workaround to ConfigMap volumes being write only.
       initContainers:
         - name: adguard-copy-config
-          image: busybox
+          image: alpine
           command:
             - sh
             - -c

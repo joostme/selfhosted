@@ -12,23 +12,6 @@ spec:
       protocol: TCP
       name: http
 ---
-# LoadBalancer can only have 1 port. Define 2 for udp/tcp
-kind: Service
-apiVersion: v1
-metadata:
-  name: adguard-dns-tcp
-  namespace: adguard
-spec:
-  selector:
-    app: adguard
-  type: LoadBalancer
-  externalTrafficPolicy: Local
-  ports:
-    - port:  53
-      targetPort:  dns-tcp
-      protocol: TCP
-      name: dns-tcp
----
 kind: Service
 apiVersion: v1
 metadata:

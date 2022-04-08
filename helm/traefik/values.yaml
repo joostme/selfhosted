@@ -1,0 +1,40 @@
+namecheap:
+  user: myuser
+  key: myapikey
+
+traefik:
+  globalArguments:
+  - "--global.checknewversion=true"
+  - "--global.sendanonymoususage=false"
+
+  additionalArguments: 
+  - "--serversTransport.insecureSkipVerify=true"
+  - "--certificatesResolvers.letsencrypt.acme.email=mail@joost.io"
+  - "--certificatesResolvers.letsencrypt.acme.dnschallenge.provider=namecheap"
+  - "--certificatesResolvers.letsencrypt.acme.dnschallenge.storage=/certs/acme.json"
+  - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
+  - "--entrypoints.websecure.http.tls.domains[0].main=joost.io"
+  - "--entrypoints.websecure.http.tls.domains[0].sans=*.joost.io"
+
+  # Environment variables to be passed to Traefik's binary
+  env: 
+  - name: NAMECHEAP_API_USER
+    valueFrom:
+      secretKeyRef:
+        name: namecheap-api-credentials
+        key: user
+  - name: NAMECHEAP_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: namecheap-api-credentials
+        key: key
+
+  ports:
+    web:
+      redirectTo: websecure
+
+  persistence:
+    enabled: true
+    size: 128Mi
+    path: /certs
+

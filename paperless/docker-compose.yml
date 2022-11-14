@@ -40,6 +40,7 @@ services:
       PAPERLESS_TIME_ZONE: Europe/Berlin
       PAPERLESS_OCR_LANGUAGE: deu
       PAPERLESS_CONSUMER_POLLING: 300
+      PAPERLESS_URL: https://paperless.joost.io
     labels:
       - "traefik.enable=true"
 

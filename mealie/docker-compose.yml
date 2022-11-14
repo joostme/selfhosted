@@ -1,0 +1,31 @@
+version: "3.1"
+services:
+  mealie:
+    container_name: mealie
+    image: hkotel/mealie:latest
+    restart: always
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Berlin
+
+    volumes:
+      - ./data:/app/data
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.mealie_https.entrypoints=websecure"
+      - "traefik.http.routers.mealie_https.rule=Host(`mealie.joost.io`)"
+      - "traefik.http.routers.mealie_https.tls=true"
+      - "traefik.http.routers.mealie_https.tls.certresolver=myresolver"
+      - "traefik.http.routers.mealie_https.service=mealie"
+
+      - "traefik.http.services.mealie.loadbalancer.server.port=80"
+
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

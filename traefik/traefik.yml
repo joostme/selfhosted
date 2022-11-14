@@ -124,5 +124,5 @@ certificatesResolvers:
       email: "joost@zllnr.de"
       storage: "acme.json"
       dnsChallenge: 
-        provider: namecheap
+        provider: cloudflare
         delayBeforeCheck: 0

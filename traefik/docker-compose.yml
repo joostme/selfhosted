@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   traefik:
-    image: traefik:v2.6
+    image: traefik:v2.9
     restart: unless-stopped
     networks:
       - traefik
@@ -22,7 +22,7 @@ services:
       - "traefik.http.routers.traefik_https.tls=true"
       - "traefik.http.routers.traefik_https.tls.certresolver=myresolver"
       - "traefik.http.routers.traefik_https.service=api@internal"
-      - "traefik.http.routers.traefik_https.tls.domains[0].main=*.joost.io"
+      - "traefik.http.routers.traefik_https.tls.domains[0].main=joost.io"
       - "traefik.http.routers.traefik_https.tls.domains[0].sans=*.joost.io"
 
       - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"

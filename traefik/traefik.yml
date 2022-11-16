@@ -109,6 +109,10 @@ providers:
   docker:
     exposedByDefault: false
     network: traefik
+  file:
+    filename: '/etc/traefik/dynamic.yml'
+    
+    
 
 serversTransport:
   insecureSkipVerify: true
@@ -126,3 +130,4 @@ certificatesResolvers:
       dnsChallenge: 
         provider: cloudflare
         delayBeforeCheck: 0
+

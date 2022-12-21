@@ -57,6 +57,19 @@ services:
       - default
       - traefik
   
+  ftp:
+    image: bogem/ftp:latest
+    ports:
+      - "21:21"
+      - "20:20"
+      - "47400-47470:47400-47470"
+    env_file:
+      - ./.env
+    volumes:
+      - ./consume:/home/vsftpd
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
 networks:
   default:
   traefik:

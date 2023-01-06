@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  gotify:
+    image: gotify/server
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.gotify_https.entrypoints=websecure" 
+      - "traefik.http.routers.gotify_https.rule=Host(`gotify.joost.io`)"
+      - "traefik.http.routers.gotify_https.tls=true"
+      - "traefik.http.routers.gotify_https.tls.certresolver=myresolver"
+      - "traefik.http.routers.gotify_https.service=gotify"
+
+      - "traefik.http.services.gotify.loadbalancer.server.port=80"
+
+      - "com.centurylinklabs.watchtower.enable=true"
+    volumes:
+      - ./data:/app/data
+networks:
+  traefik:
+    external: true

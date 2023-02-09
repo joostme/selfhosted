@@ -19,6 +19,7 @@ services:
       - "traefik.http.routers.mealie_https.tls=true"
       - "traefik.http.routers.mealie_https.tls.certresolver=myresolver"
       - "traefik.http.routers.mealie_https.service=mealie"
+      - "traefik.http.routers.mealie_https.middlewares=authelia@docker"
 
       - "traefik.http.services.mealie.loadbalancer.server.port=80"
 

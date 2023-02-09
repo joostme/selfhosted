@@ -2,3 +2,4 @@
 .duplicacy
 data
 backup
+traefik/authelia/secrets

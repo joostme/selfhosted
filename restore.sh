@@ -1,5 +1,7 @@
 #!/bin/bash
 
+service=$1
+
 function info {
   printf "\n%s %s\n\n" "$( date )" "$*" >&2;
 }
@@ -7,8 +9,5 @@ function info {
 cwd=`pwd`;
 BACKUP_BASE_DIR="$cwd/backup"
 
-for backupscript in **/backup.sh; do
-    cd `dirname $backupscript`
-    . `basename $backupscript`
-    cd $cwd
-done
+cd "$cwd/$service"
+. `basename restore.sh`

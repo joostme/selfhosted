@@ -1,0 +1,7 @@
+[vaultwarden]
+enabled = true
+ports = 80,443
+filter = vaultwarden
+backend = systemd[journalflags=1]
+journalmatch = CONTAINER_TAG=vaultwarden
+action = docker-action

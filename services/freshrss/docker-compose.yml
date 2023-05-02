@@ -1,0 +1,22 @@
+version: "2.4"
+services:
+  freshrss:
+    image: freshrss/freshrss:latest
+    container_name: freshrss
+    restart: unless-stopped
+    logging:
+      driver: journald
+      options:
+        tag: freshrss
+    volumes:
+      - ./data/data:/var/www/FreshRSS/data
+      - ./data/extensions:/var/www/FreshRSS/extensions
+    environment:
+      TZ: Europe/Berlin
+      CRON_MIN: '3,33'
+    env_file:
+      - ./.env
+networks:
+  default:
+    external: true
+    name: npm

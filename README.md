@@ -1,83 +1,43 @@
 # Selfhosted
 
+## Rootless Setup
+
+Mostly follow the [official guide](https://docs.docker.com/engine/security/rootless/).
+
+### Allow < 1024 ports
+```sh
+sudo setcap cap_net_bind_service=ep $(which rootlesskit)
+sudo echo "net.ipv4.ip_unprivileged_port_start=80" > /etc/sysctl.d/100-rootless-docker.conf
+sudo sysctl --system
+systemctl --user restart docker
+```
+
+### Forward Client IP
+Run this as the rootless user running the docker containers.
+
+```sh 
+cat << EOF > ~/.config/systemd/user/docker.service.d/override.conf
+[Service]
+Environment="DOCKERD_ROOTLESS_ROOTLESSKIT_PORT_DRIVER=slirp4netns"
+EOF 
+```
+
+## Fail2ban
+Copy the files from `fail2ban` into the corresponding folders in `/etc/fail2ban`.
+
+You can test if a filter correctly works by running
+
+```sh
+fail2ban-regex -m CONTAINER_TAG=<MY_CONTAINER> systemd-journal[journalflags=1] '<MY_REGEX>'
+```
+
 ## Installation
 
-### Create traefik network
+### Create NGINX Proxy Manager network
 
 ```sh
-docker network create --subnet=172.28.0.0/16 traefik
+docker network create npm
 ```
-### Create/copy acme.json
-
-```sh
-touch traefik/acme.json
-```
-
-### Mount Dokumente
-
-`sudo nano /etc/fstab`
-
-```
-//192.168.178.29/Dokumente /mnt/Dokumente      cifs    uid=1000,gid=1000,credentials=/root/.smblogin,rw,file_mode=0770,dir_mode=0770     0     0
-```
-
-```
-# /root/.smblogin
-username=<SMB_USER>
-password=<SMB_PASS>
-```
-
-### Homeassistant Config anpassen
-
-For Homeassistant to work, traefik has to be set as a trusted reverse proxy. Add the following to the `configuration.yaml` of Homeassistant:
-
-```yaml
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 172.28.0.0/16
-```
-
-### Adguard
-
-Configure the host to use local AdGuard instance
-
-```sh
-sudo nano /etc/dhcpcd.conf
-
-# Add following line
-static domain_name_servers=127.0.0.1
-
-# Restart service
-sudo service dhcpcd restart
-
-# Test if it works
-dig myservicer.mydomain.com
-```
-
-### Add Unifi DNS
-
-Add rewrite in AdGuard: `unifi` => `${IP of Unifi Controller}`
-
-### Start Tailscale
-
-```sh
-cd tailscale
-
-docker-compose tailscale tailscale up
-```
-
-### Add Duplicacy filters
-
-`.duplicacy/filters`
-
-```
-i:^\w+/$
-i:^\w+/backup/
-e:^\w+/$
-e:.*
-```
-
 ### Install SQLite
 
 ```

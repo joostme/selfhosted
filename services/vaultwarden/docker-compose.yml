@@ -8,11 +8,14 @@ services:
       - WEBSOCKET_ENABLED=true
       - WEB_VAULT_ENABLED=true
       - SIGNUPS_ALLOWED=false
-      - LOG_FILE=/data/vaultwarden.log
     env_file:
       - ./.env
     volumes:
       - ./data:/data
+    logging:
+      driver: journald
+      options:
+        tag: vaultwarden
 networks:
   default:
     external: true

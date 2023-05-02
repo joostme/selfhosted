@@ -1,0 +1,7 @@
+[uptime-kuma]
+enabled = true
+ports = 80,443
+filter = uptime-kuma
+action = docker-action
+backend = systemd[journalflags=1]
+journalmatch = CONTAINER_TAG=uptimekuma

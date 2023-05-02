@@ -4,13 +4,10 @@ services:
     image: containrrr/watchtower
     restart: unless-stopped
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /run/user/1000/docker.sock:/var/run/docker.sock
     environment:
       - TZ=Europe/Berlin
       - WATCHTOWER_MONITOR_ONLY=true
-      - WATCHTOWER_LABEL_ENABLE=true
       - WATCHTOWER_SCHEDULE=0 0 4 * * SUN
     env_file:
       - ./.env
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"

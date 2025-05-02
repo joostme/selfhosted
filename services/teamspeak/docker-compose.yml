@@ -1,0 +1,19 @@
+services:
+  teamspeak:
+    image: teamspeak
+    env_file: .env
+    ports:
+      - 23761:9987/udp # Voice Port
+      #- 10011:10011 # Server Query
+      - 30033:30033 # File Transfer
+    logging:
+      driver: journald
+      options:
+        tag: teamspeak
+
+  db:
+    image: mariadb
+    restart: always
+    env_file: .env
+    volumes:
+      - ./data/mariadb:/var/lib/mysql

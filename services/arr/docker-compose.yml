@@ -16,7 +16,6 @@ services:
       net.unraid.docker.webui: https://radarr.${DOMAIN}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/radarr.png
     restart: always
-    env_file: .env
 
   sonarr:
     container_name: sonarr
@@ -35,8 +34,6 @@ services:
       net.unraid.docker.webui: https://sonarr.${DOMAIN}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sonarr.png
     restart: always
-    env_file: .env
-
 
   sabnzbd:
     container_name: sabnzbd
@@ -55,7 +52,6 @@ services:
       net.unraid.docker.webui: https://sabnzbd.${DOMAIN}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sabnzbd.png
     restart: always
-    env_file: .env
 
   recyclarr:
     container_name: recyclarr
@@ -71,8 +67,6 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/recyclarr.png
     restart: always
     user: "${PUID}:${PGID}"
-
-    env_file: .env
 
 networks:
   npm_net:

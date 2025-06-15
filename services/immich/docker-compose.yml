@@ -1,0 +1,46 @@
+services:
+  immich:
+    container_name: immich
+    image: ghcr.io/imagegenius/immich
+    restart: always
+    volumes:
+      - /mnt/user/photos/immich/:/photos
+      - /mnt/user/photos/libraries/:/libraries
+      - /mnt/user/appdata/immich:/config
+    env_file: stack.env
+    networks:
+      - npm_net
+      - redis_net
+      - immich
+    devices:
+      - "/dev/dri:/dev/dri"
+    labels:
+      glance.id: immich
+      glance.name: Immich
+      glance.icon: sh:immich
+      glance.url: https://immich.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/immich.png
+      net.unraid.docker.webui: https://immich.${DOMAIN}
+
+
+  postgres_immich:
+    container_name: postgres_immich
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.3.0
+    restart: always
+    volumes:
+      - /mnt/user/appdata/postgresql_immich:/var/lib/postgresql/data
+    env_file: stack.env
+    networks:
+      - immich
+    labels:
+      glance.parent: immich
+      glance.name: Immich Postgres
+      glance.icon: sh:postgresql
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/postgresql.png
+
+networks:
+  immich:
+  npm_net:
+    external: true
+  redis_net:
+    external: true

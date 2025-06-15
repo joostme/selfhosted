@@ -12,6 +12,7 @@ services:
       - 21027:21027/udp # Receive local discovery broadcasts
     networks:
       - npm_net
+    env_file: stack.env
     healthcheck:
       test: curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK || exit 1
       interval: 1m

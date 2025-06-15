@@ -1,0 +1,23 @@
+services:
+  adguard:
+    container_name: adguard
+    image: adguard/adguardhome
+    restart: always
+    volumes:
+      - /mnt/user/appdata/adguard/workingdir:/opt/adguardhome/work
+      - /mnt/user/appdata/adguard/config:/opt/adguardhome/conf
+    networks:
+      br0:
+        ipv4_address: ${ADGUARD_IP}
+      npm_net:
+    labels:
+      glance.name: Adguard
+      glance.icon: sh:adguard-home
+      glance.url: https://adguard.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/adguard-home.png
+      net.unraid.docker.webui: http://adguard.${DOMAIN}
+networks:
+  br0:
+    external: true
+  npm_net:
+    external: true

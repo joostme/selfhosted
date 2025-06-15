@@ -1,0 +1,26 @@
+services:
+  jellyfin:
+    container_name: jellyfin
+    image: jellyfin/jellyfin:latest
+    restart: always
+    volumes:
+      - /mnt/user/data/media/:/data/media
+      - /mnt/user/appdata/Jellyfin:/config
+    env_file: stack.env
+    networks:
+      br0:
+        ipv4_address: ${JELLYFIN_IP}
+      npm_net:
+    devices:
+      - "/dev/dri/:/dev/dri/"
+    labels:
+      glance.name: Jellyfin
+      glance.icon: sh:jellyfin
+      glance.url: https://jellyfin.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/jellyfin.png
+      net.unraid.docker.webui: http://jellyfin.${DOMAIN}
+networks:
+  br0:
+    external: true
+  npm_net:
+    external: true

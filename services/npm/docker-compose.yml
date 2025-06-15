@@ -20,9 +20,9 @@ services:
       glance.name: NPM
       glance.icon: sh:nginx-proxy-manager
       glance.category: homelab
-      glance.url: http://${NPM_IP}:81
+      glance.url: https://npm.${DOMAIN}
       net.unraid.docker.icon: https://nginxproxymanager.com/icon.png
-      net.unraid.docker.webui: "http://[IP]:[PORT:81]"
+      net.unraid.docker.webui: https://npm.${DOMAIN}
 networks:
   npm_net:
     external: true

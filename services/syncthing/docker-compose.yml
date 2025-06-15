@@ -5,6 +5,7 @@ services:
     restart: always
     volumes:
       - /mnt/user/Syncthing:/data
+      - /mnt/user/appdata/syncthing:/config
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers

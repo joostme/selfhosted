@@ -1,6 +1,1 @@
 .env
-.duplicacy
-data
-backup
-!/backup
-traefik/authelia/secrets

@@ -4,8 +4,8 @@ services:
     image: adguard/adguardhome
     restart: always
     volumes:
-      - /mnt/user/appdata/adguard/workingdir:/opt/adguardhome/work
-      - /mnt/user/appdata/adguard/config:/opt/adguardhome/conf
+      - ${APPDATA_PATH}/adguard/workingdir:/opt/adguardhome/work
+      - ${APPDATA_PATH}/adguard/config:/opt/adguardhome/conf
     networks:
       br0:
         ipv4_address: ${ADGUARD_IP}

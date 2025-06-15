@@ -4,8 +4,8 @@ services:
     image: vabene1111/recipes
     restart: always
     volumes:
-      - /mnt/user/appdata/recipes/data:/data
-      - /mnt/user/appdata/recipes/media:/opt/recipes/mediafiles/
+      - ${APPDATA_PATH}/recipes/data:/data
+      - ${APPDATA_PATH}/recipes/media:/opt/recipes/mediafiles/
     networks:
       - npm_net
     env_file: stack.env

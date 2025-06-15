@@ -7,8 +7,8 @@ services:
       - '443:443' # Public HTTPS Port
       - '81:81' # Admin Web Port
     volumes:
-      - /mnt/user/appdata/npm/data:/data
-      - /mnt/user/appdata/npm/letsencrypt:/etc/letsencrypt
+      - ${APPDATA_PATH}/npm/data:/data
+      - ${APPDATA_PATH}/npm/letsencrypt:/etc/letsencrypt
       - /tmp/npm/var/log:/var/log
     environment:
       DB_SQLITE_FILE: /data/database.sqlite

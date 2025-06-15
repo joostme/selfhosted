@@ -4,8 +4,8 @@ services:
     image: jellyfin/jellyfin:latest
     restart: always
     volumes:
-      - /mnt/user/data/media/:/data/media
-      - /mnt/user/appdata/Jellyfin:/config
+      - ${DATA_PATH}/media/:/data/media
+      - ${APPDATA_PATH}/Jellyfin:/config
     env_file: stack.env
     networks:
       br0:

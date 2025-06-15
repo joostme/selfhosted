@@ -1,7 +1,0 @@
-[filebrowser]
-enabled = true
-ports = 80,443
-filter = filebrowser
-action = docker-action
-backend = systemd[journalflags=1]
-journalmatch = CONTAINER_TAG=filebrowser

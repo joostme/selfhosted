@@ -4,8 +4,8 @@ services:
     image: glanceapp/glance
     restart: always
     volumes:
-      - /mnt/user/appdata/glance/config:/app/config/
-      - /mnt/user/appdata/glance/assets:/app/assets
+      - ${APPDATA_PATH}/glance/config:/app/config/
+      - ${APPDATA_PATH}/glance/assets:/app/assets
       - /etc/localtime:/etc/localtime
       - /var/run/docker.sock:/var/run/docker.sock
     networks:

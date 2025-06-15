@@ -6,7 +6,7 @@ services:
     volumes:
       - /mnt/user/photos/immich/:/photos
       - /mnt/user/photos/libraries/:/libraries
-      - /mnt/user/appdata/immich:/config
+      - ${APPDATA_PATH}/immich:/config
     env_file: stack.env
     networks:
       - npm_net
@@ -28,7 +28,7 @@ services:
     image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.3.0
     restart: always
     volumes:
-      - /mnt/user/appdata/postgresql_immich:/var/lib/postgresql/data
+      - ${APPDATA_PATH}/postgresql_immich:/var/lib/postgresql/data
     env_file: stack.env
     networks:
       - immich

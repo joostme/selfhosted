@@ -4,7 +4,7 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/user/appdata/portainer:/data
+      - ${APPDATA_PATH}/portainer:/data
     image: portainer/portainer-ce:lts
     networks:
       - npm_net

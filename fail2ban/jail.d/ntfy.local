@@ -1,7 +1,0 @@
-[ntfy]
-enabled = true
-ports = 80,443
-filter = ntfy
-action = docker-action
-backend = systemd[journalflags=1]
-journalmatch = CONTAINER_TAG=ntfy

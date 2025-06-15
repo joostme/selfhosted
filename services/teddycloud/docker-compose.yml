@@ -4,11 +4,11 @@ services:
     image: ghcr.io/toniebox-reverse-engineering/teddycloud:latest
     restart: always
     volumes:
-      - /mnt/user/appdata/teddycloud/data/content:/teddycloud/data/content
-      - /mnt/user/appdata/teddycloud/config:/teddycloud/config
-      - /mnt/user/appdata/teddycloud/certs:/teddycloud/certs
+      - ${APPDATA_PATH}/teddycloud/data/content:/teddycloud/data/content
+      - ${APPDATA_PATH}/teddycloud/config:/teddycloud/config
+      - ${APPDATA_PATH}/teddycloud/certs:/teddycloud/certs
       - /mnt/user/teddycloud_library/:/teddycloud/data/library
-      - /mnt/user/appdata/teddycloud/data/firmware:/teddycloud/data/firmware
+      - ${APPDATA_PATH}/teddycloud/data/firmware:/teddycloud/data/firmware
     ports:
       - 80:80
       - 443:443

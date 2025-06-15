@@ -1,0 +1,22 @@
+services:
+  glance:
+    container_name: glance
+    image: glanceapp/glance
+    restart: always
+    volumes:
+      - /mnt/user/appdata/glance/config:/app/config/
+      - /mnt/user/appdata/glance/assets:/app/assets
+      - /etc/localtime:/etc/localtime
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - npm_net
+    env_file: stack.env
+    labels:
+      glance.name: Glance
+      glance.icon: sh:glance
+      glance.url: https://glance.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/glance.png
+      net.unraid.docker.webui: https://glance.${DOMAIN}
+networks:
+  npm_net:
+    external: true

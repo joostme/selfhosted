@@ -1,0 +1,30 @@
+services:
+  teddycloud:
+    container_name: teddycloud
+    image: ghcr.io/toniebox-reverse-engineering/teddycloud:latest
+    restart: always
+    volumes:
+      - /mnt/user/appdata/teddycloud/data/content:/teddycloud/data/content
+      - /mnt/user/appdata/teddycloud/config:/teddycloud/config
+      - /mnt/user/appdata/teddycloud/certs:/teddycloud/certs
+      - /mnt/user/teddycloud_library/:/teddycloud/data/library
+      - /mnt/user/appdata/teddycloud/data/firmware:/teddycloud/data/firmware
+    ports:
+      - 80:80
+      - 443:443
+      - 8443:8443
+    networks:
+      br0:
+        ipv4_address: ${TEDDYCLOUD_IP}
+      npm_net:
+    labels:
+      glance.name: Teddycloud
+      glance.icon: sh:teddycloud
+      glance.url: https://teddycloud.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/teddycloud.png
+      net.unraid.docker.webui: https://teddycloud.${DOMAIN}
+networks:
+  br0:
+    external: true
+  npm_net:
+    external: true

@@ -1,0 +1,80 @@
+services:
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr
+    volumes:
+      - /mnt/user/appdata/radarr:/config
+      - /mnt/user/data/:/data
+    networks:
+      - npm_net
+      - data_net
+    labels:
+      glance.name: Radarr
+      glance.icon: sh:radarr
+      glance.category: media
+      glance.url: https://radarr.${DOMAIN}
+      net.unraid.docker.webui: https://radarr.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/radarr.png
+    restart: always
+    env_file: .env
+
+  sonarr:
+    container_name: sonarr
+    image: lscr.io/linuxserver/sonarr
+    volumes:
+      - /mnt/user/appdata/sonarr:/config
+      - /mnt/user/data/:/data
+    networks:
+      - npm_net
+      - data_net
+    labels:
+      glance.name: Sonarr
+      glance.icon: sh:sonarr
+      glance.category: media
+      glance.url: https://sonarr.${DOMAIN}
+      net.unraid.docker.webui: https://sonarr.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sonarr.png
+    restart: always
+    env_file: .env
+
+
+  sabnzbd:
+    container_name: sabnzbd
+    image: lscr.io/linuxserver/sabnzbd
+    volumes:
+      - /mnt/user/appdata/sabnzbd:/config
+      - /mnt/user/data/usenet/:/data/usenet
+    networks:
+      - npm_net
+      - data_net
+    labels:
+      glance.name: Sabnzbd
+      glance.icon: sh:sabnzbd
+      glance.category: media
+      glance.url: https://sabnzbd.${DOMAIN}
+      net.unraid.docker.webui: https://sabnzbd.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sabnzbd.png
+    restart: always
+    env_file: .env
+
+  recyclarr:
+    container_name: recyclarr
+    image: ghcr.io/recyclarr/recyclarr:latest
+    volumes:
+      - /mnt/user/appdata/recyclarr:/config
+    networks:
+      - data_net
+    labels:
+      glance.name: Recyclarr
+      glance.icon: sh:recyclarr
+      glance.category: media
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/recyclarr.png
+    restart: always
+    user: "${PUID}:${PGID}"
+
+    env_file: .env
+
+networks:
+  npm_net:
+    external: true
+  data_net:

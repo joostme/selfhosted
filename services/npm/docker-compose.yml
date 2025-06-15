@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   app:
     image: 'jc21/nginx-proxy-manager:latest'
@@ -6,15 +5,27 @@ services:
     ports:
       - '80:80' # Public HTTP Port
       - '443:443' # Public HTTPS Port
-      - '127.0.0.1:81:81' # Admin Web Port
+      - '81:81' # Admin Web Port
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
-    healthcheck:
-      test: ["CMD", "/bin/check-health"]
-      interval: 10s
-      timeout: 3s
+      - /mnt/user/appdata/npm/data:/data
+      - /mnt/user/appdata/npm/letsencrypt:/etc/letsencrypt
+      - /tmp/npm/var/log:/var/log
+    environment:
+      DB_SQLITE_FILE: /data/database.sqlite
+    networks:
+      br0:
+        ipv4_address: ${NPM_IP}
+      npm_net:
+    labels:
+      glance.name: NPM
+      glance.icon: sh:nginx-proxy-manager
+      glance.category: homelab
+      glance.url: http://${NPM_IP}:81
+      net.unraid.docker.icon: https://nginxproxymanager.com/icon.png
+      net.unraid.docker.webui: "http://[IP]:[PORT:81]"
 networks:
-  default:
+  npm_net:
     external: true
-    name: npm
+  br0:
+    external: true
+    

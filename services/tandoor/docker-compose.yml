@@ -1,53 +1,20 @@
-version: "3"
 services:
-  db_recipes:
-    restart: always
-    image: postgres:15-alpine
-    volumes:
-      - ./data/postgresql:/var/lib/postgresql/data
-    env_file:
-      - ./.env
-    networks:
-      - default
-      
-  web_recipes:
-    restart: always
+  tandoor:
+    container_name: tandoor
     image: vabene1111/recipes
-    env_file:
-      - ./.env
-    volumes:
-      - staticfiles:/opt/recipes/staticfiles
-      # Do not make this a bind mount, see https://docs.tandoor.dev/install/docker/#volumes-vs-bind-mounts
-      - nginx_config:/opt/recipes/nginx/conf.d
-      - ./data/mediafiles:/opt/recipes/mediafiles
-    depends_on:
-      - db_recipes
-    networks:
-      - default
-
-  nginx_recipes:
-    image: nginx:mainline-alpine
     restart: always
-    # ports:
-    #   - 80:80
-    env_file:
-      - ./.env
-    depends_on:
-      - web_recipes
     volumes:
-      # Do not make this a bind mount, see https://docs.tandoor.dev/install/docker/#volumes-vs-bind-mounts
-      - nginx_config:/etc/nginx/conf.d:ro
-      - staticfiles:/static:ro
-      - ./data/mediafiles:/media:ro
+      - /mnt/user/appdata/recipes/data:/data
+      - /mnt/user/appdata/recipes/media:/opt/recipes/mediafiles/
     networks:
-      - default
-      - npm
-
-volumes:
-  nginx_config:
-  staticfiles:
-
+      - npm_net
+    env_file: stack.env
+    labels:
+      glance.name: Tandoor
+      glance.icon: sh:tandoor-recipes
+      glance.url: https://recipes.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/tandoor-recipes.png
+      net.unraid.docker.webui: https://recipes.${DOMAIN}
 networks:
-  default:
-  npm:
+  npm_net:
     external: true

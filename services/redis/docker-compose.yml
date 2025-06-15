@@ -1,0 +1,14 @@
+services:
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    networks:
+      - redis_net
+    labels:
+      glance.name: Redis
+      glance.icon: sh:redis
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/redis.png
+networks:
+  redis_net:
+    external: true

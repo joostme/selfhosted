@@ -1,0 +1,25 @@
+services:
+  paperless:
+    container_name: paperless
+    image: ghcr.io/paperless-ngx/paperless-ngx
+    restart: always
+    volumes:
+      - /mnt/user/appdata/paperless-ngx/data:/usr/src/paperless/data
+      - /mnt/user/paperless/media:/usr/src/paperless/media
+      - /mnt/user/paperless_consume/:/usr/src/paperless/consume
+      - /mnt/user/paperless/export/:/usr/src/paperless/export
+    env_file: stack.env
+    networks:
+      - npm_net
+      - redis_net
+    labels:
+      glance.name: Paperless
+      glance.icon: sh:paperless-ngx
+      glance.url: https://paperless.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/paperless-ngx.png
+      net.unraid.docker.webui: https://paperless.${DOMAIN}
+networks:
+  npm_net:
+    external: true
+  redis_net:
+    external: true

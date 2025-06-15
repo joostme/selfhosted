@@ -33,13 +33,9 @@ fail2ban-regex -m CONTAINER_TAG=<MY_CONTAINER> systemd-journal[journalflags=1] '
 
 ## Installation
 
-### Create NGINX Proxy Manager network
+### Create shared docker networks
 
 ```sh
-docker network create npm
-```
-### Install SQLite
-
-```
-sudo apt-get install sqlite3
+docker network create npm_net
+docker network create redis_net
 ```

@@ -53,6 +53,24 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sabnzbd.png
     restart: always
 
+  lazylibrarian:
+    container_name: lazylibrarian
+    image: lscr.io/linuxserver/lazylibrarian
+    volumes:
+      - ${APPDATA_PATH}/lazylibrarian:/config
+      - ${DATA_PATH}/:/data
+    networks:
+      - npm_net
+      - data_net
+    labels:
+      glance.name: LazyLibrarian
+      glance.icon: sh:lazylibrarian
+      glance.category: media
+      glance.url: https://lazylibrarian.${DOMAIN}
+      net.unraid.docker.webui: https://lazylibrarian.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/lazylibrarian.png
+    restart: always
+
   recyclarr:
     container_name: recyclarr
     image: ghcr.io/recyclarr/recyclarr:latest

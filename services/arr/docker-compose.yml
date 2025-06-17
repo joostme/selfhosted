@@ -1,7 +1,7 @@
 services:
   radarr:
     container_name: radarr
-    image: lscr.io/linuxserver/radarr
+    image: linuxserver/radarr
     volumes:
       - ${APPDATA_PATH}/radarr:/config
       - ${DATA_PATH}/:/data
@@ -19,7 +19,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: lscr.io/linuxserver/sonarr
+    image: linuxserver/sonarr
     volumes:
       - ${APPDATA_PATH}/sonarr:/config
       - ${DATA_PATH}/:/data
@@ -37,7 +37,7 @@ services:
 
   sabnzbd:
     container_name: sabnzbd
-    image: lscr.io/linuxserver/sabnzbd
+    image: linuxserver/sabnzbd
     volumes:
       - ${APPDATA_PATH}/sabnzbd:/config
       - ${DATA_PATH}/usenet/:/data/usenet
@@ -55,7 +55,7 @@ services:
 
   lazylibrarian:
     container_name: lazylibrarian
-    image: lscr.io/linuxserver/lazylibrarian
+    image: linuxserver/lazylibrarian
     volumes:
       - ${APPDATA_PATH}/lazylibrarian:/config
       - ${DATA_PATH}/:/data

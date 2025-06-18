@@ -55,7 +55,7 @@ services:
 
   readarr:
     container_name: readarr
-    image: linuxserver/readarr
+    image: linuxserver/readarr:develop
     volumes:
       - ${APPDATA_PATH}/readarr:/config
       - ${DATA_PATH}/:/data

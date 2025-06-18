@@ -53,24 +53,6 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sabnzbd.png
     restart: always
 
-  readarr:
-    container_name: readarr
-    image: linuxserver/readarr:develop
-    volumes:
-      - ${APPDATA_PATH}/readarr:/config
-      - ${DATA_PATH}/:/data
-    networks:
-      - npm_net
-      - data_net
-    labels:
-      glance.name: readarr
-      glance.icon: sh:readarr
-      glance.category: media
-      glance.url: https://readarr.${DOMAIN}
-      net.unraid.docker.webui: https://readarr.${DOMAIN}
-      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/readarr.png
-    restart: always
-
   recyclarr:
     container_name: recyclarr
     image: ghcr.io/recyclarr/recyclarr:latest

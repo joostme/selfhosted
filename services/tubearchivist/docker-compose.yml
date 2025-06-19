@@ -16,7 +16,6 @@ services:
     networks:
       - tubearchivist
       - npm_net
-      - redis_net
     labels:
       glance.id: tubearchivist
       glance.name: TubeArchivist
@@ -25,7 +24,21 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/tube-archivist.png
       net.unraid.docker.webui: https://tubearchivist.${DOMAIN}
     depends_on:
+      - archivist-redis
       - archivist-es
+  
+  archivist-redis:
+    image: redis
+    container_name: archivist-redis
+    restart: unless-stopped
+    expose:
+      - "6379"
+    volumes:
+      - ${APPDATA_PATH}/tubearchivist/redis:/data
+    depends_on:
+      - archivist-es
+    networks:
+      - tubearchivist
 
   archivist-es:
     image: bbilly1/tubearchivist-es

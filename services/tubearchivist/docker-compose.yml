@@ -39,6 +39,11 @@ services:
       - archivist-es
     networks:
       - tubearchivist
+    labels:
+      glance.name: Redis
+      glance.icon: sh:redis
+      glance.parent: tubearchivist
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/redis.png
 
   archivist-es:
     image: bbilly1/tubearchivist-es

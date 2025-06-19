@@ -1,0 +1,21 @@
+services:
+  calibre:
+    image: crocodilestick/calibre-web-automated:latest
+    container_name: calibre
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_PATH}/calibre/config:/config
+      - ${APPDATA_PATH}/calibre/ingest/:/cwa-book-ingest
+      - ${APPDATA_PATH}/calibre/library:/calibre-library 
+    env_file: stack.env
+    networks:
+      - npm_net
+    labels:
+      glance.name: Calibre
+      glance.icon: sh:calibre
+      glance.url: https://calibre.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/calibre.png
+      net.unraid.docker.webui: https://calibre.${DOMAIN}
+networks:
+  npm_net:
+    external: true

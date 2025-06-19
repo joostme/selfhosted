@@ -1,0 +1,50 @@
+services:
+  tubearchivist:
+    container_name: tubearchivist
+    image: bbilly1/tubearchivist
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_PATH}/tubearchivist/cache:/cache
+      - ${MNT_PATH}/tubearchivist:/youtube
+    env_file: stack.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 2m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - npm_net
+      - redis_net
+    labels:
+      glance.id: tubearchivist
+      glance.name: TubeArchivist
+      glance.icon: sh:tube-archivist
+      glance.url: https://tubearchivist.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/tube-archivist.png
+      net.unraid.docker.webui: https://tubearchivist.${DOMAIN}
+    depends_on:
+      - archivist-es
+
+  archivist-es:
+    image: bbilly1/tubearchivist-es
+    container_name: archivist-es
+    restart: unless-stopped
+    environment:
+      - "ELASTIC_PASSWORD=verysecret"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "xpack.security.enabled=true"
+      - "discovery.type=single-node"
+      - "path.repo=/usr/share/elasticsearch/data/snapshot"
+    volumes:
+      - ${APPDATA_PATH}/tubearchivist/es-data:/usr/share/elasticsearch/data
+    expose:
+      - "9200"
+    labels:
+      glance.name: ElasticSearch
+      glance.icon: sh:elasticsearch
+      glance.parent: tubearchivist
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/elasticsearch.png
+networks:
+  npm_net:
+    external: true

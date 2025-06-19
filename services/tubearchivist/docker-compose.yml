@@ -48,3 +48,5 @@ services:
 networks:
   npm_net:
     external: true
+  redis_net:
+    external: true

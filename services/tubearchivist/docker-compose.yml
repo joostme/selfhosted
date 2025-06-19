@@ -19,7 +19,7 @@ services:
     labels:
       glance.id: tubearchivist
       glance.name: TubeArchivist
-      glance.icon: sh:tube-archivist
+      glance.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/tube-archivist.png # no svg icon for TA on sh: icons
       glance.url: https://tubearchivist.${DOMAIN}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/tube-archivist.png
       net.unraid.docker.webui: https://tubearchivist.${DOMAIN}

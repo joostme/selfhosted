@@ -14,6 +14,7 @@ services:
       retries: 3
       start_period: 30s
     networks:
+      - tubearchivist
       - npm_net
       - redis_net
     labels:
@@ -44,6 +45,8 @@ services:
       - es:/usr/share/elasticsearch/data
     expose:
       - "9200"
+    networks:
+      - tubearchivist
     labels:
       glance.name: ElasticSearch
       glance.icon: sh:elasticsearch
@@ -54,6 +57,7 @@ volumes:
   es:
 
 networks:
+  tubearchivist:
   npm_net:
     external: true
   redis_net:

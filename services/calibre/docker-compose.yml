@@ -11,11 +11,34 @@ services:
     networks:
       - npm_net
     labels:
+      glance.name: Calibre-Web
+      glance.icon: sh:calibre-web
+      glance.url: https://calibre.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/calibre-web.png
+      net.unraid.docker.webui: https://calibre.${DOMAIN}
+
+  calibre-vnc:
+    image: lscr.io/linuxserver/calibre:latest
+    container_name: calibre-vnc
+    security_opt:
+      - seccomp:unconfined
+    env_file: stack.env
+    environment:
+      DRINODE: /dev/dri/renderD128
+    volumes:
+      - ${APPDATA_PATH}/calibre/library:/config
+    restart: unless-stopped
+    networks:
+      - npm_net
+    devices:
+      - "/dev/dri:/dev/dri"
+    labels:
       glance.name: Calibre
       glance.icon: sh:calibre
-      glance.url: https://calibre.${DOMAIN}
+      glance.url: https://calibre-vnc.${DOMAIN}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/calibre.png
-      net.unraid.docker.webui: https://calibre.${DOMAIN}
+      net.unraid.docker.webui: https://calibre-vnc.${DOMAIN}
+
 networks:
   npm_net:
     external: true

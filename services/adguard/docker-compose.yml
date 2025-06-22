@@ -16,6 +16,16 @@ services:
       glance.url: https://adguard.${DOMAIN}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/adguard-home.png
       net.unraid.docker.webui: http://adguard.${DOMAIN}
+
+  adguardhome-sync:
+    image: ghcr.io/bakito/adguardhome-sync
+    container_name: adguardhome-sync
+    command: run
+    restart: unless-stopped
+    env_file: stack.env
+    networks:
+      - npm_net
+
 networks:
   br0:
     external: true

@@ -1,0 +1,20 @@
+services:
+  asf:
+    container_name: asf
+    image: justarchi/archisteamfarm:latest
+    restart: always
+    env_file: stack.env
+    volumes:
+      - ${APPDATA_PATH}/asf/config:/app/config
+    networks:
+      - npm_net
+    labels:
+      glance.name: ASF
+      glance.icon: sh:steam
+      glance.url: https://asf.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/steam.png
+      net.unraid.docker.webui: https://asf.${DOMAIN}
+
+networks:
+  npm_net:
+    external: true

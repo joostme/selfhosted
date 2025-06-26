@@ -35,6 +35,29 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sonarr.png
     restart: always
 
+  lidarr:
+    container_name: lidarr
+    image: linuxserver/lidarr
+    volumes:
+      - ${APPDATA_PATH}/lidarr:/config
+      - ${DATA_PATH}/:/data
+    networks:
+      - npm_net
+      - data_net
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+    labels:
+      glance.name: Lidarr
+      glance.icon: sh:lidarr
+      glance.category: media
+      glance.url: https://lidarr.${DOMAIN}
+      net.unraid.docker.webui: https://lidarr.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/lidarr.png
+    restart: always
+
   readarr:
     container_name: readarr
     image: linuxserver/readarr:develop

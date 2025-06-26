@@ -1,0 +1,22 @@
+services:
+  audiobookshelf:
+    container_name: audiobookshelf
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    volumes:
+      - ${DATA_PATH}/media:/data/media
+      - ${APPDATA_PATH}/audiobookshelf/config:/config
+      - ${APPDATA_PATH}/audiobookshelf/metadata::/metadata
+    networks:
+      - npm_net
+    environment:
+      - TZ=${TZ}
+    labels:
+      glance.name: Audiobookshelf
+      glance.icon: sh:audiobookshelf
+      glance.url: https://audiobookshelf.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/audiobookshelf.png
+      net.unraid.docker.webui: https://audiobookshelf.${DOMAIN}
+
+networks:
+  npm_net:
+    external: true

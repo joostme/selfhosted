@@ -5,7 +5,7 @@ services:
     volumes:
       - ${DATA_PATH}/media:/data/media
       - ${APPDATA_PATH}/audiobookshelf/config:/config
-      - ${APPDATA_PATH}/audiobookshelf/metadata::/metadata
+      - ${APPDATA_PATH}/audiobookshelf/metadata:/metadata
     networks:
       - npm_net
     environment:

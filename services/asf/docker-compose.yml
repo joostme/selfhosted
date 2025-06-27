@@ -6,6 +6,7 @@ services:
     env_file: stack.env
     volumes:
       - ${APPDATA_PATH}/asf/config:/app/config
+      - ${APPDATA_PATH}/asf/plugins:/app/plugins
     networks:
       - npm_net
     labels:

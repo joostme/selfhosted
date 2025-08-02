@@ -1,7 +1,7 @@
 services:
   glance:
     container_name: glance
-    image: glanceapp/glance
+    image: glanceapp/glance:latest
     restart: always
     volumes:
       - ${APPDATA_PATH}/glance/config:/app/config/

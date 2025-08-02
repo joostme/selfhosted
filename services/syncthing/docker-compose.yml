@@ -1,7 +1,7 @@
 services:
   syncthing:
     container_name: syncthing
-    image: lscr.io/linuxserver/syncthing
+    image: lscr.io/linuxserver/syncthing:latest
     restart: always
     volumes:
       - /mnt/user/Syncthing:/data

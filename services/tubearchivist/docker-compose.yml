@@ -1,7 +1,7 @@
 services:
   tubearchivist:
     container_name: tubearchivist
-    image: bbilly1/tubearchivist
+    image: bbilly1/tubearchivist:latest
     restart: unless-stopped
     volumes:
       - ${APPDATA_PATH}/tubearchivist/cache:/cache
@@ -28,7 +28,7 @@ services:
       - archivist-es
   
   archivist-redis:
-    image: redis
+    image: redis:latest
     container_name: archivist-redis
     restart: unless-stopped
     expose:
@@ -46,7 +46,7 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/redis.png
 
   archivist-es:
-    image: bbilly1/tubearchivist-es
+    image: bbilly1/tubearchivist-es:latest
     container_name: archivist-es
     restart: unless-stopped
     environment:

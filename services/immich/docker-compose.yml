@@ -1,7 +1,7 @@
 services:
   immich:
     container_name: immich
-    image: ghcr.io/imagegenius/immich
+    image: ghcr.io/imagegenius/immich:latest
     restart: always
     volumes:
       - /mnt/user/photos/immich/:/photos
@@ -25,7 +25,7 @@ services:
 
   postgres_immich:
     container_name: postgres_immich
-    image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.3.0
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.3.0:latest
     restart: always
     volumes:
       - ${APPDATA_PATH}/postgresql_immich:/var/lib/postgresql/data

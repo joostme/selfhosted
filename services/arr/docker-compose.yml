@@ -1,7 +1,7 @@
 services:
   radarr:
     container_name: radarr
-    image: linuxserver/radarr
+    image: linuxserver/radarr:latest
     volumes:
       - ${APPDATA_PATH}/radarr:/config
       - ${DATA_PATH}/:/data
@@ -19,7 +19,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr
+    image: linuxserver/sonarr:latest
     volumes:
       - ${APPDATA_PATH}/sonarr:/config
       - ${DATA_PATH}/:/data
@@ -37,7 +37,7 @@ services:
 
   lidarr:
     container_name: lidarr
-    image: linuxserver/lidarr
+    image: blampe/lidarr:latest
     volumes:
       - ${APPDATA_PATH}/lidarr:/config
       - ${DATA_PATH}/:/data
@@ -58,27 +58,19 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/lidarr.png
     restart: always
 
-  readarr:
-    container_name: readarr
-    image: linuxserver/readarr:develop
+  openbooks:
+    container_name: openbooks
+    image: evanbuss/openbooks:latest
+    restart: unless-stopped
     volumes:
-      - ${APPDATA_PATH}/readarr:/config
-      - ${DATA_PATH}/:/data
-    networks:
-      - npm_net
-      - data_net
-    labels:
-      glance.name: readarr
-      glance.icon: sh:readarr
-      glance.category: media
-      glance.url: https://readarr.${DOMAIN}
-      net.unraid.docker.webui: https://readarr.${DOMAIN}
-      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/readarr.png
-    restart: always
+      - "${DATA_PATH}/:/data"
+    command: --persist --name $OPENBOOKS_USERNAME
+    environment:
+      - BASE_PATH=/openbooks/
 
   sabnzbd:
     container_name: sabnzbd
-    image: linuxserver/sabnzbd
+    image: linuxserver/sabnzbd:latest
     volumes:
       - ${APPDATA_PATH}/sabnzbd:/config
       - ${DATA_PATH}/usenet/:/data/usenet

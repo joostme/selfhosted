@@ -58,16 +58,6 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/lidarr.png
     restart: always
 
-  openbooks:
-    container_name: openbooks
-    image: evanbuss/openbooks:latest
-    restart: unless-stopped
-    volumes:
-      - "${DATA_PATH}/:/data"
-    command: --persist --name $OPENBOOKS_USERNAME
-    environment:
-      - BASE_PATH=/openbooks/
-
   sabnzbd:
     container_name: sabnzbd
     image: linuxserver/sabnzbd:latest

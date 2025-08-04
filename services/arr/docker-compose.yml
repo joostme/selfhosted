@@ -81,7 +81,7 @@ services:
     image: linuxserver/deluge:latest
     volumes:
       - ${APPDATA_PATH}/deluge:/config
-      - ${DATA_PATH}/torrents/:/data/torrents
+      - ${DATA_PATH}/torrents/:/downloads
     networks:
       - npm_net
       - data_net

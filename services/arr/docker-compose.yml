@@ -76,6 +76,24 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sabnzbd.png
     restart: always
 
+  deluge:
+    container_name: deluge
+    image: linuxserver/deluge:latest
+    volumes:
+      - ${APPDATA_PATH}/deluge:/config
+      - ${DATA_PATH}/torrents/:/data/torrents
+    networks:
+      - npm_net
+      - data_net
+    labels:
+      glance.name: Deluge
+      glance.icon: sh:deluge
+      glance.category: media
+      glance.url: https://deluge.${DOMAIN}
+      net.unraid.docker.webui: https://deluge.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/deluge.png
+    restart: always
+
   recyclarr:
     container_name: recyclarr
     image: ghcr.io/recyclarr/recyclarr:latest
@@ -95,3 +113,4 @@ networks:
   npm_net:
     external: true
   data_net:
+

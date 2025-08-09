@@ -37,7 +37,7 @@ services:
 
   lidarr:
     container_name: lidarr
-    image: blampe/lidarr:latest
+    image: blampe/lidarr:lidarr-plugins-2.13.1.4678
     volumes:
       - ${APPDATA_PATH}/lidarr:/config
       - ${DATA_PATH}/:/data

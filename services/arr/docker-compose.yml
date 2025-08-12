@@ -8,6 +8,7 @@ services:
     networks:
       - npm_net
       - data_net
+    env_file: .env
     labels:
       glance.name: Radarr
       glance.icon: sh:radarr
@@ -26,6 +27,7 @@ services:
     networks:
       - npm_net
       - data_net
+    env_file: .env
     labels:
       glance.name: Sonarr
       glance.icon: sh:sonarr
@@ -37,18 +39,14 @@ services:
 
   lidarr:
     container_name: lidarr
-    image: blampe/lidarr:lidarr-plugins-2.13.1.4678
+    image: blampe/lidarr:latest
     volumes:
       - ${APPDATA_PATH}/lidarr:/config
       - ${DATA_PATH}/:/data
     networks:
       - npm_net
       - data_net
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - UMASK=${UMASK}
-      - TZ=${TZ}
+    env_file: .env
     labels:
       glance.name: Lidarr
       glance.icon: sh:lidarr
@@ -67,6 +65,7 @@ services:
     networks:
       - npm_net
       - data_net
+    env_file: .env
     labels:
       glance.name: Sabnzbd
       glance.icon: sh:sabnzbd
@@ -85,6 +84,7 @@ services:
     networks:
       - npm_net
       - data_net
+    env_file: .env
     labels:
       glance.name: Deluge
       glance.icon: sh:deluge
@@ -101,6 +101,7 @@ services:
       - ${APPDATA_PATH}/recyclarr:/config
     networks:
       - data_net
+    env_file: .env
     labels:
       glance.name: Recyclarr
       glance.icon: sh:recyclarr

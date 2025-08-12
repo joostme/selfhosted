@@ -6,7 +6,7 @@ services:
     volumes:
       - ${DATA_PATH}/media/:/data/media
       - ${APPDATA_PATH}/Jellyfin:/config
-    env_file: stack.env
+    env_file: .env
     networks:
       br0:
         ipv4_address: ${JELLYFIN_IP}

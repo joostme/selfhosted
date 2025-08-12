@@ -7,7 +7,7 @@ services:
       - /mnt/user/photos/immich/:/photos
       - /mnt/user/photos/libraries/:/libraries
       - ${APPDATA_PATH}/immich:/config
-    env_file: stack.env
+    env_file: .env
     networks:
       - npm_net
       - redis_net
@@ -29,7 +29,7 @@ services:
     restart: always
     volumes:
       - ${APPDATA_PATH}/postgresql_immich:/var/lib/postgresql/data
-    env_file: stack.env
+    env_file: .env
     networks:
       - immich
     labels:

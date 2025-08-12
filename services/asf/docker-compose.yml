@@ -3,7 +3,7 @@ services:
     container_name: asf
     image: justarchi/archisteamfarm:latest
     restart: always
-    env_file: stack.env
+    env_file: .env
     volumes:
       - ${APPDATA_PATH}/asf/config:/app/config
       - ${APPDATA_PATH}/asf/plugins:/app/plugins

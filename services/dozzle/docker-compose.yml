@@ -1,0 +1,23 @@
+# Run with docker compose up -d
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    #ports:
+    #  - 8080:8080
+    environment:
+      - DOZZLE_AUTH_PROVIDER=simple
+    networks:
+      - npm_net
+    env_file: .env
+    labels:
+      glance.name: Dozzle
+      glance.icon: sh:dozzle
+      glance.url: https://dozzle.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/dozzle.png
+      net.unraid.docker.webui: https://dozzle.${DOMAIN}
+networks:
+  npm_net:
+    external: true

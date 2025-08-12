@@ -10,6 +10,7 @@ services:
     #  - 8080:8080
     environment:
       - DOZZLE_AUTH_PROVIDER=simple
+      - DOZZLE_NO_ANALYTICS=true
     networks:
       - npm_net
     env_file: .env

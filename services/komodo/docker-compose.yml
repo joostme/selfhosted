@@ -1,8 +1,6 @@
 services:
   mongo:
     image: mongo
-    labels:
-      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
     command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
     # ports:
@@ -16,11 +14,15 @@ services:
     env_file: .env
     networks:
       - komodo
+    labels:
+      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+      glance.parent: komodo
+      glance.name: KomogoMongo
+      glance.icon: sh:mongodb
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/mongodb.png
   
   core:
     image: ghcr.io/moghtech/komodo-core:${COMPOSE_KOMODO_IMAGE_TAG:-latest}
-    labels:
-      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
     restart: unless-stopped
     depends_on:
       - mongo
@@ -37,11 +39,17 @@ services:
     networks:
       - npm_net
       - komodo
+    labels:
+      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+      glance.id: komodo
+      glance.name: Komodo
+      glance.icon: sh:komodo
+      glance.url: https://komodo.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/komodo.png
+      net.unraid.docker.webui: https://komodo.${DOMAIN}
 
   periphery:
     image: ghcr.io/moghtech/komodo-periphery:${COMPOSE_KOMODO_IMAGE_TAG:-latest}
-    labels:
-      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -50,6 +58,12 @@ services:
     env_file: ./.env
     networks:
       - komodo
+    labels:
+      komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+      glance.parent: komodo
+      glance.name: KomodoPeriphery
+      glance.icon: sh:komodo
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/komodo.png
 
 networks:
   komodo:

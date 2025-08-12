@@ -11,6 +11,7 @@ services:
         ipv4_address: ${ADGUARD_IP}
       npm_net:
     labels:
+      glance.id: adguard
       glance.name: Adguard
       glance.icon: sh:adguard-home
       glance.url: https://adguard.${DOMAIN}
@@ -25,6 +26,12 @@ services:
     env_file: .env
     networks:
       - npm_net
+    labels:
+      glance.parent: adguard
+      glance.icon: sh:adguardhome-sync
+      glance.url: https://adguard-sync.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/adguardhome-sync.png
+      net.unraid.docker.webui: http://adguard-sync.${DOMAIN}
 
 networks:
   br0:

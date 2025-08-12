@@ -1,7 +1,7 @@
 services:
   radarr:
     container_name: radarr
-    image: linuxserver/radarr:latest
+    image: linuxserver/radarr:5.26.2.10099-ls280
     volumes:
       - ${APPDATA_PATH}/radarr:/config
       - ${DATA_PATH}/:/data
@@ -20,7 +20,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr:latest
+    image: linuxserver/sonarr:4.0.15.2941-ls289
     volumes:
       - ${APPDATA_PATH}/sonarr:/config
       - ${DATA_PATH}/:/data
@@ -39,7 +39,7 @@ services:
 
   lidarr:
     container_name: lidarr
-    image: blampe/lidarr:latest
+    image: blampe/lidarr:2.13.1-develop
     volumes:
       - ${APPDATA_PATH}/lidarr:/config
       - ${DATA_PATH}/:/data
@@ -58,7 +58,7 @@ services:
 
   sabnzbd:
     container_name: sabnzbd
-    image: linuxserver/sabnzbd:latest
+    image: linuxserver/sabnzbd:4.5.2-ls226
     volumes:
       - ${APPDATA_PATH}/sabnzbd:/config
       - ${DATA_PATH}/usenet/:/data/usenet
@@ -77,7 +77,7 @@ services:
 
   deluge:
     container_name: deluge
-    image: linuxserver/deluge:latest
+    image: linuxserver/deluge:2.2.0-r1-ls341
     volumes:
       - ${APPDATA_PATH}/deluge:/config
       - ${DATA_PATH}/torrents/:/data/torrents
@@ -96,7 +96,7 @@ services:
 
   recyclarr:
     container_name: recyclarr
-    image: ghcr.io/recyclarr/recyclarr:latest
+    image: ghcr.io/recyclarr/recyclarr:7.4.1
     volumes:
       - ${APPDATA_PATH}/recyclarr:/config
     networks:

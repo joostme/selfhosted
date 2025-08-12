@@ -1,6 +1,6 @@
 services:
   calibre:
-    image: crocodilestick/calibre-web-automated:latest
+    image: crocodilestick/calibre-web-automated:V3.1.4
     container_name: calibre
     restart: unless-stopped
     volumes:
@@ -18,7 +18,7 @@ services:
       net.unraid.docker.webui: https://calibre.${DOMAIN}
 
   calibre-vnc:
-    image: lscr.io/linuxserver/calibre:latest
+    image: lscr.io/linuxserver/calibre:8.8.0
     container_name: calibre-vnc
     security_opt:
       - seccomp:unconfined

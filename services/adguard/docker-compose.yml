@@ -1,7 +1,7 @@
 services:
   adguard:
     container_name: adguard
-    image: adguard/adguardhome:latest
+    image: adguard/adguardhome:v0.107.64
     restart: always
     volumes:
       - ${APPDATA_PATH}/adguard/workingdir:/opt/adguardhome/work
@@ -18,7 +18,7 @@ services:
       net.unraid.docker.webui: http://adguard.${DOMAIN}
 
   adguardhome-sync:
-    image: ghcr.io/bakito/adguardhome-sync:latest
+    image: ghcr.io/bakito/adguardhome-sync:v0.7.8
     container_name: adguardhome-sync
     command: run
     restart: unless-stopped

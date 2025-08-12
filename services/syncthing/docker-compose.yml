@@ -4,11 +4,8 @@ services:
     image: lscr.io/linuxserver/syncthing:latest
     restart: always
     volumes:
-      - "[[MNT_PATH]]/Syncthing:/data"
-      - "[[APPDATA_PATH]]/syncthing:/config"
-    environment:
-      PUID: "[[PUID]]"
-      PGID: "[[PGID]]"
+      - ${MNT_PATH}/Syncthing:/data
+      - ${APPDATA_PATH}/syncthing:/config"
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
@@ -23,9 +20,9 @@ services:
     labels:
       glance.name: Syncthing
       glance.icon: sh:syncthing
-      glance.url: https://syncthing.[[DOMAIN]]
+      glance.url: https://syncthing.${DOMAIN}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/syncthing.png
-      net.unraid.docker.webui: https://syncthing.[[DOMAIN]]
+      net.unraid.docker.webui: https://syncthing.${DOMAIN}
 networks:
   npm_net:
     external: true

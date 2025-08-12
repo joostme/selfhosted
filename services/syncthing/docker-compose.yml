@@ -4,15 +4,17 @@ services:
     image: lscr.io/linuxserver/syncthing:latest
     restart: always
     volumes:
-      - /mnt/user/Syncthing:/data
-      - ${APPDATA_PATH}/syncthing:/config
+      - "[[MNT_PATH]]/Syncthing:/data"
+      - "[[APPDATA_PATH]]/syncthing:/config"
+    environment:
+      PUID: "[[PUID]]"
+      PGID: "[[PGID]]"
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
       - 21027:21027/udp # Receive local discovery broadcasts
     networks:
       - npm_net
-    env_file: stack.env
     healthcheck:
       test: curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK || exit 1
       interval: 1m
@@ -21,9 +23,9 @@ services:
     labels:
       glance.name: Syncthing
       glance.icon: sh:syncthing
-      glance.url: https://syncthing.${DOMAIN}
+      glance.url: https://syncthing.[[DOMAIN]]
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/syncthing.png
-      net.unraid.docker.webui: https://syncthing.${DOMAIN}
+      net.unraid.docker.webui: https://syncthing.[[DOMAIN]]
 networks:
   npm_net:
     external: true

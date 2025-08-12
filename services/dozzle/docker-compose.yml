@@ -5,6 +5,7 @@ services:
     container_name: dozzle
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ${APPDATA_PATH}/dozzle:/data
     #ports:
     #  - 8080:8080
     environment:

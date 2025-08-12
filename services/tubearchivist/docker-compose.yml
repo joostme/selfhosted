@@ -6,7 +6,7 @@ services:
     volumes:
       - ${APPDATA_PATH}/tubearchivist/cache:/cache
       - ${MNT_PATH}/tubearchivist:/youtube
-    env_file: stack.env
+    env_file: .env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
       interval: 2m

@@ -10,6 +10,7 @@ services:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers
       - 21027:21027/udp # Receive local discovery broadcasts
+    env_file: .env
     networks:
       - npm_net
     healthcheck:

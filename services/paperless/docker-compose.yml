@@ -8,7 +8,7 @@ services:
       - /mnt/user/paperless/media:/usr/src/paperless/media
       - /mnt/user/paperless_consume/:/usr/src/paperless/consume
       - /mnt/user/paperless/export/:/usr/src/paperless/export
-    env_file: stack.env
+    env_file: .env
     networks:
       - npm_net
       - redis_net

@@ -22,7 +22,7 @@ services:
     container_name: adguardhome-sync
     command: run
     restart: unless-stopped
-    env_file: stack.env
+    env_file: .env
     networks:
       - npm_net
 

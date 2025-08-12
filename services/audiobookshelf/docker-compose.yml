@@ -8,8 +8,7 @@ services:
       - ${APPDATA_PATH}/audiobookshelf/metadata:/metadata
     networks:
       - npm_net
-    environment:
-      - TZ=${TZ}
+    env_file: .env
     labels:
       glance.name: Audiobookshelf
       glance.icon: sh:audiobookshelf

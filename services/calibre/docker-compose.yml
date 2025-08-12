@@ -7,7 +7,7 @@ services:
       - ${APPDATA_PATH}/calibre/config:/config
       - ${APPDATA_PATH}/calibre/ingest/:/cwa-book-ingest
       - ${APPDATA_PATH}/calibre/library:/calibre-library 
-    env_file: stack.env
+    env_file: .env
     networks:
       - npm_net
     labels:
@@ -22,7 +22,7 @@ services:
     container_name: calibre-vnc
     security_opt:
       - seccomp:unconfined
-    env_file: stack.env
+    env_file: .env
     environment:
       DRINODE: /dev/dri/renderD128
     volumes:

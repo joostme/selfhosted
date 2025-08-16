@@ -9,8 +9,15 @@ services:
     networks:
       br0:
         ipv4_address: ${ADGUARD_IP}
-      npm_net:
+      proxy:
     labels:
+      traefik.enable: true
+      traefik.http.routers.adguard.tls: true
+      traefik.http.routers.adguard.rule: Host(`adguard.${DOMAIN}`)
+      traefik.http.routers.adguard.entrypoints: websecure
+      traefik.http.routers.adguard.service: adguard
+      traefik.http.services.adguard.loadbalancer.server.port: 80
+
       glance.id: adguard
       glance.name: Adguard
       glance.icon: sh:adguard-home
@@ -25,7 +32,7 @@ services:
     restart: unless-stopped
     env_file: .env
     networks:
-      - npm_net
+      - proxy
     labels:
       glance.parent: adguard
       glance.icon: sh:adguardhome-sync
@@ -36,5 +43,5 @@ services:
 networks:
   br0:
     external: true
-  npm_net:
+  proxy:
     external: true

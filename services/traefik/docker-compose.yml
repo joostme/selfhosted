@@ -1,0 +1,63 @@
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:v3.5
+    command:
+      # Docker
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=proxy"
+
+      # Certs
+      - "--certificatesresolvers.letsencrypt.acme.email=webmaster@${DOMAIN}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.dnsChallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.dnsChallenge.provider=porkbun"
+
+      # Entrypoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--entrypoints.websecure.asDefault=true"
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
+      - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN}"
+
+      # Dashboard
+      - "--api=true"
+
+      - "--log.level=DEBUG"
+    restart: always
+    volumes:
+      - letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      proxy:
+      br0:
+        ipv4_address: ${TRAEFIK_IP}
+
+    env_file: .env
+    labels:
+      #traefik.enable: true
+      #traefik.http.routers.dashboard.rule: Host(`traefik.${DOMAIN}`)
+      #traefik.http.routers.dashboard.entrypoints: websecure
+      #traefik.http.routers.dashboard.service: api@internal
+      #traefik.http.routers.dashboard.tls: true
+
+      glance.name: Traefik
+      glance.icon: sh:traefik
+      glance.url: https://traefik.${DOMAIN}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
+      net.unraid.docker.webui: https://traefik.${DOMAIN}
+networks:
+  proxy:
+    external: true
+  br0:
+    external: true
+
+volumes:
+  letsencrypt:
+    name: letsencrypt

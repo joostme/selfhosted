@@ -34,6 +34,11 @@ services:
     networks:
       - proxy
     labels:
+      traefik.enable: true
+      traefik.http.routers.adguard-sync.tls: true
+      traefik.http.routers.adguard-sync.rule: Host(`adguard-sync.${DOMAIN}`)
+      traefik.http.routers.adguard-sync.entrypoints: websecure
+
       glance.parent: adguard
       glance.icon: sh:adguardhome-sync
       glance.url: https://adguard-sync.${DOMAIN}

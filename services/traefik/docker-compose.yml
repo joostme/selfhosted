@@ -32,7 +32,6 @@ services:
       - "--log.level=DEBUG"
     restart: always
     volumes:
-      - $PWD/traefik.yaml:/etc/traefik/traefik.yml
       - certificates:/certificates
       - /var/run/docker.sock:/var/run/docker.sock
     networks:

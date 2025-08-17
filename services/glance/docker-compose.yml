@@ -9,14 +9,20 @@ services:
       - /etc/localtime:/etc/localtime
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - npm_net
+      - proxy
     env_file: .env
     labels:
+      traefik.enable: true
+      traefik.http.routers.glance.tls: true
+      traefik.http.routers.glance.tls.certresolver: letsencrypt
+      traefik.http.routers.glance.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.glance.entrypoints: websecure
+
       glance.name: Glance
       glance.icon: sh:glance
-      glance.url: https://glance.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/glance.png
-      net.unraid.docker.webui: https://glance.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 networks:
-  npm_net:
+  proxy:
     external: true

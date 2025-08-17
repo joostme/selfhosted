@@ -17,15 +17,21 @@ services:
     networks:
       br0:
         ipv4_address: ${TEDDYCLOUD_IP}
-      npm_net:
+      proxy:
     labels:
+      traefik.enable: true
+      traefik.http.routers.teddycloud.tls: true
+      traefik.http.routers.teddycloud.tls.certresolver: letsencrypt
+      traefik.http.routers.teddycloud.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.teddycloud.entrypoints: websecure
+
       glance.name: Teddycloud
       glance.icon: sh:teddycloud
-      glance.url: https://teddycloud.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/teddycloud.png
-      net.unraid.docker.webui: https://teddycloud.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 networks:
   br0:
     external: true
-  npm_net:
+  proxy:
     external: true

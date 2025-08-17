@@ -6,15 +6,21 @@ services:
       - ${APPDATA_PATH}/radarr:/config
       - ${DATA_PATH}/:/data
     networks:
-      - npm_net
+      - proxy
       - data_net
     env_file: .env
     labels:
+      traefik.enable: true
+      traefik.http.routers.radarr.tls: true
+      traefik.http.routers.radarr.tls.certresolver: letsencrypt
+      traefik.http.routers.radarr.rule: Host(`${SERVICE_URL_RADARR}`)
+      traefik.http.routers.radarr.entrypoints: websecure
+
       glance.name: Radarr
       glance.icon: sh:radarr
       glance.category: media
-      glance.url: https://radarr.${DOMAIN}
-      net.unraid.docker.webui: https://radarr.${DOMAIN}
+      glance.url: https://${SERVICE_URL_RADARR}
+      net.unraid.docker.webui: https://${SERVICE_URL_RADARR}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/radarr.png
     restart: always
 
@@ -25,15 +31,21 @@ services:
       - ${APPDATA_PATH}/sonarr:/config
       - ${DATA_PATH}/:/data
     networks:
-      - npm_net
+      - proxy
       - data_net
     env_file: .env
     labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.tls: true
+      traefik.http.routers.sonarr.tls.certresolver: letsencrypt
+      traefik.http.routers.sonarr.rule: Host(`${SERVICE_URL_SONARR}`)
+      traefik.http.routers.sonarr.entrypoints: websecure
+
       glance.name: Sonarr
       glance.icon: sh:sonarr
       glance.category: media
-      glance.url: https://sonarr.${DOMAIN}
-      net.unraid.docker.webui: https://sonarr.${DOMAIN}
+      glance.url: https://${SERVICE_URL_SONARR}
+      net.unraid.docker.webui: https://${SERVICE_URL_SONARR}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sonarr.png
     restart: always
 
@@ -44,15 +56,21 @@ services:
       - ${APPDATA_PATH}/lidarr:/config
       - ${DATA_PATH}/:/data
     networks:
-      - npm_net
+      - proxy
       - data_net
     env_file: .env
     labels:
+      traefik.enable: true
+      traefik.http.routers.lidarr.tls: true
+      traefik.http.routers.lidarr.tls.certresolver: letsencrypt
+      traefik.http.routers.lidarr.rule: Host(`${SERVICE_URL_LIDARR}`)
+      traefik.http.routers.lidarr.entrypoints: websecure
+
       glance.name: Lidarr
       glance.icon: sh:lidarr
       glance.category: media
-      glance.url: https://lidarr.${DOMAIN}
-      net.unraid.docker.webui: https://lidarr.${DOMAIN}
+      glance.url: https://${SERVICE_URL_LIDARR}
+      net.unraid.docker.webui: https://${SERVICE_URL_LIDARR}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/lidarr.png
     restart: always
 
@@ -63,15 +81,21 @@ services:
       - ${APPDATA_PATH}/sabnzbd:/config
       - ${DATA_PATH}/usenet/:/data/usenet
     networks:
-      - npm_net
+      - proxy
       - data_net
     env_file: .env
     labels:
+      traefik.enable: true
+      traefik.http.routers.sabnzbd.tls: true
+      traefik.http.routers.sabnzbd.tls.certresolver: letsencrypt
+      traefik.http.routers.sabnzbd.rule: Host(`${SERVICE_URL_SABNZBD}`)
+      traefik.http.routers.sabnzbd.entrypoints: websecure
+
       glance.name: Sabnzbd
       glance.icon: sh:sabnzbd
       glance.category: media
-      glance.url: https://sabnzbd.${DOMAIN}
-      net.unraid.docker.webui: https://sabnzbd.${DOMAIN}
+      glance.url: https://${SERVICE_URL_SABNZBD}
+      net.unraid.docker.webui: https://${SERVICE_URL_SABNZBD}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sabnzbd.png
     restart: always
 
@@ -82,15 +106,21 @@ services:
       - ${APPDATA_PATH}/deluge:/config
       - ${DATA_PATH}/torrents/:/data/torrents
     networks:
-      - npm_net
+      - proxy
       - data_net
     env_file: .env
     labels:
+      traefik.enable: true
+      traefik.http.routers.deluge.tls: true
+      traefik.http.routers.deluge.tls.certresolver: letsencrypt
+      traefik.http.routers.deluge.rule: Host(`${SERVICE_URL_DELUGE}`)
+      traefik.http.routers.deluge.entrypoints: websecure
+
       glance.name: Deluge
       glance.icon: sh:deluge
       glance.category: media
-      glance.url: https://deluge.${DOMAIN}
-      net.unraid.docker.webui: https://deluge.${DOMAIN}
+      glance.url: https://${SERVICE_URL_DELUGE}
+      net.unraid.docker.webui: https://${SERVICE_URL_DELUGE}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/deluge.png
     restart: always
 
@@ -111,7 +141,7 @@ services:
     user: "${PUID}:${PGID}"
 
 networks:
-  npm_net:
+  proxy:
     external: true
   data_net:
 

@@ -9,18 +9,24 @@ services:
       - ${APPDATA_PATH}/immich:/config
     env_file: .env
     networks:
-      - npm_net
+      - proxy
       - redis_net
       - immich
     devices:
       - "/dev/dri:/dev/dri"
     labels:
+      traefik.enable: true
+      traefik.http.routers.immich.tls: true
+      traefik.http.routers.immich.tls.certresolver: letsencrypt
+      traefik.http.routers.immich.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.immich.entrypoints: websecure
+
       glance.id: immich
       glance.name: Immich
       glance.icon: sh:immich
-      glance.url: https://immich.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/immich.png
-      net.unraid.docker.webui: https://immich.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 
 
   postgres_immich:
@@ -40,7 +46,7 @@ services:
 
 networks:
   immich:
-  npm_net:
+  proxy:
     external: true
   redis_net:
     external: true

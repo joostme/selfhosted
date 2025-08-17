@@ -37,16 +37,23 @@ services:
       ## Core cache for repos for latest commit hash / contents
       - ${APPDATA_PATH}/komodo/core/repos:/repo-cache
     networks:
-      - npm_net
+      - proxy
       - komodo
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+
+      traefik.enable: true
+      traefik.http.routers.komodo.tls: true
+      traefik.http.routers.komodo.tls.certresolver: letsencrypt
+      traefik.http.routers.komodo.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.komodo.entrypoints: websecure
+
       glance.id: komodo
       glance.name: Komodo
       glance.icon: sh:komodo
-      glance.url: https://komodo.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/komodo.png
-      net.unraid.docker.webui: https://komodo.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 
   periphery:
     image: ghcr.io/moghtech/komodo-periphery:${COMPOSE_KOMODO_IMAGE_TAG:-latest}
@@ -67,5 +74,5 @@ services:
 
 networks:
   komodo:
-  npm_net:
+  proxy:
     external: true

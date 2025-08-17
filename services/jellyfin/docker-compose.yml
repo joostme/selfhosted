@@ -10,17 +10,23 @@ services:
     networks:
       br0:
         ipv4_address: ${JELLYFIN_IP}
-      npm_net:
+      proxy:
     devices:
       - "/dev/dri/:/dev/dri/"
     labels:
+      traefik.enable: true
+      traefik.http.routers.jellyfin.tls: true
+      traefik.http.routers.jellyfin.tls.certresolver: letsencrypt
+      traefik.http.routers.jellyfin.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.jellyfin.entrypoints: websecure
+
       glance.name: Jellyfin
       glance.icon: sh:jellyfin
-      glance.url: https://jellyfin.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/jellyfin.png
-      net.unraid.docker.webui: http://jellyfin.${DOMAIN}
+      net.unraid.docker.webui: http://${SERVICE_URL}
 networks:
   br0:
     external: true
-  npm_net:
+  proxy:
     external: true

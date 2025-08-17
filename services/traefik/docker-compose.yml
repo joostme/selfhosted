@@ -29,7 +29,6 @@ services:
 
       # Dashboard
       - "--api=true"
-      - "--log.level=DEBUG"
     restart: always
     volumes:
       - certificates:/certificates
@@ -38,21 +37,20 @@ services:
       proxy:
       br0:
         ipv4_address: ${TRAEFIK_IP}
-    environment: 
-      PORKBUN_API_KEY: ${PORKBUN_API_KEY}
-      PORKBUN_SECRET_API_KEY: ${PORKBUN_SECRET_API_KEY}
+    env_file: .env 
     labels:
-      #traefik.enable: true
-      #traefik.http.routers.dashboard.rule: Host(`traefik.${DOMAIN}`)
-      #traefik.http.routers.dashboard.entrypoints: websecure
-      #traefik.http.routers.dashboard.service: api@internal
-      #traefik.http.routers.dashboard.tls: true
+      traefik.enable: true
+      traefik.http.routers.dashboard.tls: true
+      traefik.http.routers.dashboard.tls.certresolver: letsencrypt
+      traefik.http.routers.dashboard.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.dashboard.entrypoints: websecure
+      traefik.http.routers.dashboard.service: api@internal
 
       glance.name: Traefik
       glance.icon: sh:traefik
-      glance.url: https://traefik.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
-      net.unraid.docker.webui: https://traefik.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 networks:
   proxy:
     external: true

@@ -12,18 +12,26 @@ services:
       - 21027:21027/udp # Receive local discovery broadcasts
     env_file: .env
     networks:
-      - npm_net
+      - proxy
     healthcheck:
       test: curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK || exit 1
       interval: 1m
       timeout: 10s
       retries: 3
     labels:
+      traefik.enable: true
+      traefik.http.routers.syncthing.tls: true
+      traefik.http.routers.syncthing.tls.certresolver: letsencrypt
+      traefik.http.routers.syncthing.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.syncthing.entrypoints: websecure
+      traefik.http.routers.syncthing.service: syncthing
+      traefik.http.services.syncthing.loadbalancer.server.port: 8384
+
       glance.name: Syncthing
       glance.icon: sh:syncthing
-      glance.url: https://syncthing.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/syncthing.png
-      net.unraid.docker.webui: https://syncthing.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 networks:
-  npm_net:
+  proxy:
     external: true

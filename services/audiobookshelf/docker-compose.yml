@@ -7,15 +7,21 @@ services:
       - ${APPDATA_PATH}/audiobookshelf/config:/config
       - ${APPDATA_PATH}/audiobookshelf/metadata:/metadata
     networks:
-      - npm_net
+      - proxy
     env_file: .env
     labels:
+      traefik.enable: true
+      traefik.http.routers.audiobookshelf.tls: true
+      traefik.http.routers.audiobookshelf.tls.certresolver: letsencrypt
+      traefik.http.routers.audiobookshelf.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.audiobookshelf.entrypoints: websecure
+
       glance.name: Audiobookshelf
       glance.icon: sh:audiobookshelf
-      glance.url: https://audiobookshelf.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/audiobookshelf.png
-      net.unraid.docker.webui: https://audiobookshelf.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 
 networks:
-  npm_net:
+  proxy:
     external: true

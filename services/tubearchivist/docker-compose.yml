@@ -15,14 +15,20 @@ services:
       start_period: 30s
     networks:
       - tubearchivist
-      - npm_net
+      - proxy
     labels:
+      traefik.enable: true
+      traefik.http.routers.tubearchivist.tls: true
+      traefik.http.routers.tubearchivist.tls.certresolver: letsencrypt
+      traefik.http.routers.tubearchivist.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.tubearchivist.entrypoints: websecure
+
       glance.id: tubearchivist
       glance.name: TubeArchivist
       glance.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/tube-archivist.png # no svg icon for TA on sh: icons
-      glance.url: https://tubearchivist.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/tube-archivist.png
-      net.unraid.docker.webui: https://tubearchivist.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
     depends_on:
       - archivist-redis
       - archivist-es
@@ -76,7 +82,7 @@ volumes:
 
 networks:
   tubearchivist:
-  npm_net:
+  proxy:
     external: true
   redis_net:
     external: true

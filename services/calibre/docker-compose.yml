@@ -9,13 +9,19 @@ services:
       - ${APPDATA_PATH}/calibre/library:/calibre-library 
     env_file: .env
     networks:
-      - npm_net
+      - proxy
     labels:
+      traefik.enable: true
+      traefik.http.routers.calibre.tls: true
+      traefik.http.routers.calibre.tls.certresolver: letsencrypt
+      traefik.http.routers.calibre.rule: Host(`${SERVICE_URL_CALIBRE}`)
+      traefik.http.routers.calibre.entrypoints: websecure
+
       glance.name: Calibre-Web
       glance.icon: sh:calibre-web
-      glance.url: https://calibre.${DOMAIN}
+      glance.url: https://${SERVICE_URL_CALIBRE}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/calibre-web.png
-      net.unraid.docker.webui: https://calibre.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL_CALIBRE}
 
   calibre-vnc:
     image: lscr.io/linuxserver/calibre:8.8.0
@@ -29,16 +35,22 @@ services:
       - ${APPDATA_PATH}/calibre/library:/config
     restart: unless-stopped
     networks:
-      - npm_net
+      - proxy
     devices:
       - "/dev/dri:/dev/dri"
     labels:
+      traefik.enable: true
+      traefik.http.routers.calibre-vnc.tls: true
+      traefik.http.routers.calibre-vnc.tls.certresolver: letsencrypt
+      traefik.http.routers.calibre-vnc.rule: Host(`${SERVICE_URL_CALIBRE_VNC}`)
+      traefik.http.routers.calibre-vnc.entrypoints: websecure
+
       glance.name: Calibre
       glance.icon: sh:calibre
-      glance.url: https://calibre-vnc.${DOMAIN}
+      glance.url: https://${SERVICE_URL_CALIBRE_VNC}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/calibre.png
-      net.unraid.docker.webui: https://calibre-vnc.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL_CALIBRE_VNC}
 
 networks:
-  npm_net:
+  proxy:
     external: true

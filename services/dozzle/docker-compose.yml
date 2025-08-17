@@ -12,14 +12,20 @@ services:
       - DOZZLE_AUTH_PROVIDER=simple
       - DOZZLE_NO_ANALYTICS=true
     networks:
-      - npm_net
+      - proxy
     env_file: .env
     labels:
+      traefik.enable: true
+      traefik.http.routers.dozzle.tls: true
+      traefik.http.routers.dozzle.tls.certresolver: letsencrypt
+      traefik.http.routers.dozzle.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.dozzle.entrypoints: websecure
+
       glance.name: Dozzle
       glance.icon: sh:dozzle
-      glance.url: https://dozzle.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/dozzle.png
-      net.unraid.docker.webui: https://dozzle.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 networks:
-  npm_net:
+  proxy:
     external: true

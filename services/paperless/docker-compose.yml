@@ -10,16 +10,22 @@ services:
       - /mnt/user/paperless/export/:/usr/src/paperless/export
     env_file: .env
     networks:
-      - npm_net
+      - proxy
       - redis_net
     labels:
+      traefik.enable: true
+      traefik.http.routers.paperless.tls: true
+      traefik.http.routers.paperless.tls.certresolver: letsencrypt
+      traefik.http.routers.paperless.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.paperless.entrypoints: websecure
+
       glance.name: Paperless
       glance.icon: sh:paperless-ngx
-      glance.url: https://paperless.${DOMAIN}
+      glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/paperless-ngx.png
-      net.unraid.docker.webui: https://paperless.${DOMAIN}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 networks:
-  npm_net:
+  proxy:
     external: true
   redis_net:
     external: true

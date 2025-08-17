@@ -6,6 +6,7 @@ services:
       # Docker
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=proxy"
 
       # Entrypoints
       - "--entrypoints.web.address=:80"

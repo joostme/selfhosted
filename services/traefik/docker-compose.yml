@@ -2,19 +2,44 @@ services:
   traefik:
     container_name: traefik
     image: traefik
+    command:
+      # Docker
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+
+      # Entrypoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.websecure.asdefault=true"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
+      - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN}"
+
+      # Certs
+      - "--certificatesresolvers.letsencrypt=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=webmaster@${DOMAIN}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/certificates/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=porkbun"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1,1.0.0.1"
+
+      # Dashboard
+      - "--api=true"
+      - "--log.level=DEBUG"
     restart: always
     volumes:
-      - $PWD/traefik.yaml:/etc/traefik/traefik.yaml
+      - $PWD/traefik.yaml:/etc/traefik/traefik.yml
       - certificates:/certificates
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       proxy:
       br0:
         ipv4_address: ${TRAEFIK_IP}
-    environment:
-      TRAEFIK_CERTIFICATESRESOLVERS_LETSENCRYPT_ACME_EMAIL: "webmaster@${DOMAIN}"
-      TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_MAIN: "${DOMAIN}"
-      TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS: "*.${DOMAIN}"
+    environment: 
       PORKBUN_API_KEY: ${PORKBUN_API_KEY}
       PORKBUN_SECRET_API_KEY: ${PORKBUN_SECRET_API_KEY}
     labels:

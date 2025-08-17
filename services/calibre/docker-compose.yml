@@ -44,6 +44,8 @@ services:
       traefik.http.routers.calibre-vnc.tls.certresolver: letsencrypt
       traefik.http.routers.calibre-vnc.rule: Host(`${SERVICE_URL_CALIBRE_VNC}`)
       traefik.http.routers.calibre-vnc.entrypoints: websecure
+      traefik.http.routers.calibre-vnc.service: calibre-vnc
+      traefik.http.services.calibre-vnc.loadbalancer.server.port: 8080
 
       glance.name: Calibre
       glance.icon: sh:calibre

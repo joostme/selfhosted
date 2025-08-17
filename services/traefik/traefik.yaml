@@ -1,0 +1,46 @@
+################################################################
+# Global configuration
+################################################################
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+log:
+  level: TRACE
+
+################################################################
+# EntryPoints configuration
+################################################################
+
+entryPoints:
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+
+
+  websecure:
+    address: :443
+    http:
+      tls:
+        certResolver: letsencrypt
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      dnsChallenge:
+        provider: porkbun
+      storage: /certificates/acme.json
+
+################################################################
+# Docker configuration backend
+################################################################
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: proxy

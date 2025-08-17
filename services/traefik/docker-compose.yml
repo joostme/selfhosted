@@ -1,45 +1,23 @@
 services:
   traefik:
     container_name: traefik
-    image: traefik:v3.5
+    image: traefik
     command:
-      # Docker
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=proxy"
-
-      # Certs
-      - "--certificatesresolvers.letsencrypt.acme.email=webmaster@${DOMAIN}"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
-      - "--certificatesresolvers.letsencrypt.acme.dnsChallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.dnsChallenge.provider=porkbun"
-
-      # Entrypoints
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
-      - "--entrypoints.websecure.asDefault=true"
-      - "--entrypoints.websecure.http.tls=true"
-      - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
       - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN}"
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN}"
-
-      # Dashboard
-      - "--api=true"
-
-      - "--log.level=DEBUG"
+      - --certificatesresolvers.letsencrypt.acme.email=webmaster@${DOMAIN}
     restart: always
     volumes:
-      - letsencrypt:/letsencrypt
+      - $PWD/traefik.yaml:/etc/traefik/traefik.yaml
+      - certificates:/certificates
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       proxy:
       br0:
         ipv4_address: ${TRAEFIK_IP}
-
-    env_file: .env
+    environment: 
+      PORKBUN_API_KEY: ${PORKBUN_API_KEY}
+      PORKBUN_SECRET_API_KEY: ${PORKBUN_SECRET_API_KEY}
     labels:
       #traefik.enable: true
       #traefik.http.routers.dashboard.rule: Host(`traefik.${DOMAIN}`)
@@ -59,5 +37,5 @@ networks:
     external: true
 
 volumes:
-  letsencrypt:
-    name: letsencrypt
+  certificates:
+    name: certificates

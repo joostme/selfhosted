@@ -27,5 +27,8 @@ params.server_id = "nas"
 name = "git-sync"
 [resource_sync.config]
 linked_repo = "selfhosted"
-resource_path = ["komodo/config.toml"]
+resource_path = [
+    "komodo/config.toml",
+    "services/adguard/stack.toml"
+]
 managed = true

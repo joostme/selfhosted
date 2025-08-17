@@ -1,0 +1,26 @@
+[[stack]]
+name = "adguard"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/adguard"
+file_paths = ["docker-compose.yml"]
+environment = """
+SERVICE_URL_ADGUARD=adguard.[[DOMAIN]]
+SERVICE_URL_ADGUARD_SYNC=adguard-sync.[[DOMAIN]]
+
+DOMAIN=[[DOMAIN]]
+APPDATA_PATH=[[APPDATA_PATH]]
+
+ADGUARD_IP=[[ADGUARD_IP]]
+
+ORIGIN_URL=http://${ADGUARD_IP}
+ORIGIN_USERNAME=[[ADGUARD_USER]]
+ORIGIN_PASSWORD=[[ADGUARD_PASS]]
+
+REPLICA1_URL=http://adguard
+REPLICA1_USERNAME=[[ADGUARD_REPLICA_USER]]
+REPLICA1_PASSWORD=[[ADGUARD_REPLICA_PASS]]
+
+CRON="0 */2 * * *"
+"""

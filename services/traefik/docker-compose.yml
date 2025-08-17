@@ -28,8 +28,7 @@ services:
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=porkbun"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1,1.0.0.1"
 
-      # Dashboard
-      - "--api=true"
+      # Logs
       - "--log.level=${LOG_LEVEL}"
     restart: always
     volumes:
@@ -41,13 +40,6 @@ services:
         ipv4_address: ${TRAEFIK_IP}
     env_file: .env 
     labels:
-      traefik.enable: true
-      traefik.http.routers.dashboard.tls: true
-      traefik.http.routers.dashboard.tls.certresolver: letsencrypt
-      traefik.http.routers.dashboard.rule: Host(`${SERVICE_URL}`)
-      traefik.http.routers.dashboard.entrypoints: websecure
-      traefik.http.routers.dashboard.service: api@internal
-
       glance.name: Traefik
       glance.icon: sh:traefik
       glance.url: https://${SERVICE_URL}

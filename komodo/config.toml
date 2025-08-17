@@ -28,7 +28,8 @@ name = "git-sync"
 [resource_sync.config]
 linked_repo = "selfhosted"
 resource_path = [
-    "komodo/config.toml",
-    "services/adguard/stack.toml"
+  "komodo/config.toml",
+  "services/adguard/stack.toml",
+  "services/arr/stack.toml"
 ]
 managed = true

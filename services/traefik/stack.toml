@@ -1,0 +1,24 @@
+[[stack]]
+name = "traefik"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/traefik"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+TRAEFIK_IP=[[TRAEFIK_IP]]
+PORKBUN_API_KEY=[[PORKBUN_API_KEY]]
+PORKBUN_SECRET_API_KEY=[[PORKBUN_SECRET_API_KEY]]
+
+SERVICE_URL=traefik.[[DOMAIN]]
+LOG_LEVEL=DEBUG
+"""

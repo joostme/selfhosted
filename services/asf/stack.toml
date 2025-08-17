@@ -1,0 +1,20 @@
+[[stack]]
+name = "asf"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/asf"
+file_paths = ["docker-compose.yml"]
+environment = """
+ASF_USER=[[PUID]]
+SERVICE_URL=asf.[[DOMAIN]]
+
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+"""

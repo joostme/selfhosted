@@ -1,0 +1,21 @@
+[[stack]]
+name = "jellyfin"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/jellyfin"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+JELLYFIN_IP=[[JELLYFIN_IP]]
+JELLYFIN_PublishedServerUrl=${JELLYFIN_IP}
+SERVICE_URL=jellyfin.[[DOMAIN]]
+"""

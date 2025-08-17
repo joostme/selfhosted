@@ -30,6 +30,19 @@ linked_repo = "selfhosted"
 resource_path = [
   "komodo/config.toml",
   "services/adguard/stack.toml",
-  "services/arr/stack.toml"
+  "services/arr/stack.toml",
+  "services/asf/stack.toml",
+  "services/audiobookshelf/stack.toml",
+  "services/calibre/stack.toml",
+  "services/dozzle/stack.toml",
+  "services/glance/stack.toml",
+  "services/immich/stack.toml",
+  "services/jellyfin/stack.toml",
+  "services/paperless/stack.toml",
+  "services/redis/stack.toml",
+  "services/syncthing/stack.toml",
+  "services/tandoor/stack.toml",
+  "services/teddycloud/stack.toml",
+  "services/traefik/stack.toml",
+  "services/tubearchivist/stack.toml",
 ]
-managed = true

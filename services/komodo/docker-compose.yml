@@ -45,15 +45,15 @@ services:
       traefik.enable: true
       traefik.http.routers.komodo.tls: true
       traefik.http.routers.komodo.tls.certresolver: letsencrypt
-      traefik.http.routers.komodo.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.komodo.rule: Host(`${SERVICE_URL_KOMODO}`)
       traefik.http.routers.komodo.entrypoints: websecure
 
       glance.id: komodo
       glance.name: Komodo
       glance.icon: sh:komodo
-      glance.url: https://${SERVICE_URL}
+      glance.url: https://${SERVICE_URL_KOMODO}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/komodo.png
-      net.unraid.docker.webui: https://${SERVICE_URL}
+      net.unraid.docker.webui: https://${SERVICE_URL_KOMODO}
 
   periphery:
     image: ghcr.io/moghtech/komodo-periphery:${COMPOSE_KOMODO_IMAGE_TAG:-latest}

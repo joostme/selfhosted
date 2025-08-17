@@ -1,0 +1,31 @@
+[[server]]
+name = "nas"
+[server.config]
+address = "https://periphery:8120"
+enabled = true
+
+##
+
+[[repo]]
+name = "selfhosted"
+[repo.config]
+server = "nas"
+builder = "local"
+repo = "joostme/selfhosted"
+
+##
+
+[[builder]]
+name = "local"
+[builder.config]
+type = "Server"
+params.server_id = "nas"
+
+##
+
+[[resource_sync]]
+name = "git-sync"
+[resource_sync.config]
+linked_repo = "selfhosted"
+resource_path = ["komodo/config.toml"]
+managed = true

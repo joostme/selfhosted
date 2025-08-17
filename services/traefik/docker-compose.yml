@@ -2,10 +2,6 @@ services:
   traefik:
     container_name: traefik
     image: traefik
-    command:
-      - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN}"
-      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN}"
-      - --certificatesresolvers.letsencrypt.acme.email=webmaster@${DOMAIN}
     restart: always
     volumes:
       - $PWD/traefik.yaml:/etc/traefik/traefik.yaml
@@ -15,7 +11,10 @@ services:
       proxy:
       br0:
         ipv4_address: ${TRAEFIK_IP}
-    environment: 
+    environment:
+      TRAEFIK_CERTIFICATESRESOLVERS_LETSENCRYPT_ACME_EMAIL: "webmaster@${DOMAIN}"
+      TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_MAIN: "${DOMAIN}"
+      TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS: "*.${DOMAIN}"
       PORKBUN_API_KEY: ${PORKBUN_API_KEY}
       PORKBUN_SECRET_API_KEY: ${PORKBUN_SECRET_API_KEY}
     labels:

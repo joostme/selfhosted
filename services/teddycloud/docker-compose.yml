@@ -24,6 +24,8 @@ services:
       traefik.http.routers.teddycloud.tls.certresolver: letsencrypt
       traefik.http.routers.teddycloud.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.teddycloud.entrypoints: websecure
+      traefik.http.routers.teddycloud.service: teddycloud
+      traefik.http.services.syncthing.loadbalancer.server.port: 8443
 
       glance.name: Teddycloud
       glance.icon: sh:teddycloud

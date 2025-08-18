@@ -1,0 +1,396 @@
+[[stack]]
+name = "adguard"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/adguard"
+file_paths = ["docker-compose.yml"]
+environment = """
+SERVICE_URL_ADGUARD=adguard.[[DOMAIN]]
+SERVICE_URL_ADGUARD_SYNC=adguard-sync.[[DOMAIN]]
+
+DOMAIN=[[DOMAIN]]
+APPDATA_PATH=[[APPDATA_PATH]]
+
+ADGUARD_IP=[[ADGUARD_IP]]
+
+ORIGIN_URL=http://${ADGUARD_IP}
+ORIGIN_USERNAME=[[ADGUARD_USER]]
+ORIGIN_PASSWORD=[[ADGUARD_PASS]]
+
+REPLICA1_URL=http://adguard
+REPLICA1_USERNAME=[[ADGUARD_REPLICA_USER]]
+REPLICA1_PASSWORD=[[ADGUARD_REPLICA_PASS]]
+
+CRON="0 */2 * * *"
+"""
+
+##
+
+[[stack]]
+name = "arr"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/arr"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+SERVICE_URL_SONARR=sonarr.[[DOMAIN]]
+SERVICE_URL_RADARR=radarr.[[DOMAIN]]
+SERVICE_URL_LIDARR=lidarr.[[DOMAIN]]
+SERVICE_URL_SABNZBD=sabnzbd.[[DOMAIN]]
+SERVICE_URL_DELUGE=deluge.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "asf"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/asf"
+file_paths = ["docker-compose.yml"]
+environment = """
+ASF_USER=[[PUID]]
+SERVICE_URL=asf.[[DOMAIN]]
+
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+"""
+
+##
+
+[[stack]]
+name = "audiobookshelf"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/audiobookshelf"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+SERVICE_URL=audiobookshelf.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "calibre"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/calibre"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+# Calibre
+SERVICE_URL_CALIBRE=calibre.[[DOMAIN]]
+SERVICE_URL_CALIBRE_VNC=calibre-vnc.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "dozzle"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/dozzle"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+SERVICE_URL=dozzle.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "glance"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/glance"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+SERVICE_URL=glance.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "immich"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/immich"
+file_paths = ["docker-compose.yml"]
+environment = """
+DB_HOSTNAME=postgres_immich
+DB_USERNAME=postgres
+DB_PASSWORD=[[IMMICH_DB_PASS]]
+DB_DATABASE_NAME=immich
+DB_PORT=5432
+REDIS_HOSTNAME=redis
+REDIS_PORT=6379
+SERVER_HOST=0.0.0.0
+
+MACHINE_LEARNING_HOST=0.0.0.0
+MACHINE_LEARNING_PORT=3003
+MACHINE_LEARNING_WORKERS=1
+MACHINE_LEARNING_WORKER_TIMEOUT=120
+
+POSTGRES_PASSWORD=${DB_PASSWORD}
+POSTGRES_USER=postgres
+POSTGRES_DB=immich
+
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+SERVICE_URL=immich.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "jellyfin"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/jellyfin"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+JELLYFIN_IP=[[JELLYFIN_IP]]
+JELLYFIN_PublishedServerUrl=${JELLYFIN_IP}
+SERVICE_URL=jellyfin.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "paperless"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/paperless"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+PAPERLESS_REDIS=redis://redis:6379
+PAPERLESS_OCR_LANGUAGE=deu
+PAPERLESS_TIME_ZONE=${TZ}
+PAPERLESS_CONSUMER_ENABLE_BARCODES=1
+PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE=1
+PAPERLESS_URL=https://paperless.${DOMAIN}
+PAPERLESS_SECRET_KEY=[[PAPERLESS_SECRET_KEY]]
+
+SERVICE_URL=paperless.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "redis"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/redis"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+"""
+
+##
+
+[[stack]]
+name = "syncthing"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/syncthing"
+file_paths = ["docker-compose.yml"]
+environment = """
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+DOMAIN=[[DOMAIN]]
+SERVICE_URL=syncthing.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "tandoor"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/tandoor"
+file_paths = ["docker-compose.yml"]
+environment = """
+APPDATA_PATH=[[APPDATA_PATH]]
+TZ=[[TZ]]
+SERVICE_URL=recipes.[[DOMAIN]]
+
+DB_ENGINE=django.db.backends.sqlite3
+SECRET_KEY=[[TANDOOR_SECRET_KEY]]
+ALLOWED_HOSTS=${SERVICE_URL}
+POSTGRES_DB=/data/recipes.db
+GUNICORN_MEDIA=1
+GUNICORN_WORKERS=1
+GUNICORN_THREADS=1
+"""
+
+##
+
+[[stack]]
+name = "teddycloud"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/teddycloud"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+TEDDYCLOUD_IP=[[TEDDYCLOUD_IP]]
+SERVICE_URL=teddycloud.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
+name = "traefik"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/traefik"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+TRAEFIK_IP=[[TRAEFIK_IP]]
+PORKBUN_API_KEY=[[PORKBUN_API_KEY]]
+PORKBUN_SECRET_API_KEY=[[PORKBUN_SECRET_API_KEY]]
+
+SERVICE_URL=traefik.[[DOMAIN]]
+LOG_LEVEL=DEBUG
+"""
+
+##
+
+[[stack]]
+name = "tubearchivist"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/tubearchivist"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+
+TA_HOST=https://tubearchivist.${DOMAIN}
+TA_USERNAME=admin
+TA_PASSWORD=changeme
+HOST_UID=${PUID}
+HOST_GID=${PGID}
+REDIS_CON=redis://archivist-redis:6379
+ES_URL=http://archivist-es:9200
+ELASTIC_PASSWORD=verysecret
+
+SERVICE_URL=tubearchivist.[[DOMAIN]]
+"""

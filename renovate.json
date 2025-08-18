@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "assignees": ["joostme"],
+  "labels": ["renovate"],
+  "configMigration": true,
+  "prHourlyLimit": 0,
+  "docker-compose": {
+    "packageRules": [
+      {
+        "matchPackageNames": "ghcr.io/immich-app/postgres",
+        "enabled": false
+      },
+      {
+        "matchPackageNames": "getmeili/meilisearch",
+        "enabled": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+services:
+  karakeep:
+    image: ghcr.io/karakeep-app/karakeep:0.26.0
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_PATH}/karakeep/data:/data
+    env_file:
+      - .env
+    environment:
+      MEILI_ADDR: http://meilisearch:7700
+      BROWSER_WEB_URL: http://chrome:9222
+      DATA_DIR: /data
+    networks:
+      - karakeep
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.karakeep.tls: true
+      traefik.http.routers.karakeep.tls.certresolver: letsencrypt
+      traefik.http.routers.karakeep.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.karakeep.entrypoints: websecure
+
+      glance.id: karakeep
+      glance.name: Karakeep
+      glance.icon: sh:karakeep
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/karakeep.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+
+  chrome:
+    image: gcr.io/zenika-hub/alpine-chrome:124
+    restart: unless-stopped
+    networks:
+      - karakeep
+    command:
+      - --no-sandbox
+      - --disable-gpu
+      - --disable-dev-shm-usage
+      - --remote-debugging-address=0.0.0.0
+      - --remote-debugging-port=9222
+      - --hide-scrollbars
+    labels:
+      glance.parent: karakeep
+      glance.name: Chrome
+      glance.icon: sh:google-chrome
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/google-chrome.png
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.13.3
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - karakeep
+    environment:
+      MEILI_NO_ANALYTICS: "true"
+    volumes:
+      - ${APPDATA_PATH}/karakeep/meili:/meili_data
+    labels:
+      glance.parent: karakeep
+      glance.name: Meilisearch
+      glance.icon: sh:meilisearch
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/meilisearch.png
+
+networks:
+  proxy:
+    external: true
+  karakeep:

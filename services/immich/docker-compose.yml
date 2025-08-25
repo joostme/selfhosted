@@ -1,7 +1,7 @@
 services:
   immich:
     container_name: immich
-    image: ghcr.io/imagegenius/immich:latest
+    image: ghcr.io/imagegenius/immich:1.138.1
     restart: always
     volumes:
       - /mnt/user/photos/immich/:/photos

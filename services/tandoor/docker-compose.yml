@@ -1,7 +1,7 @@
 services:
   tandoor:
     container_name: tandoor
-    image: vabene1111/recipes:latest
+    image: vabene1111/recipes:2.0.3
     restart: always
     volumes:
       - ${APPDATA_PATH}/recipes/data:/data

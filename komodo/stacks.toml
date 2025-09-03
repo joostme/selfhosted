@@ -252,6 +252,32 @@ DISABLE_SIGNUPS=true
 ##
 
 [[stack]]
+name = "navidrome"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/navidrome"
+file_paths = ["docker-compose.yml"]
+environment = """
+ND_DATAFOLDER=/config
+ND_MUSICFOLDER=/data/media/music
+ND_ENABLEINSIGHTSCOLLECTOR=false
+
+SERVICE_URL=navidrome.[[DOMAIN]]
+
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+"""
+
+##
+
+[[stack]]
 name = "paperless"
 [stack.config]
 server = "nas"

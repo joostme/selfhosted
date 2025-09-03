@@ -1,0 +1,27 @@
+services:
+  navidrome:
+    image: deluan/navidrome:0.58.0
+    user: "${PUID}:${PGID}"
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_PATH}/navidrome/config:/config
+      - ${DATA_PATH}/media:/data/media
+    env_file: .env
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.navidrome.tls: true
+      traefik.http.routers.navidrome.tls.certresolver: letsencrypt
+      traefik.http.routers.navidrome.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.navidrome.entrypoints: websecure
+
+      glance.name: Navidrome
+      glance.icon: sh:navidrome
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/navidrome.png
+      net.unraid.docker.webui: https://${SERVICE_URL}      
+
+networks:
+  proxy:
+    external: true

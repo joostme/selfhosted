@@ -20,6 +20,7 @@ services:
       traefik.http.routers.dozzle.tls.certresolver: letsencrypt
       traefik.http.routers.dozzle.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.dozzle.entrypoints: websecure
+      traefik.http.routers.dozzle.middlewares: authentik@docker
 
       glance.name: Dozzle
       glance.icon: sh:dozzle

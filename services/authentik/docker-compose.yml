@@ -16,6 +16,8 @@ services:
       timeout: 5s
     image: docker.io/library/postgres:16-alpine
     restart: unless-stopped
+    networks:
+      - default
     volumes:
     - ${APPDATA_PATH}/authentik/db:/var/lib/postgresql/data
   redis:
@@ -30,6 +32,8 @@ services:
       timeout: 3s
     image: docker.io/library/redis:alpine
     restart: unless-stopped
+    networks:
+      - default
     volumes:
     - redis:/data
   server:
@@ -93,6 +97,8 @@ services:
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.8.1}
     restart: unless-stopped
     user: root
+    networks:
+      - default
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - ${APPDATA_PATH}/authentik/certs:/certs

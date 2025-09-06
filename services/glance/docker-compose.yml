@@ -17,7 +17,7 @@ services:
       traefik.http.routers.glance.tls.certresolver: letsencrypt
       traefik.http.routers.glance.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.glance.entrypoints: websecure
-      traefik.http.routers.dozzle.middlewares: authentik@docker
+      traefik.http.routers.glance.middlewares: authentik@docker
 
       glance.name: Glance
       glance.icon: sh:glance

@@ -17,6 +17,7 @@ services:
       traefik.http.routers.unmanic.tls.certresolver: letsencrypt
       traefik.http.routers.unmanic.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.unmanic.entrypoints: websecure
+      traefik.http.routers.dozzle.middlewares: authentik@docker
 
       glance.name: Unmanic
       glance.icon: sh:unmanic

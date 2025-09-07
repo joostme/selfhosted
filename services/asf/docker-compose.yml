@@ -15,6 +15,7 @@ services:
       traefik.http.routers.asf.tls.certresolver: letsencrypt
       traefik.http.routers.asf.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.asf.entrypoints: websecure
+      traefik.http.routers.dozzle.middlewares: authentik@docker
 
       glance.name: ASF
       glance.icon: sh:steam

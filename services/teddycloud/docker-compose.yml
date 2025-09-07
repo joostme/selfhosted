@@ -22,7 +22,7 @@ services:
       traefik.http.routers.teddycloud.entrypoints: websecure
       traefik.http.routers.teddycloud.service: teddycloud
       traefik.http.services.teddycloud.loadbalancer.server.port: 80
-      traefik.http.routers.dozzle.middlewares: authentik@docker
+      traefik.http.routers.teddycloud.middlewares: authentik@docker
 
       glance.name: Teddycloud
       glance.icon: sh:teddycloud

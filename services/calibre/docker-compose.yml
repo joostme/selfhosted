@@ -46,7 +46,7 @@ services:
       traefik.http.routers.calibre-vnc.entrypoints: websecure
       traefik.http.routers.calibre-vnc.service: calibre-vnc
       traefik.http.services.calibre-vnc.loadbalancer.server.port: 8080
-      traefik.http.routers.dozzle.middlewares: authentik@docker
+      traefik.http.routers.calibre-vnc.middlewares: authentik@docker
 
       glance.name: Calibre
       glance.icon: sh:calibre

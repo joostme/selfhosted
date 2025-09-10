@@ -11,7 +11,6 @@ services:
       - '${APPDATA_PATH}/satisfactory-server:/config'
     env_file:
       - .env
-    user: "${PUID}:${PGID}"
     restart: unless-stopped
     networks:
       br0:

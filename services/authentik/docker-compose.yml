@@ -14,7 +14,7 @@ services:
       - CMD-SHELL
       - pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
       timeout: 5s
-    image: docker.io/library/postgres:16-alpine
+    image: docker.io/library/postgres:16.10-alpine
     restart: unless-stopped
     networks:
       - default
@@ -30,7 +30,7 @@ services:
       - CMD-SHELL
       - redis-cli ping | grep PONG
       timeout: 3s
-    image: docker.io/library/redis:alpine
+    image: docker.io/library/redis:8.2.1-alpine
     restart: unless-stopped
     networks:
       - default
@@ -52,7 +52,7 @@ services:
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.8.1}
+    image: ghcr.io/goauthentik/server:2025.8.1
     networks:
       - proxy
       - default
@@ -95,7 +95,7 @@ services:
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.8.1}
+    image: ghcr.io/goauthentik/server:2025.8.1
     restart: unless-stopped
     user: root
     networks:

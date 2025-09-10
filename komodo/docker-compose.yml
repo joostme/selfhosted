@@ -1,6 +1,6 @@
 services:
   mongo:
-    image: mongo
+    image: mongo:8.0.13
     command: --quiet --wiredTigerCacheSizeGB 0.25
     restart: unless-stopped
     # ports:
@@ -22,7 +22,7 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/mongodb.png
   
   core:
-    image: ghcr.io/moghtech/komodo-core:1.19
+    image: ghcr.io/moghtech/komodo-core:1.19.3
     restart: unless-stopped
     depends_on:
       - mongo
@@ -55,7 +55,7 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL_KOMODO}
 
   periphery:
-    image: ghcr.io/moghtech/komodo-periphery:1.19
+    image: ghcr.io/moghtech/komodo-periphery:1.19.3
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

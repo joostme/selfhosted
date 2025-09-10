@@ -353,6 +353,29 @@ DATA_PATH=[[DATA_PATH]]
 ##
 
 [[stack]]
+name = "satisfactory-server"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/satisfactory-server"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+MAXPLAYERS=4
+STEAMBETA=false
+SATISFACTORY_IP=[[SATISFACTORY_IP]]
+"""
+##
+
+[[stack]]
 name = "syncthing"
 [stack.config]
 server = "nas"

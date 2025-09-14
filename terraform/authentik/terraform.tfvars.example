@@ -1,0 +1,31 @@
+DOMAIN = "example.org"
+
+USER1 = {
+  username = "admin"
+  name = "Admin One"
+  email    = "admin@example.org"
+}
+USER2 = {
+  username = "admin2"
+  name = "Admin Two"
+  email    = "admin2@example.org"
+}
+
+IMPORTS = {
+  groups = {
+    admins = "<UUID>"
+    parents = "<UUID>"
+  }
+  users = {
+    user1 = "<NUMBER>"
+    user2 = "<NUMBER>"
+  }
+  mappings = {
+    remote-fields = "<UUID>"
+  }
+  applications = {
+    asf = {
+      provider = "<NUMBER>"
+    }
+  }
+}

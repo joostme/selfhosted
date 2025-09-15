@@ -2,16 +2,28 @@ variable "DOMAIN" {
   description = "The domain the apps should use for subdomains"
 }
 
-variable "USER1" {
-  description = "User 1 Info"
+variable "GROUPS" {
+  description = "Groups"
+  type = map(object({
+    name = string
+    users = list(string)
+  }))
 }
 
-variable "USER2" {
-  description = "User 1 Info"
+variable "USERS" {
+  description = "Users"
+  type = map(object({
+    name   = string
+    email  = string
+  }))
 }
 
-variable "IMPORTS" {
+variable "APPLICATIONS" {
   description = "IDs for Import statements"
+  type = map(object({
+    name  = string
+    group = string
+  }))
 }
 
 # Flows
@@ -45,11 +57,6 @@ resource "authentik_flow" "invalidation_flow" {
 
 # Remote-Fields Scope
 
-import {
-  id = var.IMPORTS.mappings.remote-fields
-  to = authentik_property_mapping_provider_scope.remote_fields
-}
-
 resource "authentik_property_mapping_provider_scope" "remote_fields" {
   name       = "Remote-Fields"
   scope_name = "remote-fields"
@@ -70,93 +77,55 @@ EOF
 
 ## Users
 
-import {
-  id = var.IMPORTS.users.user1
-  to = authentik_user.user1
-}
-
-resource "authentik_user" "user1" {
-  username = var.USER1.username
-  email    = var.USER1.email
-  name = var.USER1.name
+resource "authentik_user" "user" {
+  for_each = var.USERS
+  username = each.key
+  email    = each.value.email
+  name     = each.value.name
   attributes = jsonencode({
     settings = {
-        locale = "de"
-    }
-  })
-}
-
-import {
-  id = var.IMPORTS.users.user2
-  to = authentik_user.user2
-}
-
-resource "authentik_user" "user2" {
-  username = var.USER2.username
-  email    = var.USER2.email
-  name = var.USER2.name
-  attributes = jsonencode({
-    settings = {
-        locale = "de"
+      locale = "de"
     }
   })
 }
 
 ## Groups
 
-import {
-  id = var.IMPORTS.groups.admins
-  to = authentik_group.admins
-}
-
-resource "authentik_group" "admins" {
-  name = "Admins"
+resource "authentik_group" "group" {
+  for_each = var.GROUPS
+  name = each.value.name
   users = [
-    authentik_user.user1.id
-  ]
-}
-
-import {
-  id = var.IMPORTS.groups.parents
-  to = authentik_group.parents
-}
-
-resource "authentik_group" "parents" {
-  name = "Parents"
-  users = [
-    authentik_user.user1.id,
-    authentik_user.user2.id
+    for user in each.value.users:
+    authentik_user.user[user].id
   ]
 }
 
 ## Applications
 
-# ASF
-
-import {
-  id = "asf"
-  to = authentik_application.asf
+resource "authentik_application" "app" {
+  for_each          = var.APPLICATIONS
+  name              = each.value.name
+  slug              = each.key
+  protocol_provider = authentik_provider_proxy.provider[each.key].id
 }
 
-resource "authentik_application" "asf" {
-  name              = "ASF"
-  slug              = "asf"
-  protocol_provider = authentik_provider_proxy.asfprovider.id
-}
 
-import {
-  id = var.IMPORTS.applications.asf.provider
-  to = authentik_provider_proxy.asfprovider
-}
-
-resource "authentik_provider_proxy" "asfprovider" {
-  name                   = "ASFProvider"
-  access_token_validity  = "hours=24"
-  authorization_flow     = authentik_flow.authorization_implicit.uuid
-  invalidation_flow      = authentik_flow.invalidation_flow.uuid
-  external_host          = "https://asf.${var.DOMAIN}"
-  mode                   = "forward_single"
+resource "authentik_provider_proxy" "provider" {
+  for_each              = var.APPLICATIONS
+  name                  = "${each.key}Provider"
+  access_token_validity = "hours=24"
+  authorization_flow    = authentik_flow.authorization_implicit.uuid
+  invalidation_flow     = authentik_flow.invalidation_flow.uuid
+  external_host         = "https://${each.key}.${var.DOMAIN}"
+  mode                  = "forward_single"
   property_mappings = [
     authentik_property_mapping_provider_scope.remote_fields.id
   ]
+}
+
+resource "authentik_policy_binding" "binding" {
+  for_each = var.APPLICATIONS
+  target   = authentik_application.app[each.key].uuid
+  group    = authentik_group.group[each.value.group].id
+  order    = 0
 }

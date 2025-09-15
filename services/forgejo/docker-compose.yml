@@ -1,0 +1,28 @@
+services:
+  forgejo:
+    container_name: forgejo
+    image: codeberg.org/forgejo/forgejo:12
+    restart: always
+    volumes:
+      - ${APPDATA_PATH}/forgejo/data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - proxy
+    env_file: .env
+    labels:
+      traefik.enable: true
+      traefik.http.routers.forgejo.tls: true
+      traefik.http.routers.forgejo.tls.certresolver: letsencrypt
+      traefik.http.routers.forgejo.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.forgejo.entrypoints: websecure
+      traefik.http.routers.forgejo.middlewares: authentik@docker
+
+      glance.name: Forgejo
+      glance.icon: sh:forgejo
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/forgejo.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+networks:
+  proxy:
+    external: true

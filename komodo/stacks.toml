@@ -165,6 +165,36 @@ SERVICE_URL=dozzle.[[DOMAIN]]
 ##
 
 [[stack]]
+name = "forgejo"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/forgejo"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+SERVICE_URL=git.[[DOMAIN]]
+
+USER_UID=${PUID}
+USER_GID=${PGID}
+
+FORGEJO__service__ENABLE_REVERSE_PROXY_AUTHENTICATION=true
+FORGEJO__service__ENABLE_REVERSE_PROXY_AUTO_REGISTRATION=true
+FORGEJO__security__REVERSE_PROXY_AUTHENTICATION_USER=Remote-User
+FORGEJO__security__REVERSE_PROXY_AUTHENTICATION_EMAIL=Remote-Email
+FORGEJO__security__REVERSE_PROXY_AUTHENTICATION_FULL_NAME=Remote-Name
+"""
+
+##
+
+[[stack]]
 name = "glance"
 [stack.config]
 server = "nas"

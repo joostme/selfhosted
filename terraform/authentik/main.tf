@@ -129,3 +129,11 @@ resource "authentik_policy_binding" "binding" {
   group    = authentik_group.group[each.value.group].id
   order    = 0
 }
+
+resource "authentik_outpost" "outpost" {
+  name = "authentik Embedded Outpost"
+  protocol_providers = [
+    for key, value in var.APPLICATIONS:
+    authentik_provider_proxy.provider[key].id
+  ]
+}

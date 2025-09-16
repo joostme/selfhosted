@@ -27,7 +27,7 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL_ADGUARD}
 
   adguardhome-sync:
-    image: ghcr.io/bakito/adguardhome-sync:v0.7.9
+    image: ghcr.io/bakito/adguardhome-sync:v0.8.1
     container_name: adguardhome-sync
     command: run
     restart: unless-stopped

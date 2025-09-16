@@ -52,7 +52,7 @@ services:
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
-    image: ghcr.io/goauthentik/server:2025.8.1
+    image: ghcr.io/goauthentik/server:2025.8.2
     networks:
       - proxy
       - default
@@ -95,7 +95,7 @@ services:
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
-    image: ghcr.io/goauthentik/server:2025.8.1
+    image: ghcr.io/goauthentik/server:2025.8.2
     restart: unless-stopped
     user: root
     networks:

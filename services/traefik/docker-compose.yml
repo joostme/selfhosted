@@ -36,8 +36,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       proxy:
-      br0:
-        ipv4_address: ${TRAEFIK_IP}
+    ports:
+      - 80:80
+      - 443:443
     env_file: .env 
     labels:
       glance.name: Traefik

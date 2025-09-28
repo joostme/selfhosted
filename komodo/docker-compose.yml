@@ -55,7 +55,7 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL_KOMODO}
 
   periphery:
-    image: ghcr.io/moghtech/komodo-periphery:1.19.4
+    image: ghcr.io/moghtech/komodo-periphery:1.19.5
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

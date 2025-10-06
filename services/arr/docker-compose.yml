@@ -1,7 +1,7 @@
 services:
   radarr:
     container_name: radarr
-    image: linuxserver/radarr:5.26.2.10099-ls280
+    image: linuxserver/radarr:5.26.2
     volumes:
       - ${APPDATA_PATH}/radarr:/config
       - ${DATA_PATH}/:/data
@@ -26,7 +26,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr:4.0.15.2941-ls289
+    image: linuxserver/sonarr:4.0.15
     volumes:
       - ${APPDATA_PATH}/sonarr:/config
       - ${DATA_PATH}/:/data
@@ -76,7 +76,7 @@ services:
 
   sabnzbd:
     container_name: sabnzbd
-    image: linuxserver/sabnzbd:4.5.2-ls226
+    image: linuxserver/sabnzbd:4.5.2
     volumes:
       - ${APPDATA_PATH}/sabnzbd:/config
       - ${DATA_PATH}/usenet/:/data/usenet
@@ -101,7 +101,7 @@ services:
 
   deluge:
     container_name: deluge
-    image: linuxserver/deluge:2.2.0-r1-ls341
+    image: linuxserver/deluge:2.2.0
     volumes:
       - ${APPDATA_PATH}/deluge:/config
       - ${DATA_PATH}/torrents/:/data/torrents

@@ -528,7 +528,7 @@ GENERIC_TOKEN_URL=https://id.${DOMAIN}/api/oidc/token
 GENERIC_USER_URL=https://id.${DOMAIN}/api/oidc/userinfo
 GENERIC_SCOPES=openid email profile groups
 GENERIC_NAME=SSO
-OAUTH_AUTO_REDIRECT=true
+OAUTH_AUTO_REDIRECT=generic
 """
 
 ##

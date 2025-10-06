@@ -15,6 +15,17 @@ services:
       traefik.http.routers.radarr.tls.certresolver: letsencrypt
       traefik.http.routers.radarr.rule: Host(`${SERVICE_URL_RADARR}`)
       traefik.http.routers.radarr.entrypoints: websecure
+      traefik.http.routers.radarr.middlewares: tinyauth
+      traefik.http.routers.radarr.priority: 99
+
+      traefik.http.routers.radarr-bypass.tls: true
+      traefik.http.routers.radarr-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.radarr-bypass.rule: Host(`${SERVICE_URL_RADARR}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.radarr-bypass.entrypoints: websecure
+      traefik.http.routers.radarr-bypass.priority: 100
+
+      tinyauth.domain: ${SERVICE_URL_RADARR}
+      tinyauth.oauth.groups: admin
 
       glance.name: Radarr
       glance.icon: sh:radarr

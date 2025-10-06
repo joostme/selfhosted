@@ -37,7 +37,7 @@ services:
     networks:
       proxy:
     ports:
-      - 80:80
+      - 80:80 
       - 443:443
     env_file: .env 
     labels:
@@ -49,8 +49,6 @@ services:
 
 networks:
   proxy:
-    external: true
-  br0:
     external: true
 
 volumes:

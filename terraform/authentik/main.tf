@@ -5,7 +5,7 @@ variable "DOMAIN" {
 variable "GROUPS" {
   description = "Groups"
   type = map(object({
-    name = string
+    name  = string
     users = list(string)
   }))
 }
@@ -13,8 +13,8 @@ variable "GROUPS" {
 variable "USERS" {
   description = "Users"
   type = map(object({
-    name   = string
-    email  = string
+    name  = string
+    email = string
   }))
 }
 
@@ -93,9 +93,9 @@ resource "authentik_user" "user" {
 
 resource "authentik_group" "group" {
   for_each = var.GROUPS
-  name = each.value.name
+  name     = each.value.name
   users = [
-    for user in each.value.users:
+    for user in each.value.users :
     authentik_user.user[user].id
   ]
 }
@@ -132,8 +132,38 @@ resource "authentik_policy_binding" "binding" {
 
 resource "authentik_outpost" "outpost" {
   name = "authentik Embedded Outpost"
-  protocol_providers = [
-    for key, value in var.APPLICATIONS:
-    authentik_provider_proxy.provider[key].id
+  protocol_providers = concat(
+    [
+      for key, value in var.APPLICATIONS :
+      authentik_provider_proxy.provider[key].id
+    ],
+    [authentik_provider_oauth2.immichProvider.id]
+  )
+}
+
+resource "authentik_application" "immich" {
+  name              = "Immich"
+  slug              = "immich"
+  protocol_provider = authentik_provider_oauth2.immichProvider.id
+}
+
+resource "authentik_provider_oauth2" "immichProvider" {
+  name               = "Immich"
+  client_id          = "immich"
+  authorization_flow = authentik_flow.authorization_implicit.uuid
+  invalidation_flow  = authentik_flow.invalidation_flow.uuid
+  allowed_redirect_uris = [
+    {
+      matching_mode = "strict",
+      url           = "app.immich:///oauth-callback",
+    },
+    {
+      matching_mode = "strict",
+      url           = "https://immich.${var.DOMAIN}/auth/login",
+    },
+    {
+      matching_mode = "strict",
+      url           = "https://immich.${var.DOMAIN}/user-settings",
+    }
   ]
 }

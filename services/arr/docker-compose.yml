@@ -76,7 +76,7 @@ services:
 
   sabnzbd:
     container_name: sabnzbd
-    image: linuxserver/sabnzbd:4.5.2
+    image: linuxserver/sabnzbd:4.5.3
     volumes:
       - ${APPDATA_PATH}/sabnzbd:/config
       - ${DATA_PATH}/usenet/:/data/usenet

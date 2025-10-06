@@ -529,6 +529,8 @@ GENERIC_USER_URL=https://id.${DOMAIN}/api/oidc/userinfo
 GENERIC_SCOPES=openid email profile groups
 GENERIC_NAME=SSO
 OAUTH_AUTO_REDIRECT=generic
+DISABLE_CONTINUE=true
+COOKIE_SECURE=true
 """
 
 ##

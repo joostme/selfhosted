@@ -1,0 +1,31 @@
+services:
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v1
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ${APPDATA_PATH}/pocketid/data:/app/data
+    healthcheck:
+      test: [ "CMD", "/app/pocket-id", "healthcheck" ]
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pocketid.tls: true
+      traefik.http.routers.pocketid.tls.certresolver: letsencrypt
+      traefik.http.routers.pocketid.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.pocketid.entrypoints: websecure
+
+      glance.name: PocketID
+      glance.icon: sh:pocket-id
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/pocket-id.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+networks:
+  proxy:
+    external: true
+

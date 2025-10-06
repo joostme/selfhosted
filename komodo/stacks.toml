@@ -363,6 +363,33 @@ SERVICE_URL=paperless.[[DOMAIN]]
 ##
 
 [[stack]]
+name = "pocketid"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/pocketid"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+SERVICE_URL=id.[[DOMAIN]]
+
+APP_URL=https://${SERVICE_URL}
+TRUST_PROXY=true
+MAXMIND_LICENSE_KEY=
+ENCRYPTION_KEY=[[POCKET_ID_ENCRYPTION_KEY]]
+"""
+
+
+##
+
+[[stack]]
 name = "redis"
 [stack.config]
 server = "nas"

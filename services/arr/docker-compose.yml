@@ -51,6 +51,17 @@ services:
       traefik.http.routers.sonarr.tls.certresolver: letsencrypt
       traefik.http.routers.sonarr.rule: Host(`${SERVICE_URL_SONARR}`)
       traefik.http.routers.sonarr.entrypoints: websecure
+      traefik.http.routers.sonarr.middlewares: tinyauth
+      traefik.http.routers.sonarr.priority: 99
+
+      traefik.http.routers.sonarr-bypass.tls: true
+      traefik.http.routers.sonarr-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.sonarr-bypass.rule: Host(`${SERVICE_URL_SONARR}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.sonarr-bypass.entrypoints: websecure
+      traefik.http.routers.sonarr-bypass.priority: 100
+
+      tinyauth.domain: ${SERVICE_URL_SONARR}
+      tinyauth.oauth.groups: admin
 
       glance.name: Sonarr
       glance.icon: sh:sonarr
@@ -76,6 +87,17 @@ services:
       traefik.http.routers.lidarr.tls.certresolver: letsencrypt
       traefik.http.routers.lidarr.rule: Host(`${SERVICE_URL_LIDARR}`)
       traefik.http.routers.lidarr.entrypoints: websecure
+      traefik.http.routers.lidarr.middlewares: tinyauth
+      traefik.http.routers.lidarr.priority: 99
+
+      traefik.http.routers.lidarr-bypass.tls: true
+      traefik.http.routers.lidarr-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.lidarr-bypass.rule: Host(`${SERVICE_URL_LIDARR}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.lidarr-bypass.entrypoints: websecure
+      traefik.http.routers.lidarr-bypass.priority: 100
+
+      tinyauth.domain: ${SERVICE_URL_LIDARR}
+      tinyauth.oauth.groups: admin
 
       glance.name: Lidarr
       glance.icon: sh:lidarr
@@ -101,6 +123,17 @@ services:
       traefik.http.routers.sabnzbd.tls.certresolver: letsencrypt
       traefik.http.routers.sabnzbd.rule: Host(`${SERVICE_URL_SABNZBD}`)
       traefik.http.routers.sabnzbd.entrypoints: websecure
+      traefik.http.routers.sabnzbd.middlewares: tinyauth
+      traefik.http.routers.sabnzbd.priority: 99
+
+      traefik.http.routers.sabnzbd-bypass.tls: true
+      traefik.http.routers.sabnzbd-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.sabnzbd-bypass.rule: Host(`${SERVICE_URL_SABNZBD}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.sabnzbd-bypass.entrypoints: websecure
+      traefik.http.routers.sabnzbd-bypass.priority: 100
+
+      tinyauth.domain: ${SERVICE_URL_SABNZBD}
+      tinyauth.oauth.groups: admin
 
       glance.name: Sabnzbd
       glance.icon: sh:sabnzbd
@@ -126,6 +159,17 @@ services:
       traefik.http.routers.deluge.tls.certresolver: letsencrypt
       traefik.http.routers.deluge.rule: Host(`${SERVICE_URL_DELUGE}`)
       traefik.http.routers.deluge.entrypoints: websecure
+      traefik.http.routers.deluge.middlewares: tinyauth
+      traefik.http.routers.deluge.priority: 99
+
+      traefik.http.routers.deluge-bypass.tls: true
+      traefik.http.routers.deluge-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.deluge-bypass.rule: Host(`${SERVICE_URL_DELUGE}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.deluge-bypass.entrypoints: websecure
+      traefik.http.routers.deluge-bypass.priority: 100
+
+      tinyauth.domain: ${SERVICE_URL_DELUGE}
+      tinyauth.oauth.groups: admin
 
       glance.name: Deluge
       glance.icon: sh:deluge

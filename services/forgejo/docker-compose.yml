@@ -18,7 +18,6 @@ services:
       traefik.http.routers.forgejo.entrypoints: websecure
       traefik.http.routers.forgejo.service: forgejo
       traefik.http.services.forgejo.loadbalancer.server.port: 3000
-      traefik.http.routers.forgejo.middlewares: authentik@docker
 
       glance.name: Forgejo
       glance.icon: sh:forgejo

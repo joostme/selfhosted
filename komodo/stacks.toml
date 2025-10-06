@@ -499,6 +499,41 @@ SERVICE_URL=teddycloud.[[DOMAIN]]
 ##
 
 [[stack]]
+name = "tinyauth"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/tinyauth"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+SERVICE_URL=tinyauth.[[DOMAIN]]
+
+SECRET=[[TINYAUTH_SECRET]]
+APP_URL=https://${SERVICE_URL}
+USERS=[[TINYAUTH_USER]]
+
+GENERIC_CLIENT_ID=tinyauth
+GENERIC_CLIENT_SECRET=[[TINYAUTH_CLIENT_SECRET]]
+GENERIC_AUTH_URL=https://id.${DOMAIN}/authorize
+GENERIC_TOKEN_URL=https://id.${DOMAIN}/api/oidc/token
+GENERIC_USER_URL=https://id.${DOMAIN}/api/oidc/userinfo
+GENERIC_SCOPES=openid email profile groups
+GENERIC_NAME=SSO
+OAUTH_AUTO_REDIRECT=true
+"""
+
+##
+
+[[stack]]
 name = "traefik"
 [stack.config]
 server = "nas"

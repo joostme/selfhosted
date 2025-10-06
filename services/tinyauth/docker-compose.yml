@@ -1,0 +1,21 @@
+services:
+  tinyauth:
+    image: ghcr.io/steveiliop56/tinyauth:v3.6.2
+    container_name: tinyauth
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      traefik.enable: true
+      traefik.http.routers.tinyauth.tls: true
+      traefik.http.routers.tinyauth.tls.certresolver: letsencrypt
+      traefik.http.routers.tinyauth.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.tinyauth.entrypoints: websecure
+      traefik.http.middlewares.tinyauth.forwardauth.address: http://tinyauth:3000/api/auth/traefik
+
+networks:
+  proxy:
+    external: true

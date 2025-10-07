@@ -366,6 +366,8 @@ SERVICE_URL=paperless.[[DOMAIN]]
 PAPERLESS_APPS=allauth.socialaccount.providers.openid_connect
 PAPERLESS_SOCIALACCOUNT_PROVIDERS = {"openid_connect": {"SCOPE": ["openid","profile","email","groups"], "APPS": [{"provider_id": "pocketid","name": "SSO","client_id": "paperless","secret": "[[PAPERLESS_OAUTH_SECRET]]","settings": {"server_url": "https://id.${DOMAIN}/.well-known/openid-configuration"}}]}}
 PAPERLESS_SOCIAL_AUTO_SIGNUP=true
+PAPERLESS_DISABLE_REGULAR_LOGIN=true
+PAPERLESS_REDIRECT_LOGIN_TO_SSO=true
 """
 
 ##

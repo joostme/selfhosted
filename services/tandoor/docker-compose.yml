@@ -15,7 +15,6 @@ services:
       traefik.http.routers.tandoor.tls.certresolver: letsencrypt
       traefik.http.routers.tandoor.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.tandoor.entrypoints: websecure
-      traefik.http.routers.tandoor.middlewares: authentik@docker
 
       glance.name: Tandoor
       glance.icon: sh:tandoor-recipes

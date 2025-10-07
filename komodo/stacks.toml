@@ -321,7 +321,8 @@ environment = """
 ND_DATAFOLDER=/config
 ND_MUSICFOLDER=/data/media/music
 ND_ENABLEINSIGHTSCOLLECTOR=false
-ND_REVERSEPROXYWHITELIST=172.16.0.0/12
+ND_REVERSEPROXYWHITELIST: 0.0.0.0/0
+ND_ENABLEUSEREDITING: false
 
 SERVICE_URL=navidrome.[[DOMAIN]]
 
@@ -481,7 +482,8 @@ GUNICORN_MEDIA=1
 GUNICORN_WORKERS=1
 GUNICORN_THREADS=1
 
-REMOTE_USER_AUTH=1
+SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
+SOCIALACCOUNT_PROVIDERS = {"openid_connect": { "OAUTH_PKCE_ENABLED": True, "SCOPE": ["openid","profile","email","groups"], "APPS": [{"provider_id": "pocketid","name": "SSO","client_id": "tandoor","secret": "[[TANDOOR_OAUTH_SECRET]]","settings": {"server_url": "https://id.${DOMAIN}/.well-known/openid-configuration"}}]}}
 """
 
 ##

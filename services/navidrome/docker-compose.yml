@@ -15,7 +15,10 @@ services:
       traefik.http.routers.navidrome.tls.certresolver: letsencrypt
       traefik.http.routers.navidrome.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.navidrome.entrypoints: websecure
+      traefik.http.routers.dozzle.middlewares: tinyauth
 
+      tinyauth.domain: ${SERVICE_URL}
+      
       glance.name: Navidrome
       glance.icon: sh:navidrome
       glance.url: https://${SERVICE_URL}

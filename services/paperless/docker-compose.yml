@@ -18,7 +18,6 @@ services:
       traefik.http.routers.paperless.tls.certresolver: letsencrypt
       traefik.http.routers.paperless.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.paperless.entrypoints: websecure
-      traefik.http.routers.paperless.middlewares: authentik@docker
 
       glance.name: Paperless
       glance.icon: sh:paperless-ngx

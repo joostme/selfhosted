@@ -16,7 +16,6 @@ services:
       traefik.http.routers.asf.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.asf.entrypoints: websecure
       traefik.http.routers.asf.middlewares: tinyauth
-      traefik.http.routers.asf.priority: 99
 
       tinyauth.domain: ${SERVICE_URL}
       tinyauth.oauth.groups: admin

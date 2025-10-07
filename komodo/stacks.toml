@@ -363,6 +363,9 @@ PAPERLESS_SECRET_KEY=[[PAPERLESS_SECRET_KEY]]
 PAPERLESS_ENABLE_HTTP_REMOTE_USER=true
 
 SERVICE_URL=paperless.[[DOMAIN]]
+
+PAPERLESS_APPS=allauth.socialaccount.providers.openid_connect
+SOCIALACCOUNT_PROVIDERS = {"openid_connect": {"SCOPE": ["openid","profile","email","groups"], "APPS": [{"provider_id": "pocketid","name": "SSO","client_id": "paperless","secret": "[[PAPERLESS_OAUTH_SECRET]]","settings": {"server_url": "https://id.${DOMAIN}/.well-known/openid-configuration"}}]}}
 """
 
 ##

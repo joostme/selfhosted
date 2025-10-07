@@ -15,7 +15,7 @@ services:
       traefik.http.routers.navidrome.tls.certresolver: letsencrypt
       traefik.http.routers.navidrome.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.navidrome.entrypoints: websecure
-      traefik.http.routers.dozzle.middlewares: tinyauth
+      traefik.http.routers.navidrome.middlewares: tinyauth
 
       tinyauth.domain: ${SERVICE_URL}
       

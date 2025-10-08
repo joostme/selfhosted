@@ -22,7 +22,10 @@ services:
       traefik.http.routers.tubearchivist.tls.certresolver: letsencrypt
       traefik.http.routers.tubearchivist.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.tubearchivist.entrypoints: websecure
-      traefik.http.routers.tubearchivist.middlewares: authentik@docker
+      traefik.http.routers.tubearchivist.middlewares: tinyauth
+      
+      tinyauth.domain: ${SERVICE_URL}
+      tinyauth.oauth.groups: admin
 
       glance.id: tubearchivist
       glance.name: TubeArchivist

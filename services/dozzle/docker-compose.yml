@@ -1,18 +1,43 @@
-# Run with docker compose up -d
 services:
+  dockerproxy:
+    image: ghcr.io/wollomatic/socket-proxy:1.10.0
+    restart: unless-stopped
+    user: "65534:281"
+    mem_limit: 64M
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    command:
+      - '-loglevel=info'
+      - '-listenip=0.0.0.0'
+      - '-allowfrom=tinyauth'
+      - '-allowGET=/v1\..{2}/(containers/.*|events)|/_ping'
+      - '-allowHEAD=/_ping'
+      - '-allowbindmountfrom=/var/log,/tmp'
+      - '-watchdoginterval=3600'
+      - '-stoponwatchdog'
+      - '-shutdowngracetime=5'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - docker-proxynet 
+
   dozzle:
     image: amir20/dozzle:v8.14.4
     container_name: dozzle
+    depends_on:
+      - dockerproxy
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - ${APPDATA_PATH}/dozzle:/data
-    #ports:
-    #  - 8080:8080
     environment:
+      - DOZZLE_REMOTE_HOST=tcp://dockerproxy:2375
       - DOZZLE_AUTH_PROVIDER=forward-proxy
       - DOZZLE_NO_ANALYTICS=true
     networks:
       - proxy
+      - docker-proxynet
     env_file: .env
     labels:
       traefik.enable: true
@@ -33,3 +58,6 @@ services:
 networks:
   proxy:
     external: true
+  docker-proxynet:
+    driver: bridge
+    internal: true

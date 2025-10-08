@@ -26,6 +26,11 @@ services:
       - '-watchdoginterval=3600'
       - '-stoponwatchdog'
       - '-shutdowngracetime=5'
+    healthcheck:
+      test: ["CMD", "./healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 2
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:

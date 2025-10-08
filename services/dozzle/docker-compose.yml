@@ -13,7 +13,7 @@ services:
       - '-loglevel=info'
       - '-listenip=0.0.0.0'
       - '-allowfrom=dozzle'
-      - '-allowGET=/v1\..{2}/(containers/.*|events)|/_ping'
+      - '-allowGET=/v1\..{2}/(containers/.*|events|info)|/_ping'
       - '-allowHEAD=/_ping'
       - '-allowbindmountfrom=/var/log,/tmp'
       - '-watchdoginterval=3600'

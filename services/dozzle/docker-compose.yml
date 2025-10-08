@@ -26,11 +26,6 @@ services:
       - '-watchdoginterval=3600'
       - '-stoponwatchdog'
       - '-shutdowngracetime=5'
-    healthcheck:
-      test: ["CMD", "./healthcheck"]
-      interval: 10s
-      timeout: 5s
-      retries: 2
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
@@ -41,8 +36,7 @@ services:
     image: amir20/dozzle:v8.14.4
     container_name: dozzle
     depends_on:
-      dockerproxy:
-        condition: service_healthy        
+      - dockerproxy
     volumes:
       - ${APPDATA_PATH}/dozzle:/data
     environment:

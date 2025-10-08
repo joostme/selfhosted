@@ -7,6 +7,12 @@ services:
     environment:
       - CONTAINERS=1
       - INFO=1
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "2375"]
+      interval: 5s
+      retries: 5
+      start_period: 5s
+      start_interval: 5s
     networks:
       - docker-proxynet 
     volumes:
@@ -16,7 +22,8 @@ services:
     image: amir20/dozzle:v8.14.4
     container_name: dozzle
     depends_on:
-      - dockerproxy
+      dockerproxy:
+        condition: service_healthy        
     volumes:
       - ${APPDATA_PATH}/dozzle:/data
     environment:

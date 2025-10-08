@@ -1,13 +1,41 @@
 services:
+  dockerproxy:
+    image: ghcr.io/wollomatic/socket-proxy:1.10.0
+    restart: unless-stopped
+    user: "65534:281"
+    mem_limit: 64M
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    command:
+      - '-loglevel=debug'
+      - '-listenip=0.0.0.0'
+      - '-allowfrom=tinyauth'
+      - '-allowGET=/v1\..{1,2}/(info|events|containers/.*)|/_ping'
+      - '-allowHEAD=/_ping'
+      - '-allowbindmountfrom=/var/log,/tmp'
+      - '-watchdoginterval=3600'
+      - '-stoponwatchdog'
+      - '-shutdowngracetime=5'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - docker-proxynet
+
   tinyauth:
     image: ghcr.io/steveiliop56/tinyauth:v3.6.2
     container_name: tinyauth
+    depends_on:
+      - dockerproxy
     restart: unless-stopped
     env_file: .env
+    environment:
+      - DOCKER_HOST=tcp://dockerproxy:2375
     networks:
       - proxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - docker-proxynet
     labels:
       traefik.enable: true
       traefik.http.routers.tinyauth.tls: true
@@ -20,3 +48,6 @@ services:
 networks:
   proxy:
     external: true
+  docker-proxynet:
+    driver: bridge
+    internal: true

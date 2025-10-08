@@ -10,7 +10,7 @@ services:
     security_opt:
       - no-new-privileges
     command:
-      - '-loglevel=debug'
+      - '-loglevel=info'
       - '-listenip=0.0.0.0'
       - '-allowfrom=tinyauth'
       - '-allowGET=/v1\..{1,2}/(info|events|containers/.*)|/_ping'

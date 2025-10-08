@@ -12,7 +12,7 @@ services:
     command:
       - '-loglevel=info'
       - '-listenip=0.0.0.0'
-      - '-allowfrom=tinyauth'
+      - '-allowfrom=dozzle'
       - '-allowGET=/v1\..{2}/(containers/.*|events)|/_ping'
       - '-allowHEAD=/_ping'
       - '-allowbindmountfrom=/var/log,/tmp'

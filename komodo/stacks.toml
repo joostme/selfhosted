@@ -99,6 +99,27 @@ SERVICE_URL=audiobookshelf.[[DOMAIN]]
 ##
 
 [[stack]]
+name = "backrest"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/backrest"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+SERVICE_URL=backrest.[[DOMAIN]]
+"""
+
+##
+
+[[stack]]
 name = "calibre"
 [stack.config]
 server = "nas"

@@ -1,0 +1,39 @@
+services:
+  backrest:
+    image: garethgeorge/backrest:v1.9.2
+    container_name: backrest
+    hostname: backrest
+    volumes:
+      - ${APPDATA_PATH}/backrest/data:/data
+      - ${APPDATA_PATH}/backrest/config:/config
+      - ${APPDATA_PATH}/backrest/cache:/cache
+      - ${APPDATA_PATH}/backrest/tmp:/tmp
+      - ${APPDATA_PATH}:/userdata/appdata:ro  # Mount local paths to backup
+      - ${MNT_PATH}/photos:/userdata/photos:ro
+      - ${MNT_PATH}/paperless:/userdata/paperless:ro
+      - ${MNT_PATH}/Syncthing/userdata/Syncthing:ro
+    env_file: .env
+    environment:
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
+      - TZ=Europe/Berlin
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.backrest.tls: true
+      traefik.http.routers.backrest.tls.certresolver: letsencrypt
+      traefik.http.routers.backrest.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.backrest.entrypoints: websecure
+
+      glance.name: Backrest
+      glance.icon: sh:backrest
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/backrest.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+networks:
+  proxy:
+    external: true

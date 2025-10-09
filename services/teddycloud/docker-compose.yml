@@ -7,7 +7,7 @@ services:
       - ${APPDATA_PATH}/teddycloud/data/content:/teddycloud/data/content
       - ${APPDATA_PATH}/teddycloud/config:/teddycloud/config
       - ${APPDATA_PATH}/teddycloud/certs:/teddycloud/certs
-      - /mnt/user/teddycloud_library/:/teddycloud/data/library
+      - ${MNT_PATH}/teddycloud_library/:/teddycloud/data/library
       - ${APPDATA_PATH}/teddycloud/data/firmware:/teddycloud/data/firmware
     env_file: .env
     networks:

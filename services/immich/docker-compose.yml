@@ -4,8 +4,8 @@ services:
     image: ghcr.io/imagegenius/immich:2.0.1
     restart: always
     volumes:
-      - /mnt/user/photos/immich/:/photos
-      - /mnt/user/photos/libraries/:/libraries
+      - ${MNT_PATH}/photos/immich/:/photos
+      - ${MNT_PATH}/photos/libraries/:/libraries
       - ${APPDATA_PATH}/immich:/config
     env_file: .env
     networks:

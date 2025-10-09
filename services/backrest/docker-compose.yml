@@ -15,7 +15,7 @@ services:
       - '-allowfrom=backrest'
       - '-allowGET=/v1\..{1,2}/(info|containers/.*|exec/.*)|/_ping'
       - '-allowHEAD=/_ping'
-      - '-allowPOST=/v1\..{1,2}/(exec/.*|containers/(paperless)/(exec|start|stop|pause|unpause))'
+      - '-allowPOST=/v1\..{1,2}/(exec/.*|containers/(paperless|postgres_immich)/(exec|start|stop|pause|unpause))'
       - '-allowbindmountfrom=/var/log,/tmp'
       - '-watchdoginterval=3600'
       - '-stoponwatchdog'

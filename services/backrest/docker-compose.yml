@@ -1,4 +1,30 @@
 services:
+  dockerproxy:
+    image: ghcr.io/wollomatic/socket-proxy:1.10.0
+    restart: unless-stopped
+    user: "65534:281"
+    mem_limit: 64M
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    command:
+      - '-loglevel=info'
+      - '-listenip=0.0.0.0'
+      - '-allowfrom=backrest'
+      - '-allowGET=/v1\..{1,2}/(info|containers/.*|exec/.*)|/_ping'
+      - '-allowHEAD=/_ping'
+      - '-allowPOST=/v1\..{1,2}/(exec/.*|containers/[a-f0-9]/(start|stop|pause|unpause))'
+      - '-allowbindmountfrom=/var/log,/tmp'
+      - '-watchdoginterval=3600'
+      - '-stoponwatchdog'
+      - '-shutdowngracetime=5'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - docker-proxynet
+
   backrest:
     image: garethgeorge/backrest:v1.9.2
     container_name: backrest
@@ -19,9 +45,11 @@ services:
       - XDG_CACHE_HOME=/cache
       - TMPDIR=/tmp
       - TZ=Europe/Berlin
+      - DOCKER_HOST=tcp://dockerproxy:2375
     restart: unless-stopped
     networks:
       - proxy
+      - docker-proxynet
     labels:
       traefik.enable: true
       traefik.http.routers.backrest.tls: true
@@ -39,3 +67,6 @@ services:
 networks:
   proxy:
     external: true
+  docker-proxynet:
+    driver: bridge
+    internal: true

@@ -11,7 +11,7 @@ services:
       - ${APPDATA_PATH}:/userdata/appdata:ro  # Mount local paths to backup
       - ${MNT_PATH}/photos:/userdata/photos:ro
       - ${MNT_PATH}/paperless:/userdata/paperless:ro
-      - ${MNT_PATH}/Syncthing/userdata/Syncthing:ro
+      - ${MNT_PATH}/Syncthing:/userdata/Syncthing:ro
     env_file: .env
     environment:
       - BACKREST_DATA=/data

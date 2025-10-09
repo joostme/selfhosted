@@ -48,8 +48,8 @@ services:
       traefik.http.routers.dozzle.entrypoints: websecure
       traefik.http.routers.dozzle.middlewares: tinyauth
 
-      tinyauth.domain: ${SERVICE_URL}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.dozzle.config.domain: ${SERVICE_URL}
+      tinyauth.apps.dozzle.oauth.groups: admin
 
       glance.name: Dozzle
       glance.icon: sh:dozzle

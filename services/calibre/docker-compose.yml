@@ -48,9 +48,9 @@ services:
       traefik.http.services.calibre-vnc.loadbalancer.server.port: 8080
       traefik.http.routers.calibre-vnc.middlewares: tinyauth
 
-      tinyauth.domain: ${SERVICE_URL}
-      tinyauth.oauth.groups: admin
-
+      tinyauth.apps.calibre-vnc.config.domain: ${SERVICE_URL_CALIBRE_VNC}
+      tinyauth.apps.calibre-vnc.oauth.groups: admin
+      
       glance.name: Calibre
       glance.icon: sh:calibre
       glance.url: https://${SERVICE_URL_CALIBRE_VNC}

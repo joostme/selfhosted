@@ -24,8 +24,8 @@ services:
       traefik.http.services.teddycloud.loadbalancer.server.port: 80
       traefik.http.routers.teddycloud.middlewares: tinyauth
 
-      tinyauth.domain: ${SERVICE_URL}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.teddycloud.config.domain: ${SERVICE_URL}
+      tinyauth.apps.teddycloud.oauth.groups: admin
 
       glance.name: Teddycloud
       glance.icon: sh:teddycloud

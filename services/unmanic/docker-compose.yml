@@ -19,8 +19,8 @@ services:
       traefik.http.routers.unmanic.entrypoints: websecure
       traefik.http.routers.unmanic.middlewares: tinyauth
 
-      tinyauth.domain: ${SERVICE_URL}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.unmanic.config.domain: ${SERVICE_URL}
+      tinyauth.apps.unmanic.oauth.groups: admin
 
       glance.name: Unmanic
       glance.icon: sh:unmanic

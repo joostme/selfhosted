@@ -24,8 +24,8 @@ services:
       traefik.http.routers.radarr-bypass.entrypoints: websecure
       traefik.http.routers.radarr-bypass.priority: 100
 
-      tinyauth.domain: ${SERVICE_URL_RADARR}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.radarr.config.domain: ${SERVICE_URL_RADARR}
+      tinyauth.apps.radarr.oauth.groups: admin
 
       glance.name: Radarr
       glance.icon: sh:radarr
@@ -60,8 +60,8 @@ services:
       traefik.http.routers.sonarr-bypass.entrypoints: websecure
       traefik.http.routers.sonarr-bypass.priority: 100
 
-      tinyauth.domain: ${SERVICE_URL_SONARR}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.sonarr.config.domain: ${SERVICE_URL_SONARR}
+      tinyauth.apps.sonarr.oauth.groups: admin
 
       glance.name: Sonarr
       glance.icon: sh:sonarr
@@ -96,8 +96,8 @@ services:
       traefik.http.routers.lidarr-bypass.entrypoints: websecure
       traefik.http.routers.lidarr-bypass.priority: 100
 
-      tinyauth.domain: ${SERVICE_URL_LIDARR}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.lidarr.config.domain: ${SERVICE_URL_LIDARR}
+      tinyauth.apps.lidarr.oauth.groups: admin
 
       glance.name: Lidarr
       glance.icon: sh:lidarr
@@ -132,8 +132,8 @@ services:
       traefik.http.routers.sabnzbd-bypass.entrypoints: websecure
       traefik.http.routers.sabnzbd-bypass.priority: 100
 
-      tinyauth.domain: ${SERVICE_URL_SABNZBD}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.sabnzbd.config.domain: ${SERVICE_URL_SABNZBD}
+      tinyauth.apps.sabnzbd.oauth.groups: admin
 
       glance.name: Sabnzbd
       glance.icon: sh:sabnzbd
@@ -168,8 +168,8 @@ services:
       traefik.http.routers.deluge-bypass.entrypoints: websecure
       traefik.http.routers.deluge-bypass.priority: 100
 
-      tinyauth.domain: ${SERVICE_URL_DELUGE}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.deluge.config.domain: ${SERVICE_URL_DELUGE}
+      tinyauth.apps.deluge.oauth.groups: admin
 
       glance.name: Deluge
       glance.icon: sh:deluge

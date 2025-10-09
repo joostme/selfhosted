@@ -19,8 +19,8 @@ services:
       traefik.http.routers.glance.entrypoints: websecure
       traefik.http.routers.glance.middlewares: tinyauth
 
-      tinyauth.domain: ${SERVICE_URL}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.glance.config.domain: ${SERVICE_URL}
+      tinyauth.apps.glance.oauth.groups: admin
 
       glance.name: Glance
       glance.icon: sh:glance

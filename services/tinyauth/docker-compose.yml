@@ -36,6 +36,8 @@ services:
     networks:
       - proxy
       - docker-proxynet
+    volumes:
+      - ${APPDATA_PATH}/tinyauth/data:/data
     labels:
       traefik.enable: true
       traefik.http.routers.tinyauth.tls: true

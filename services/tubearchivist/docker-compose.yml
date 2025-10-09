@@ -24,8 +24,8 @@ services:
       traefik.http.routers.tubearchivist.entrypoints: websecure
       traefik.http.routers.tubearchivist.middlewares: tinyauth
       
-      tinyauth.domain: ${SERVICE_URL}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.tubearchivist.config.domain: ${SERVICE_URL}
+      tinyauth.apps.tubearchivist.oauth.groups: admin
 
       glance.id: tubearchivist
       glance.name: TubeArchivist

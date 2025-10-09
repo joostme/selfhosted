@@ -17,7 +17,7 @@ services:
       traefik.http.routers.navidrome.entrypoints: websecure
       traefik.http.routers.navidrome.middlewares: tinyauth
 
-      tinyauth.domain: ${SERVICE_URL}
+      tinyauth.apps.navidrome.config.domain: ${SERVICE_URL}
       
       glance.name: Navidrome
       glance.icon: sh:navidrome

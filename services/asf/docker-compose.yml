@@ -17,8 +17,8 @@ services:
       traefik.http.routers.asf.entrypoints: websecure
       traefik.http.routers.asf.middlewares: tinyauth
 
-      tinyauth.domain: ${SERVICE_URL}
-      tinyauth.oauth.groups: admin
+      tinyauth.apps.asf.config.domain: ${SERVICE_URL}
+      tinyauth.apps.asf.oauth.groups: admin
 
       glance.name: ASF
       glance.icon: sh:steam

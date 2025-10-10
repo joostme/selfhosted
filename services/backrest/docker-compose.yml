@@ -58,6 +58,10 @@ services:
       traefik.http.routers.backrest.entrypoints: websecure
       traefik.http.routers.backrest.service: backrest
       traefik.http.services.backrest.loadbalancer.server.port: 9898
+      traefik.http.routers.backrest.middlewares: tinyauth
+
+      tinyauth.apps.backrest.config.domain: ${SERVICE_URL}
+      tinyauth.apps.backrest.oauth.groups: admin
 
       glance.name: Backrest
       glance.icon: sh:backrest

@@ -1,0 +1,18 @@
+{
+  "id": "karakeep",
+  "repo": "b2-ungreen",
+  "paths": [
+    "/userdata/appdata/karakeep/data"
+  ],
+  "excludes": [],
+  "iexcludes": [],
+  "schedule": {
+    "clock": "CLOCK_LOCAL",
+    "cron": "0 0 * * *"
+  },
+  "backup_flags": [],
+  "hooks": [],
+  "retention": {
+    "policyKeepLastN": 30
+  }
+}

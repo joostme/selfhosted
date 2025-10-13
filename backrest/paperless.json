@@ -1,0 +1,28 @@
+{
+  "id": "paperless",
+  "repo": "b2-ungreen",
+  "paths": [
+    "/userdata/paperless/export"
+  ],
+  "excludes": [],
+  "iexcludes": [],
+  "schedule": {
+    "clock": "CLOCK_LOCAL",
+    "cron": "0 0 * * *"
+  },
+  "backup_flags": [],
+  "hooks": [
+    {
+      "conditions": [
+        "CONDITION_SNAPSHOT_START"
+      ],
+      "onError": "ON_ERROR_FATAL",
+      "actionCommand": {
+        "command": "docker exec paperless document_exporter ../export "
+      }
+    }
+  ],
+  "retention": {
+    "policyKeepLastN": 30
+  }
+}

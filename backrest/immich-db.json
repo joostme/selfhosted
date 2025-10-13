@@ -1,0 +1,28 @@
+{
+  "id": "immich-db",
+  "repo": "b2-ungreen",
+  "paths": [
+    "/userdata/appdata/postgresql_immich/pg_snapshots"
+  ],
+  "excludes": [],
+  "iexcludes": [],
+  "schedule": {
+    "clock": "CLOCK_LOCAL",
+    "cron": "0 0 * * *"
+  },
+  "backup_flags": [],
+  "hooks": [
+    {
+      "conditions": [
+        "CONDITION_SNAPSHOT_START"
+      ],
+      "onError": "ON_ERROR_FATAL",
+      "actionCommand": {
+        "command": "docker exec -t postgres_immich bash -c \"pg_dumpall --clean --if-exists --username=postgres > /var/lib/postgresql/data/pg_snapshots/dump.sql\""
+      }
+    }
+  ],
+  "retention": {
+    "policyKeepLastN": 30
+  }
+}

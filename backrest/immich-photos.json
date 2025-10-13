@@ -1,0 +1,19 @@
+{
+  "id": "immich-photos",
+  "repo": "b2-ungreen",
+  "paths": [
+    "/userdata/photos/immich",
+    "/userdata/photos/libraries"
+  ],
+  "excludes": [],
+  "iexcludes": [],
+  "schedule": {
+    "clock": "CLOCK_LOCAL",
+    "cron": "0 0 * * *"
+  },
+  "backup_flags": [],
+  "hooks": [],
+  "retention": {
+    "policyKeepLastN": 30
+  }
+}

@@ -183,8 +183,6 @@ SERVICE_URL=git.[[DOMAIN]]
 
 USER_UID=${PUID}
 USER_GID=${PGID}
-
-ROOT_URL=https://${SERVICE_URL}
 """
 
 ##

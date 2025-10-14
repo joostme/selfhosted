@@ -10,6 +10,11 @@ services:
     networks:
       - proxy
     env_file: .env
+    environment:
+      - FORGEJO__webhook__ALLOWED_HOST_LIST=private,*.${DOMAIN}
+      - FORGEJO__server__ROOT_URL=https://${SERVICE_URL}
+      - FORGEJO__server__DOMAIN=${SERVICE_URL}
+      - FORGEJO__server__SSH_DOMAIN=${SERVICE_URL}
     labels:
       traefik.enable: true
       traefik.http.routers.forgejo.tls: true

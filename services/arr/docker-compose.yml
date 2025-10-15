@@ -6,8 +6,9 @@ services:
       - ${APPDATA_PATH}/radarr:/config
       - ${DATA_PATH}/:/data
     networks:
-      - proxy
-      - data_net
+      proxy:
+      data_net:
+        ipv4_address: 172.18.0.2
     env_file: .env
     labels:
       traefik.enable: true
@@ -42,8 +43,9 @@ services:
       - ${APPDATA_PATH}/sonarr:/config
       - ${DATA_PATH}/:/data
     networks:
-      - proxy
-      - data_net
+      proxy:
+      data_net:
+        ipv4_address: 172.18.0.3
     env_file: .env
     labels:
       traefik.enable: true
@@ -78,8 +80,9 @@ services:
       - ${APPDATA_PATH}/lidarr:/config
       - ${DATA_PATH}/:/data
     networks:
-      - proxy
-      - data_net
+      proxy:
+      data_net:
+        ipv4_address: 172.18.0.4
     env_file: .env
     labels:
       traefik.enable: true
@@ -114,8 +117,9 @@ services:
       - ${APPDATA_PATH}/sabnzbd:/config
       - ${DATA_PATH}/usenet/:/data/usenet
     networks:
-      - proxy
-      - data_net
+      proxy:
+      data_net:
+        ipv4_address: 172.18.0.5
     env_file: .env
     labels:
       traefik.enable: true
@@ -150,8 +154,9 @@ services:
       - ${APPDATA_PATH}/deluge:/config
       - ${DATA_PATH}/torrents/:/data/torrents
     networks:
-      - proxy
-      - data_net
+      proxy:
+      data_net:
+        ipv4_address: 172.18.0.6
     env_file: .env
     labels:
       traefik.enable: true
@@ -185,7 +190,8 @@ services:
     volumes:
       - ${APPDATA_PATH}/recyclarr:/config
     networks:
-      - data_net
+      data_net:
+        ipv4_address: 172.18.0.7
     env_file: .env
     labels:
       glance.name: Recyclarr
@@ -201,8 +207,9 @@ services:
     volumes:
       - ${APPDATA_PATH}/prowlarr:/config
     networks:
-      - proxy
-      - data_net
+      proxy:
+      data_net:
+        ipv4_address: 172.18.0.8
     env_file: .env
     environment:
       - VPN_ENABLED=true #
@@ -210,7 +217,7 @@ services:
       - VPN_PROVIDER=proton #
       - VPN_LAN_NETWORK=192.168.1.0/24 #
       - VPN_LAN_LEAK_ENABLED=false #
-      - VPN_AUTO_PORT_FORWARD=true #
+      - VPN_AUTO_PORT_FORWARD=false #
       - VPN_FIREWALL_TYPE=auto #
       - VPN_HEALTHCHECK_ENABLED=false #
       - PRIVOXY_ENABLED=false #
@@ -243,4 +250,9 @@ networks:
   proxy:
     external: true
   data_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/24
+          gateway: 172.18.0.1
 

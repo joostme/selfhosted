@@ -195,6 +195,50 @@ services:
     restart: always
     user: "${PUID}:${PGID}"
 
+  prowlarr:
+    container_name: prowlarr.internal
+    image: ghcr.io/hotio/prowlarr:release-2.0.5.5160
+    volumes:
+      - ${APPDATA_PATH}/prowlarr:/config
+    networks:
+      - proxy
+      - data_net
+    env_file: .env
+    environment:
+      - VPN_ENABLED=true #
+      - VPN_CONF=wg0 #
+      - VPN_PROVIDER=proton #
+      - VPN_LAN_NETWORK=192.168.1.0/24 #
+      - VPN_LAN_LEAK_ENABLED=false #
+      - VPN_AUTO_PORT_FORWARD=true #
+      - VPN_FIREWALL_TYPE=auto #
+      - VPN_HEALTHCHECK_ENABLED=false #
+      - PRIVOXY_ENABLED=false #
+      - UNBOUND_ENABLED=false #
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1 #
+      - net.ipv6.conf.all.disable_ipv6=1 #
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prowlarr.tls: true
+      traefik.http.routers.prowlarr.tls.certresolver: letsencrypt
+      traefik.http.routers.prowlarr.rule: Host(`${SERVICE_URL_PROWLARR}`)
+      traefik.http.routers.prowlarr.entrypoints: websecure
+      traefik.http.routers.prowlarr.middlewares: tinyauth
+
+      tinyauth.apps.prowlarr.config.domain: ${SERVICE_URL_PROWLARR}
+      tinyauth.apps.prowlarr.oauth.groups: admin
+
+      glance.name: Prowlarr
+      glance.icon: sh:prowlarr
+      glance.category: media
+      glance.url: https://${SERVICE_URL_PROWLARR}
+      net.unraid.docker.webui: https://${SERVICE_URL_PROWLARR}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/prowlarr.png
+    restart: always
+
 networks:
   proxy:
     external: true

@@ -125,7 +125,7 @@ services:
     networks:
       proxy:
       data_net:
-        ipv4_address: 172.18.0.8
+        ipv4_address: 172.18.0.9
     env_file: .env
     labels:
       traefik.enable: true

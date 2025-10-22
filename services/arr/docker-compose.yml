@@ -110,6 +110,37 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/lidarr.png
     restart: always
 
+  seerr:
+    container_name: seerr
+    image: ghcr.io/fallenbagel/jellyseerr:2.7.3
+    volumes:
+      - ${APPDATA_PATH}/seerr:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      proxy:
+      data_net:
+        ipv4_address: 172.18.0.8
+    env_file: .env
+    labels:
+      traefik.enable: true
+      traefik.http.routers.seerr.tls: true
+      traefik.http.routers.seerr.tls.certresolver: letsencrypt
+      traefik.http.routers.seerr.rule: Host(`${SERVICE_URL_SEERR}`)
+      traefik.http.routers.seerr.entrypoints: websecure
+
+      glance.name: Jellyseerr
+      glance.icon: sh:jellyseerr
+      glance.category: media
+      glance.url: https://${SERVICE_URL_SEERR}
+      net.unraid.docker.webui: https://${SERVICE_URL_SEERR}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/jellyseerr.png
+
   sabnzbd:
     container_name: sabnzbd
     image: linuxserver/sabnzbd:4.5.3

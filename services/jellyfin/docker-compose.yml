@@ -5,7 +5,8 @@ services:
     restart: always
     volumes:
       - ${DATA_PATH}/media/:/data/media
-      - ${APPDATA_PATH}/Jellyfin:/config
+      - ${APPDATA_PATH}/jellyfin/config:/config
+      - ${APPDATA_PATH}/jellyfin/cache:/cache
     env_file: .env
     networks:
       br0:

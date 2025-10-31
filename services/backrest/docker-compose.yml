@@ -26,7 +26,7 @@ services:
       - docker-proxynet
 
   backrest:
-    image: garethgeorge/backrest:v1.9.2
+    image: garethgeorge/backrest:v1.10.0
     container_name: backrest
     hostname: backrest
     volumes:

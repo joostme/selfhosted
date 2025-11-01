@@ -1,7 +1,7 @@
 services:
   immich:
     container_name: immich
-    image: ghcr.io/imagegenius/immich:2.1.0
+    image: ghcr.io/imagegenius/immich:2.2.1
     restart: always
     volumes:
       - ${MNT_PATH}/photos/immich/:/photos

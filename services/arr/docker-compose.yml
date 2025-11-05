@@ -38,7 +38,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr:4.0.15
+    image: linuxserver/sonarr:4.0.16
     volumes:
       - ${APPDATA_PATH}/sonarr:/config
       - ${DATA_PATH}/:/data

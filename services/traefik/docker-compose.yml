@@ -57,7 +57,7 @@ services:
 
       # Logs
       - "--log.level=${LOG_LEVEL}"
-    restart: always
+    restart: unless-stopped
     depends_on:
       - dockerproxy
     volumes:

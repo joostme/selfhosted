@@ -2,7 +2,7 @@ services:
   redis:
     container_name: redis
     image: redis:8.2.3
-    restart: always
+    restart: unless-stopped
     networks:
       - redis_net
     labels:

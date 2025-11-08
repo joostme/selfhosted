@@ -34,7 +34,7 @@ services:
       glance.url: https://${SERVICE_URL_RADARR}
       net.unraid.docker.webui: https://${SERVICE_URL_RADARR}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/radarr.png
-    restart: always
+    restart: unless-stopped
 
   sonarr:
     container_name: sonarr
@@ -71,7 +71,7 @@ services:
       glance.url: https://${SERVICE_URL_SONARR}
       net.unraid.docker.webui: https://${SERVICE_URL_SONARR}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sonarr.png
-    restart: always
+    restart: unless-stopped
 
   lidarr:
     container_name: lidarr
@@ -108,7 +108,7 @@ services:
       glance.url: https://${SERVICE_URL_LIDARR}
       net.unraid.docker.webui: https://${SERVICE_URL_LIDARR}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/lidarr.png
-    restart: always
+    restart: unless-stopped
 
   seerr:
     container_name: seerr
@@ -176,7 +176,7 @@ services:
       glance.url: https://${SERVICE_URL_SABNZBD}
       net.unraid.docker.webui: https://${SERVICE_URL_SABNZBD}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sabnzbd.png
-    restart: always
+    restart: unless-stopped
 
   deluge:
     container_name: deluge
@@ -213,7 +213,7 @@ services:
       glance.url: https://${SERVICE_URL_DELUGE}
       net.unraid.docker.webui: https://${SERVICE_URL_DELUGE}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/deluge.png
-    restart: always
+    restart: unless-stopped
 
   recyclarr:
     container_name: recyclarr
@@ -229,7 +229,7 @@ services:
       glance.icon: sh:recyclarr
       glance.category: media
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/recyclarr.png
-    restart: always
+    restart: unless-stopped
     user: "${PUID}:${PGID}"
 
   prowlarr:
@@ -275,7 +275,7 @@ services:
       glance.url: https://${SERVICE_URL_PROWLARR}
       net.unraid.docker.webui: https://${SERVICE_URL_PROWLARR}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/prowlarr.png
-    restart: always
+    restart: unless-stopped
 
 networks:
   proxy:

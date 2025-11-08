@@ -2,7 +2,7 @@ services:
   immich:
     container_name: immich
     image: ghcr.io/imagegenius/immich:2.2.3
-    restart: always
+    restart: unless-stopped
     volumes:
       - ${MNT_PATH}/photos/immich/:/photos
       - ${MNT_PATH}/photos/libraries/:/libraries
@@ -32,7 +32,7 @@ services:
   postgres_immich:
     container_name: postgres_immich
     image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.3.0
-    restart: always
+    restart: unless-stopped
     volumes:
       - ${APPDATA_PATH}/postgresql_immich:/var/lib/postgresql/data
     env_file: .env

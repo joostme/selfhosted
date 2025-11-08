@@ -2,7 +2,7 @@ services:
   jellyfin:
     container_name: jellyfin
     image: jellyfin/jellyfin:10.11.2
-    restart: always
+    restart: unless-stopped
     volumes:
       - ${DATA_PATH}/media/:/data/media
       - ${APPDATA_PATH}/jellyfin/config:/config

@@ -2,7 +2,7 @@ services:
   asf:
     container_name: asf
     image: justarchi/archisteamfarm:6.2.3.1
-    restart: always
+    restart: unless-stopped
     env_file: .env
     volumes:
       - ${APPDATA_PATH}/asf/config:/app/config

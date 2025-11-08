@@ -2,7 +2,7 @@ services:
   syncthing:
     container_name: syncthing
     image: lscr.io/linuxserver/syncthing:2.0.11
-    restart: always
+    restart: unless-stopped
     volumes:
       - ${MNT_PATH}/Syncthing:/data
       - ${APPDATA_PATH}/syncthing:/config"

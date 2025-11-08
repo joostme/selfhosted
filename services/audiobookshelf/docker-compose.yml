@@ -21,6 +21,7 @@ services:
       glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/audiobookshelf.png
       net.unraid.docker.webui: https://${SERVICE_URL}
+    restart: unless-stopped
 
 networks:
   proxy:

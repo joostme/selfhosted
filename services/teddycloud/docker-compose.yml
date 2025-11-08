@@ -2,7 +2,7 @@ services:
   teddycloud:
     container_name: teddycloud
     image: ghcr.io/toniebox-reverse-engineering/teddycloud:tc_v0.6.4
-    restart: always
+    restart: unless-stopped
     volumes:
       - ${APPDATA_PATH}/teddycloud/data/content:/teddycloud/data/content
       - ${APPDATA_PATH}/teddycloud/config:/teddycloud/config

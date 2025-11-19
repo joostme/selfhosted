@@ -38,7 +38,7 @@ services:
       - archivist-es
   
   archivist-redis:
-    image: redis:8.2.3
+    image: redis:8.4.0
     container_name: archivist-redis
     restart: unless-stopped
     expose:

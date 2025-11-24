@@ -1,0 +1,79 @@
+services:
+    rsshub:
+        image: diygod/rsshub:2025-11-23
+        restart: unless-stopped
+        environment:
+            NODE_ENV: production
+            CACHE_TYPE: redis
+            REDIS_URL: 'redis://redis:6379/'
+            PUPPETEER_WS_ENDPOINT: 'ws://browserless:3000' 
+            PUPPETEER_REAL_BROWSER_SERVICE: 'http://real-browser:3000' 
+        healthcheck:
+            test: ['CMD', 'curl', '-f', 'http://localhost:1200/healthz']
+            interval: 30s
+            timeout: 10s
+            retries: 3
+        depends_on:
+            - redis
+            - browserless
+        networks:
+          - rsshub
+          - proxy
+        labels:
+          traefik.enable: true
+          traefik.http.routers.rsshub.tls: true
+          traefik.http.routers.rsshub.tls.certresolver: letsencrypt
+          traefik.http.routers.rsshub.rule: Host(`${SERVICE_URL}`)
+          traefik.http.routers.rsshub.entrypoints: websecure
+
+          glance.id: rsshub
+          glance.name: RSSHub
+          glance.icon: sh:rsshub
+          glance.url: https://${SERVICE_URL}
+          net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/rsshub.png
+          net.unraid.docker.webui: https://${SERVICE_URL}
+
+    real-browser:
+        image: ghcr.io/hyoban/puppeteer-real-browser-hono
+        restart: unless-stopped
+        networks:
+          - rsshub
+        healthcheck:
+            test: ['CMD', 'curl', '-f', 'http://localhost:3000']
+            interval: 30s
+            timeout: 10s
+            retries: 3
+
+    browserless: # marked
+        image: browserless/chrome # marked
+        restart: unless-stopped
+        ulimits: # marked
+            core: # marked
+                hard: 0 # marked
+                soft: 0 # marked
+        networks:
+          - rsshub
+        healthcheck: # marked
+            test: ['CMD', 'curl', '-f', 'http://localhost:3000/pressure'] # marked
+            interval: 30s # marked
+            timeout: 10s # marked
+            retries: 3 # marked
+
+    redis:
+        image: redis:alpine
+        restart: unless-stopped
+        volumes:
+            - ${APPDATA_PATH}/rsshub/redis:/data
+        networks:
+          - rsshub
+        healthcheck:
+            test: ['CMD', 'redis-cli', 'ping']
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 5s
+
+networks:
+    rsshub:
+    proxy:
+      external: true

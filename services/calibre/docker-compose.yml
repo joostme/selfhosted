@@ -24,7 +24,7 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL_CALIBRE}
 
   calibre-vnc:
-    image: lscr.io/linuxserver/calibre:8.14.0
+    image: lscr.io/linuxserver/calibre:8.15.0
     container_name: calibre-vnc
     security_opt:
       - seccomp:unconfined

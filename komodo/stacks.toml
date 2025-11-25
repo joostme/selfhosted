@@ -64,7 +64,7 @@ linked_repo = "selfhosted"
 run_directory = "services/asf"
 file_paths = ["docker-compose.yml"]
 environment = """
-ASF_USER=[[PUID]]
+ASF_UID=[[PUID]]
 SERVICE_URL=asf.[[DOMAIN]]
 
 DOMAIN=[[DOMAIN]]

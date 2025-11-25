@@ -1,7 +1,7 @@
 services:
   asf:
     container_name: asf
-    image: justarchi/archisteamfarm:6.3.0.1
+    image: justarchi/archisteamfarm:6.3.0.2
     restart: unless-stopped
     env_file: .env
     volumes:

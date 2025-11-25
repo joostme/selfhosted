@@ -1,0 +1,37 @@
+services:
+    freshrss:
+        container_name: freshrss
+        image: freshrss/freshrss:latest
+        restart: unless-stopped
+        env_file: .env
+        volumes:
+          - ${APPDATA_PATH}/freshrss/data:/var/www/FreshRSS/data
+          - ${APPDATA_PATH}/freshrss/extensions:/var/www/FreshRSS/extensions
+        networks:
+          - proxy
+        logging:
+          options:
+            max-size: 10m
+        healthcheck:
+          test: ["CMD", "cli/health.php"]
+          timeout: 10s
+          start_period: 60s
+          start_interval: 11s
+          interval: 75s
+          retries: 3
+        labels:
+          traefik.enable: true
+          traefik.http.routers.freshrss.tls: true
+          traefik.http.routers.freshrss.tls.certresolver: letsencrypt
+          traefik.http.routers.freshrss.rule: Host(`${SERVICE_URL}`)
+          traefik.http.routers.freshrss.entrypoints: websecure
+
+          glance.name: FreshRSS
+          glance.icon: sh:freshrss
+          glance.url: https://${SERVICE_URL}
+          net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/freshrss.png
+          net.unraid.docker.webui: https://${SERVICE_URL}
+
+networks:
+    proxy:
+      external: true

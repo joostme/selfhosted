@@ -190,6 +190,36 @@ USER_GID=${PGID}
 ##
 
 [[stack]]
+name = "freshrss"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/freshrss"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+SERVICE_URL=rss.[[DOMAIN]]
+
+CRON_MIN: '3,33'
+OIDC_ENABLED: true
+OIDC_PROVIDER_METADATA_URL: https://id.${DOMAIN}/.well-known/openid-configuration
+OIDC_CLIENT_ID: freshrss
+OIDC_CLIENT_SECRET: [[FRESHRSS_OIDC_SECRET]]
+OIDC_CLIENT_CRYPTO_KEY: [[FRESHRSS_OIDC_CRYPTO_KEY]]
+OIDC_SCOPES: openid profile email
+OIDC_X_FORWARDED_HEADERS: X-Forwarded-Host X-Forwarded-Port X-Forwarded-Proto
+"""
+
+##
+
+[[stack]]
 name = "glance"
 [stack.config]
 server = "nas"
@@ -413,27 +443,6 @@ UMASK=[[UMASK]]
 MNT_PATH=[[MNT_PATH]]
 APPDATA_PATH=[[APPDATA_PATH]]
 DATA_PATH=[[DATA_PATH]]
-"""
-
-##
-
-[[stack]]
-name = "rsshub"
-[stack.config]
-server = "nas"
-linked_repo = "selfhosted"
-run_directory = "services/rsshub"
-file_paths = ["docker-compose.yml"]
-environment = """
-DOMAIN=[[DOMAIN]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-UMASK=[[UMASK]]
-MNT_PATH=[[MNT_PATH]]
-APPDATA_PATH=[[APPDATA_PATH]]
-DATA_PATH=[[DATA_PATH]]
-SERVICE_URL=rss.[[DOMAIN]]
 """
 
 ##

@@ -1,6 +1,6 @@
 services:
     fusion:
-        image: ghcr.io/0x2e/fusion:v0.9.8
+        image: ghcr.io/0x2e/fusion:0.9.8
         restart: unless-stopped
         env_file: .env
         volumes:

@@ -265,7 +265,14 @@ services:
       traefik.http.routers.prowlarr.rule: Host(`${SERVICE_URL_PROWLARR}`)
       traefik.http.routers.prowlarr.entrypoints: websecure
       traefik.http.routers.prowlarr.middlewares: tinyauth
+      traefik.http.routers.prowlarr.priority: 99
 
+      traefik.http.routers.prowlarr-bypass.tls: true
+      traefik.http.routers.prowlarr-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.prowlarr-bypass.rule: Host(`${SERVICE_URL_PROWLARR}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.prowlarr-bypass.entrypoints: websecure
+      traefik.http.routers.prowlarr-bypass.priority: 100
+      
       tinyauth.apps.prowlarr.config.domain: ${SERVICE_URL_PROWLARR}
       tinyauth.apps.prowlarr.oauth.groups: admin
 

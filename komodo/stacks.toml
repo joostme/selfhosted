@@ -190,11 +190,11 @@ USER_GID=${PGID}
 ##
 
 [[stack]]
-name = "freshrss"
+name = "rss"
 [stack.config]
 server = "nas"
 linked_repo = "selfhosted"
-run_directory = "services/freshrss"
+run_directory = "services/rss"
 file_paths = ["docker-compose.yml"]
 environment = """
 DOMAIN=[[DOMAIN]]
@@ -203,18 +203,8 @@ PUID=[[PUID]]
 PGID=[[PGID]]
 UMASK=[[UMASK]]
 APPDATA_PATH=[[APPDATA_PATH]]
-SERVICE_URL=rss.[[DOMAIN]]
-
-CRON_MIN: '3,33'
-OIDC_ENABLED: 1
-OIDC_PROVIDER_METADATA_URL: https://id.${DOMAIN}/.well-known/openid-configuration
-OIDC_CLIENT_ID: freshrss
-OIDC_CLIENT_SECRET: [[FRESHRSS_OIDC_SECRET]]
-OIDC_CLIENT_CRYPTO_KEY: [[FRESHRSS_OIDC_CRYPTO_KEY]]
-OIDC_SCOPES: openid profile email
-OIDC_X_FORWARDED_HEADERS: X-Forwarded-Host X-Forwarded-Port X-Forwarded-Proto
-
-TRUSTED_PROXY: 	172.25.0.0/16
+SERVICE_URL_FUSION=rss.[[DOMAIN]]
+SERVICE_URL_BRIDGE=rss-bridge.[[DOMAIN]]
 """
 
 ##

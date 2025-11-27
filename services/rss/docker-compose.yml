@@ -1,0 +1,61 @@
+services:
+    fusion:
+        image: ghcr.io/0x2e/fusion:v0.9.8
+        restart: unless-stopped
+        env_file: .env
+        volumes:
+          - ${APPDATA_PATH}/fusionrss/data:/data
+        networks:
+          - proxy
+        labels:
+          traefik.enable: true
+          traefik.http.routers.fusionrss.tls: true
+          traefik.http.routers.fusionrss.tls.certresolver: letsencrypt
+          traefik.http.routers.fusionrss.rule: Host(`${SERVICE_URL_FUSION}`)
+          traefik.http.routers.fusionrss.entrypoints: websecure
+          traefik.http.routers.fusionrss.middlewares: tinyauth
+
+          tinyauth.apps.fusionrss.config.domain: ${SERVICE_URL_FUSION}
+          tinyauth.apps.fusionrss.oauth.groups: admin
+
+
+          glance.name: FusionRSS
+          glance.icon: sh:fusion-rss
+          glance.url: https://${SERVICE_URL_FUSION}
+          net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/fusion-rss.png
+          net.unraid.docker.webui: https://${SERVICE_URL_FUSION}
+    rssbridge:
+        image: rssbridge/rss-bridge:latest
+        restart: unless-stopped
+        env_file: .env
+        volumes:
+          - ${APPDATA_PATH}/rssbrdige/config:/config
+        networks:
+          - proxy
+        labels:
+          traefik.enable: true
+          traefik.http.routers.rssbridge.tls: true
+          traefik.http.routers.rssbridge.tls.certresolver: letsencrypt
+          traefik.http.routers.rssbridge.rule: Host(`${SERVICE_URL_BRIDGE}`)
+          traefik.http.routers.rssbridge.entrypoints: websecure
+          traefik.http.routers.rssbridge.middlewares: tinyauth
+          traefik.http.routers.rssbridge.priority: 99
+
+          traefik.http.routers.rssbridge-bypass.tls: true
+          traefik.http.routers.rssbridge-bypass.tls.certresolver: letsencrypt
+          traefik.http.routers.rssbridge-bypass.rule: Host(`${SERVICE_URL_BRIDGE}`) && Query(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+          traefik.http.routers.rssbridge-bypass.entrypoints: websecure
+          traefik.http.routers.rssbridge-bypass.priority: 100
+
+          tinyauth.apps.rssbridge.config.domain: ${SERVICE_URL_BRIDGE}
+          tinyauth.apps.rssbridge.oauth.groups: admin
+
+          glance.name: RSS-Bridge
+          glance.icon: sh:rss-bridge
+          glance.url: https://${SERVICE_URL_BRIDGE}
+          net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/rss-bridge.png
+          net.unraid.docker.webui: https://${SERVICE_URL_BRIDGE}
+
+networks:
+    proxy:
+      external: true

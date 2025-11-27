@@ -38,17 +38,6 @@ services:
           traefik.http.routers.rssbridge.tls.certresolver: letsencrypt
           traefik.http.routers.rssbridge.rule: Host(`${SERVICE_URL_BRIDGE}`)
           traefik.http.routers.rssbridge.entrypoints: websecure
-          traefik.http.routers.rssbridge.middlewares: tinyauth
-          traefik.http.routers.rssbridge.priority: 99
-
-          traefik.http.routers.rssbridge-bypass.tls: true
-          traefik.http.routers.rssbridge-bypass.tls.certresolver: letsencrypt
-          traefik.http.routers.rssbridge-bypass.rule: Host(`${SERVICE_URL_BRIDGE}`) && Query(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
-          traefik.http.routers.rssbridge-bypass.entrypoints: websecure
-          traefik.http.routers.rssbridge-bypass.priority: 100
-
-          tinyauth.apps.rssbridge.config.domain: ${SERVICE_URL_BRIDGE}
-          tinyauth.apps.rssbridge.oauth.groups: admin
 
           glance.name: RSS-Bridge
           glance.icon: sh:rss-bridge

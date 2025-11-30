@@ -23,5 +23,5 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL}
 
 networks:
-  br0:
+  proxy:
     external: true

@@ -463,6 +463,27 @@ SATISFACTORY_IP=[[SATISFACTORY_IP]]
 ##
 
 [[stack]]
+name = "spoolman"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/spoolman"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+SERVICE_URL=spoolman.[[DOMAIN]]
+"""
+##
+
+[[stack]]
 name = "syncthing"
 [stack.config]
 server = "nas"

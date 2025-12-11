@@ -22,7 +22,7 @@ services:
       traefik.http.routers.booklore.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.booklore.entrypoints: websecure
       traefik.http.routers.booklore.service: booklore
-      traefik.http.services.booklore.loadbalancer.server.port: 8080
+      traefik.http.services.booklore.loadbalancer.server.port: 6060
 
       glance.name: BookLore
       glance.icon: sh:booklore

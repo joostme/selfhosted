@@ -1,0 +1,53 @@
+services:
+  booklore:
+    image: booklore/booklore:v1.13.2
+    container_name: booklore
+    env_file:
+      - .env
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - ${APPDATA_PATH}/booklore/data:/app/data
+      - ${APPDATA_PATH}/booklore/books:/books
+      - ${APPDATA_PATH}/booklore/bookdrop:/bookdrop
+    restart: unless-stopped
+    networks:
+      - proxy
+      - booklore
+    labels:
+      traefik.enable: true
+      traefik.http.routers.booklore.tls: true
+      traefik.http.routers.booklore.tls.certresolver: letsencrypt
+      traefik.http.routers.booklore.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.booklore.entrypoints: websecure
+
+      glance.name: BookLore
+      glance.icon: sh:booklore
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/booklore.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:11.4.5
+    container_name: mariadb
+    env_file:
+      - .env
+    volumes:
+      - ${APPDATA_PATH}/booklore/mariadb/config:/config
+    restart: unless-stopped
+    networks:
+      - booklore
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+networks:
+  proxy:
+    external: true
+  booklore:
+    driver: bridge
+    internal: true
+        

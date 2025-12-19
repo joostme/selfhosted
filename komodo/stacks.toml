@@ -154,29 +154,6 @@ MYSQL_PASSWORD=${DATABASE_PASSWORD}
 ##
 
 [[stack]]
-name = "calibre"
-[stack.config]
-server = "nas"
-linked_repo = "selfhosted"
-run_directory = "services/calibre"
-file_paths = ["docker-compose.yml"]
-environment = """
-DOMAIN=[[DOMAIN]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-UMASK=[[UMASK]]
-MNT_PATH=[[MNT_PATH]]
-APPDATA_PATH=[[APPDATA_PATH]]
-DATA_PATH=[[DATA_PATH]]
-# Calibre
-SERVICE_URL_CALIBRE=calibre.[[DOMAIN]]
-SERVICE_URL_CALIBRE_VNC=calibre-vnc.[[DOMAIN]]
-"""
-
-##
-
-[[stack]]
 name = "dozzle"
 [stack.config]
 server = "nas"

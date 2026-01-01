@@ -1,7 +1,7 @@
 services:
   unmanic:
     container_name: unmanic
-    image: josh5/unmanic:0.3.0
+    image: josh5/unmanic:0.3.1
     devices:
       - "/dev/dri:/dev/dri"
     env_file: .env

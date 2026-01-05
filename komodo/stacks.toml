@@ -25,6 +25,18 @@ REPLICA1_PASSWORD=[[ADGUARD_REPLICA_PASS]]
 CRON="0 */2 * * *"
 """
 
+[[stack]]
+name = "airconnect"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/airconnect"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+APPDATA_PATH=[[APPDATA_PATH]]
+"""
+
 ##
 
 [[stack]]

@@ -1,6 +1,6 @@
 services:
   booklore:
-    image: booklore/booklore:v1.18.3
+    image: booklore/booklore:v1.18.4
     container_name: booklore
     env_file:
       - .env

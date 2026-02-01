@@ -28,6 +28,8 @@ services:
         image: rssbridge/rss-bridge:latest
         restart: unless-stopped
         env_file: .env
+        environment:
+          CURL_IMPERSONATE: firefox144
         volumes:
           - ${APPDATA_PATH}/rssbrdige/config:/config
         networks:

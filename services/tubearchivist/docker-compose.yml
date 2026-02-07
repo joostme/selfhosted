@@ -1,7 +1,7 @@
 services:
   tubearchivist:
     container_name: tubearchivist
-    image: bbilly1/tubearchivist:v0.5.8
+    image: bbilly1/tubearchivist:v0.5.9
     restart: unless-stopped
     volumes:
       - ${APPDATA_PATH}/tubearchivist/cache:/cache

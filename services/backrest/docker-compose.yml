@@ -1,6 +1,6 @@
 services:
   dockerproxy:
-    image: ghcr.io/wollomatic/socket-proxy:1.11.0
+    image: ghcr.io/wollomatic/socket-proxy:1.11.2
     restart: unless-stopped
     user: "65534:281"
     mem_limit: 64M

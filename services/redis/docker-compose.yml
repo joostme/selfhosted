@@ -1,7 +1,7 @@
 services:
   redis:
     container_name: redis
-    image: redis:8.4.0
+    image: redis:8.6.1
     restart: unless-stopped
     networks:
       - redis_net

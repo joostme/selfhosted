@@ -13,6 +13,11 @@ services:
           traefik.http.routers.freshrss.tls: true
           traefik.http.routers.freshrss.tls.certresolver: letsencrypt
           traefik.http.routers.freshrss.rule: Host(`${SERVICE_URL_FRESHRSS}`)
+          traefik.http.routers.freshrss.entrypoints: websecure
+          traefik.http.routers.freshrss.middlewares: tinyauth
+
+          tinyauth.apps.freshrss.config.domain: ${SERVICE_URL_FRESHRSS}
+          tinyauth.apps.freshrss.oauth.groups: admin
 
           glance.name: FreshRSS
           glance.icon: sh:freshrss

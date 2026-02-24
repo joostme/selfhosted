@@ -355,33 +355,6 @@ OAUTH_PROVIDER_NAME=SSO
 OAUTH_ALLOW_DANGEROUS_EMAIL_ACCOUNT_LINKING=true
 OAUTH_TIMEOUT=30000
 """
-##
-
-[[stack]]
-name = "navidrome"
-[stack.config]
-server = "nas"
-linked_repo = "selfhosted"
-run_directory = "services/navidrome"
-file_paths = ["docker-compose.yml"]
-environment = """
-ND_DATAFOLDER=/config
-ND_MUSICFOLDER=/data/media/music
-ND_ENABLEINSIGHTSCOLLECTOR=false
-ND_REVERSEPROXYWHITELIST: 0.0.0.0/0
-ND_ENABLEUSEREDITING: false
-
-SERVICE_URL=navidrome.[[DOMAIN]]
-
-DOMAIN=[[DOMAIN]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-UMASK=[[UMASK]]
-MNT_PATH=[[MNT_PATH]]
-APPDATA_PATH=[[APPDATA_PATH]]
-DATA_PATH=[[DATA_PATH]]
-"""
 
 ##
 
@@ -487,27 +460,6 @@ DATA_PATH=[[DATA_PATH]]
 MAXPLAYERS=4
 STEAMBETA=false
 SATISFACTORY_IP=[[SATISFACTORY_IP]]
-"""
-##
-
-[[stack]]
-name = "spoolman"
-[stack.config]
-server = "nas"
-linked_repo = "selfhosted"
-run_directory = "services/spoolman"
-file_paths = ["docker-compose.yml"]
-environment = """
-DOMAIN=[[DOMAIN]]
-TZ=[[TZ]]
-PUID=[[PUID]]
-PGID=[[PGID]]
-UMASK=[[UMASK]]
-MNT_PATH=[[MNT_PATH]]
-APPDATA_PATH=[[APPDATA_PATH]]
-DATA_PATH=[[DATA_PATH]]
-
-SERVICE_URL=spoolman.[[DOMAIN]]
 """
 ##
 

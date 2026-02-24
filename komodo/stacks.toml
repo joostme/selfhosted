@@ -231,6 +231,7 @@ OIDC_PROVIDER_METADATA_URL=https://id.${DOMAIN}/.well-known/openid-configuration
 OIDC_CLIENT_ID=freshrss
 OIDC_CLIENT_SECRET=[[FRESHRSS_OIDC_SECRET]]
 OIDC_CLIENT_CRYPTO_KEY=[[FRESHRSS_OIDC_CRYPTO_KEY]]
+OIDC_REMOTE_USER_CLAIM=preferred_username
 OIDC_SCOPES=openid profile
 OIDC_X_FORWARDED_HEADERS=Forwarded X-Forwarded-For X-Forwarded-Proto
 

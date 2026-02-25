@@ -29,7 +29,7 @@ services:
         restart: unless-stopped
         env_file: .env
         environment:
-          CURL_IMPERSONATE: firefox144
+          CURL_IMPERSONATE: tor145
         volumes:
           - ${APPDATA_PATH}/rssbrdige/config:/config
         networks:

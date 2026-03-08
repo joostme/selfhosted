@@ -1,0 +1,112 @@
+# ===========================================================================
+# Example Docker Compose file
+# ===========================================================================
+#
+# Purpose:
+# --------
+#
+# This file is an example Docker Compose configuration for self hosting
+# Sure on your local machine or on a cloud VPS.
+#
+# The configuration below is a "standard" setup that works out of the box,
+# but if you're running this outside of a local network, it is recommended
+# to set the environment variables for extra security.
+#
+# Setup:
+# ------
+#
+# To run this, you should read the setup guide:
+#
+# https://github.com/we-promise/sure/blob/main/docs/hosting/docker.md
+#
+# Troubleshooting:
+# ----------------
+#
+# If you run into problems, you should open a Discussion here:
+#
+# https://github.com/we-promise/sure/discussions/categories/general
+#
+
+services:
+  web:
+    image: ghcr.io/we-promise/sure:0.6.8
+    volumes:
+      - ${APPDATA_PATH}/sure/storage:/rails/storage
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - sure_net
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sure.tls: true
+      traefik.http.routers.sure.tls.certresolver: letsencrypt
+      traefik.http.routers.sure.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.sure.entrypoints: websecure
+
+      glance.name: Sure Finance
+      glance.icon: sh:sure-finance
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sure-finance.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+
+  worker:
+    image: ghcr.io/we-promise/sure:0.6.8
+    command: bundle exec sidekiq
+    volumes:
+      - ${APPDATA_PATH}/sure/storage:/rails/storage
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - sure_net
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_PATH}/sure/db/data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sure_net
+
+  redis:
+    image: redis:8.4.0
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_PATH}/sure/redis/data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sure_net
+
+volumes:
+  app-storage:
+  postgres-data:
+  redis-data:
+
+networks:
+  sure_net:
+    driver: bridge
+  proxy:
+    external: true

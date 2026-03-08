@@ -458,6 +458,45 @@ SATISFACTORY_IP=[[SATISFACTORY_IP]]
 ##
 
 [[stack]]
+name = "sure"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/sure"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+SERVICE_URL=sure.[[DOMAIN]]
+
+POSTGRES_USER=sure_user
+POSTGRES_PASSWORD=[[SURE_POSTGRES_PASSWORD]]
+POSTGRES_DB=sure_production
+SECRET_KEY_BASE=[[SURE_SECRET_KEY_BASE]]
+SELF_HOSTED="true"
+RAILS_FORCE_SSL="false"
+RAILS_ASSUME_SSL="false"
+DB_HOST=db
+DB_PORT=5432
+REDIS_URL=redis://redis:6379/1
+
+OIDC_ISSUER=https://id.[[DOMAIN]]
+OIDC_CLIENT_ID=sure-finance
+OIDC_CLIENT_SECRET=[[SURE_OIDC_CLIENT_SECRET]]
+OIDC_REDIRECT_URI=https://sure.[[DOMAIN]]/auth/openid_connect/callback
+
+AUTH_LOCAL_LOGIN_ENABLED="false"
+"""
+##
+
+[[stack]]
 name = "syncthing"
 [stack.config]
 server = "nas"

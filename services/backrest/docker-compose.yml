@@ -34,7 +34,7 @@ services:
       - ${APPDATA_PATH}/backrest/config:/config
       - ${APPDATA_PATH}/backrest/cache:/cache
       - ${APPDATA_PATH}/backrest/tmp:/tmp
-      - ${APPDATA_PATH}:/userdata/appdata:ro  # Mount local paths to backup
+      - ${APPDATA_PATH}/postgresql_immich/pg_snapshots:/userdata/appdata/postgresql_immich/pg_snapshots:ro  # Mount local paths to backup
       - ${MNT_PATH}/photos:/userdata/photos:ro
       - ${MNT_PATH}/paperless:/userdata/paperless:ro
       - ${MNT_PATH}/Syncthing:/userdata/Syncthing:ro

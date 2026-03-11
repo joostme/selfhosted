@@ -350,6 +350,31 @@ OAUTH_ALLOW_DANGEROUS_EMAIL_ACCOUNT_LINKING=true
 OAUTH_TIMEOUT=30000
 """
 
+[[stack]]
+name = "opencode"
+[stack.config]
+server = "nas"
+linked_repo = "selfhosted"
+run_directory = "services/opencode"
+file_paths = ["docker-compose.yml"]
+environment = """
+DOMAIN=[[DOMAIN]]
+TZ=[[TZ]]
+PUID=[[PUID]]
+PGID=[[PGID]]
+UMASK=[[UMASK]]
+MNT_PATH=[[MNT_PATH]]
+APPDATA_PATH=[[APPDATA_PATH]]
+DATA_PATH=[[DATA_PATH]]
+
+SERVICE_URL_OPENCODE=opencode.[[DOMAIN]]
+SERVICE_URL_CODESERVER=code.[[DOMAIN]]
+
+OPENCODE_SERVER_PASSWORD=[[OPENCODE_SERVER_PASSWORD]]
+"""
+
+##
+
 ##
 
 [[stack]]

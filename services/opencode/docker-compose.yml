@@ -1,6 +1,6 @@
 services:
   opencode:
-    image: ghcr.io/joostme/opencode-docker:1.0.0
+    image: ghcr.io/joostme/opencode-docker:1.0.1
     container_name: opencode
     restart: unless-stopped
     env_file:

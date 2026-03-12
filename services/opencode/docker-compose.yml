@@ -1,6 +1,6 @@
 services:
   opencode:
-    image: ghcr.io/joostme/opencode-docker:1.0.3
+    image: ghcr.io/joostme/opencode-docker:2.1.0
     container_name: opencode
     restart: unless-stopped
     env_file:
@@ -32,10 +32,28 @@ services:
       traefik.http.routers.code-server.service: code-server
       traefik.http.services.code-server.loadbalancer.server.port: 8080
 
+  playwright-mcp:
+    image: mcr.microsoft.com/playwright/mcp:v0.0.68
+    container_name: playwright-mcp
+    restart: unless-stopped
+    command:
+      - /ms-playwright/mcp/cli.js
+      - --headless
+      - --browser
+      - chromium
+      - --no-sandbox
+      - --port
+      - "8931"
+      - --host
+      - 0.0.0.0
+    networks:
+      - backend
+
 volumes:
   mise-data:
   code-server-data:
 
 networks:
+  backend:
   proxy:
     external: true

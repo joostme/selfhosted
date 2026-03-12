@@ -14,6 +14,7 @@ services:
       - ${APPDATA_PATH}/.ssh:/home/opencode/.ssh-keys:ro
     networks:
       - proxy
+      - backend
     labels:
       traefik.enable: true
       traefik.http.routers.opencode.tls: true

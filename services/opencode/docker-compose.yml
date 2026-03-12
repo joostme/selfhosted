@@ -7,13 +7,11 @@ services:
       - .env
     volumes:
       - ${APPDATA_PATH}/repos:/repos
-      - ${APPDATA_PATH}/opencode/data:/home/opencode/.local/share/opencode
-      - ${APPDATA_PATH}/opencode/config/opencode.json:/home/opencode/.config/opencode/opencode.json:ro
-      - ${APPDATA_PATH}/opencode/skills:/home/opencode/.config/opencode/skills:ro
+      - ${APPDATA_PATH}/opencode/share:/home/opencode/.local/share
+      - ${APPDATA_PATH}/opencode/agents:/home/opencode/.agents
+      - ${APPDATA_PATH}/opencode/config:/home/opencode/.config
+
       - ${APPDATA_PATH}/.ssh:/home/opencode/.ssh-keys:ro
-      - ${APPDATA_PATH}/opencode/config/mise.toml:/home/opencode/.config/mise/config.toml:ro
-      - mise-data:/home/opencode/.local/share/mise
-      - code-server-data:/home/opencode/.local/share/code-server
     networks:
       - proxy
     labels:
@@ -48,10 +46,6 @@ services:
       - 0.0.0.0
     networks:
       - backend
-
-volumes:
-  mise-data:
-  code-server-data:
 
 networks:
   backend:

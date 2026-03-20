@@ -112,7 +112,7 @@ services:
 
   recyclarr:
     container_name: recyclarr
-    image: ghcr.io/recyclarr/recyclarr:8.4.0
+    image: ghcr.io/recyclarr/recyclarr:8.5.1
     volumes:
       - ${APPDATA_PATH}/recyclarr:/config
     networks:

@@ -22,8 +22,9 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/mongodb.png
   
   core:
-    image: ghcr.io/moghtech/komodo-core:1.19.5
+    image: ghcr.io/moghtech/komodo-core:2.0.0
     restart: unless-stopped
+    init: true
     depends_on:
       - mongo
     # ports:
@@ -35,6 +36,7 @@ services:
     env_file: ./.env
     volumes:
       - ${APPDATA_PATH}/komodo/core/backups:/backups
+      - ${APPDATA_PATH}/komodo/core/keys:/config/keys
     networks:
       - proxy
       - komodo
@@ -55,7 +57,7 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL_KOMODO}
 
   periphery:
-    image: ghcr.io/moghtech/komodo-periphery:1.19.5
+    image: ghcr.io/moghtech/komodo-periphery:2.0.0
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

@@ -33,6 +33,14 @@ services:
     restart: unless-stopped
     networks:
       - proxy
+    environment:
+      - CRON="0 */2 * * *""
+      - ORIGIN_URL
+      - ORIGIN_USERNAME
+      - ORIGIN_PASSWORD
+      - REPLICA1_URL
+      - REPLICA1_USERNAME
+      - REPLICA1_PASSWORD
     labels:
       traefik.enable: true
       traefik.http.routers.adguard-sync.tls: true

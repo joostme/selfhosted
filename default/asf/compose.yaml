@@ -3,6 +3,8 @@ services:
     container_name: asf
     image: justarchi/archisteamfarm:6.3.5.0
     restart: unless-stopped
+    environment:
+      - ASF_UID=${PUID}
     volumes:
       - ${APPDATA_PATH}/asf/config:/app/config
       - ${APPDATA_PATH}/asf/plugins:/app/plugins

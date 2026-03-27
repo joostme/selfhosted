@@ -2,6 +2,10 @@ services:
   radarr:
     container_name: radarr
     image: linuxserver/radarr:6.1.1
+    environment:
+      - TZ
+      - PUID
+      - PGID
     volumes:
       - ${APPDATA_PATH}/radarr:/config
       - ${DATA_PATH}/:/data
@@ -38,6 +42,10 @@ services:
   sonarr:
     container_name: sonarr
     image: linuxserver/sonarr:4.0.17
+    environment:
+      - TZ
+      - PUID
+      - PGID
     volumes:
       - ${APPDATA_PATH}/sonarr:/config
       - ${DATA_PATH}/:/data
@@ -74,6 +82,10 @@ services:
   sabnzbd:
     container_name: sabnzbd
     image: linuxserver/sabnzbd:4.5.5
+    environment:
+      - TZ
+      - PUID
+      - PGID
     volumes:
       - ${APPDATA_PATH}/sabnzbd:/config
       - ${DATA_PATH}/usenet/:/data/usenet
@@ -110,6 +122,8 @@ services:
   recyclarr:
     container_name: recyclarr
     image: ghcr.io/recyclarr/recyclarr:8.5.1
+    environment:
+      - TZ
     volumes:
       - ${APPDATA_PATH}/recyclarr:/config
     networks:
@@ -133,6 +147,10 @@ services:
       data_net:
         ipv4_address: 172.18.0.8
     environment:
+      - TZ
+      - PUID
+      - PGID
+      - UMASK
       - VPN_ENABLED=true #
       - VPN_CONF=wg0 #
       - VPN_PROVIDER=proton #

@@ -5,6 +5,13 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
+    environment:
+      - USER_ID=${PUID}
+      - GROUP_ID=${PGID}
+      - TZ
+      - DATABASE_URL=jdbc:mariadb://mariadb:3306/booklore
+      - DATABASE_USERNAME=booklore
+      - DATABASE_PASSWORD
     volumes:
       - ${APPDATA_PATH}/booklore/data:/app/data
       - ${APPDATA_PATH}/booklore/books:/books
@@ -31,6 +38,14 @@ services:
   mariadb:
     image: lscr.io/linuxserver/mariadb:11.4.9
     container_name: mariadb
+    environment:
+      - TZ
+      - PUID
+      - PGID
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_DATABASE=booklore
+      - MYSQL_USER=booklore
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
     volumes:
       - ${APPDATA_PATH}/booklore/mariadb/config:/config
     restart: unless-stopped

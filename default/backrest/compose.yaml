@@ -43,11 +43,11 @@ services:
       - ${MNT_PATH}/paperless:/userdata/paperless:ro
       - ${MNT_PATH}/Syncthing:/userdata/Syncthing:ro
     environment:
+      - TZ
       - BACKREST_DATA=/data
       - BACKREST_CONFIG=/config/config.json
       - XDG_CACHE_HOME=/cache
       - TMPDIR=/tmp
-      - TZ=Europe/Berlin
       - DOCKER_HOST=tcp://dockerproxy:2375
     restart: unless-stopped
     networks:

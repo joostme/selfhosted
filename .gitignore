@@ -1,5 +1,7 @@
+# Local env overrides
 .env
 
+# Terraform
 *.tfstate
 *.tfstate.backup
 .terraform

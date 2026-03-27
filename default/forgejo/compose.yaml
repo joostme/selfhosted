@@ -1,0 +1,33 @@
+services:
+  forgejo:
+    container_name: forgejo
+    image: codeberg.org/forgejo/forgejo:14.0.3
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_PATH}/forgejo/data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - proxy
+    environment:
+      - FORGEJO__webhook__ALLOWED_HOST_LIST=private,*.${DOMAIN}
+      - FORGEJO__server__ROOT_URL=https://${SERVICE_URL}
+      - FORGEJO__server__DOMAIN=${SERVICE_URL}
+      - FORGEJO__server__SSH_DOMAIN=${SERVICE_URL}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.forgejo.tls: true
+      traefik.http.routers.forgejo.tls.certresolver: letsencrypt
+      traefik.http.routers.forgejo.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.forgejo.entrypoints: websecure
+      traefik.http.routers.forgejo.service: forgejo
+      traefik.http.services.forgejo.loadbalancer.server.port: 3000
+
+      glance.name: Forgejo
+      glance.icon: sh:forgejo
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/forgejo.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+networks:
+  proxy:
+    external: true

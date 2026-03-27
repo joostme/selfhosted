@@ -1,0 +1,54 @@
+services:
+  dockerproxy:
+    image: ghcr.io/wollomatic/socket-proxy:1.11.4
+    restart: unless-stopped
+    user: "65534:281"
+    mem_limit: 64M
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    command:
+      - '-loglevel=info'
+      - '-listenip=0.0.0.0'
+      - '-allowfrom=tinyauth'
+      - '-allowGET=/v1\..{1,2}/(info|events|containers/.*)|/_ping'
+      - '-allowHEAD=/_ping'
+      - '-allowbindmountfrom=/var/log,/tmp'
+      - '-watchdoginterval=3600'
+      - '-stoponwatchdog'
+      - '-shutdowngracetime=5'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - docker-proxynet
+
+  tinyauth:
+    image: ghcr.io/steveiliop56/tinyauth:v5.0.6
+    container_name: tinyauth
+    depends_on:
+      - dockerproxy
+    restart: unless-stopped
+    environment:
+      - DOCKER_HOST=tcp://dockerproxy:2375
+    networks:
+      - proxy
+      - docker-proxynet
+    volumes:
+      - ${APPDATA_PATH}/tinyauth/data:/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.tinyauth.tls: true
+      traefik.http.routers.tinyauth.tls.certresolver: letsencrypt
+      traefik.http.routers.tinyauth.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.tinyauth.entrypoints: websecure
+      traefik.http.middlewares.tinyauth.forwardauth.address: http://tinyauth:3000/api/auth/traefik
+      traefik.http.middlewares.tinyauth.forwardauth.authResponseHeaders: remote-user,remote-name,remote-email,remote-groups
+
+networks:
+  proxy:
+    external: true
+  docker-proxynet:
+    driver: bridge
+    internal: true

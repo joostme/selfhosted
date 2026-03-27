@@ -27,6 +27,10 @@ services:
   traefik:
     container_name: traefik
     image: traefik:v3.6.13
+    environment:
+      - LOG_LEVEL=WARN
+      - PORKBUN_API_KEY
+      - PORKBUN_SECRET_API_KEY
     command:
       # Docker
       - "--providers.docker=true"

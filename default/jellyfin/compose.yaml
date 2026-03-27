@@ -3,6 +3,9 @@ services:
     container_name: jellyfin
     image: jellyfin/jellyfin:10.11.8
     restart: unless-stopped
+    environment:
+      - JELLYFIN_PublishedServerUrl=${JELLYFIN_IP}
+      - TZ
     volumes:
       - ${DATA_PATH}/media/:/data/media
       - ${APPDATA_PATH}/jellyfin/config:/config

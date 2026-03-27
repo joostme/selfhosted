@@ -2,6 +2,12 @@ services:
     freshrss:
         image: freshrss/freshrss:1.28.1
         restart: unless-stopped
+        environment:
+          - PUID
+          - PGID
+          - TZ
+          - TRUSTED_PROXY=172.0.0.0/8
+          - CRON_MIN=13,43
         volumes:
           - ${APPDATA_PATH}/freshrss/data:/var/www/FreshRSS/data
           - ${APPDATA_PATH}/freshrss/extensions:/var/www/FreshRSS/extensions

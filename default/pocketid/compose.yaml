@@ -2,6 +2,13 @@ services:
   pocket-id:
     image: ghcr.io/pocket-id/pocket-id:v2.5.0
     restart: unless-stopped
+    environment:
+      - PUID
+      - PGID
+      - APP_URL=https://${SERVICE_URL}
+      - TRUST_PROXY=true
+      - MAXMIND_LICENSE_KEY=
+      - ENCRYPTION_KEY
     volumes:
       - ${APPDATA_PATH}/pocketid/data:/app/data
     healthcheck:

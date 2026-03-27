@@ -32,6 +32,18 @@ services:
     restart: unless-stopped
     environment:
       - DOCKER_HOST=tcp://dockerproxy:2375
+      - TINYAUTH_APPURL=https://${SERVICE_URL}
+      - TINYAUTH_UI_TITLE=SSO
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTID=tinyauth
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_SCOPES=openid email profile groups
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_AUTHURL=https://id.${DOMAIN}/authorize
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_TOKENURL=https://id.${DOMAIN}/api/oidc/token
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_USERINFOURL=https://id.${DOMAIN}/api/oidc/userinfo
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_NAME=SSO
+      - TINYAUTH_OAUTH_AUTOREDIRECT=pocketid
+      - TINYAUTH_AUTH_SECURECOOKIE=true
+      - TINYAUTH_AUTH_USERS
+      - TINYAUTH_OAUTH_PROVIDERS_POCKETID_CLIENTSECRET
     networks:
       - proxy
       - docker-proxynet

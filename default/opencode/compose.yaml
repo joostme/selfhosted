@@ -3,6 +3,11 @@ services:
     image: ghcr.io/joostme/opencode-docker:2.3.1
     container_name: opencode
     restart: unless-stopped
+    environment:
+      - TZ
+      - PUID
+      - PGID
+      - OPENCODE_SERVER_PASSWORD
     volumes:
       - ${APPDATA_PATH}/repos:/repos
       - ${APPDATA_PATH}/opencode/share:/home/opencode/.local/share

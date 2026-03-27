@@ -4,9 +4,13 @@ services:
     image: josh5/unmanic:0.4.0
     devices:
       - "/dev/dri:/dev/dri"
+    environment:
+      - TZ
+      - PUID
+      - PGID
     volumes:
       - ${APPDATA_PATH}/unmanic/config:/config
-      - ${DATA_PATH}:/data
+      - ${MNT_PATH}/data:/data
       - /dev/shm/unmanic:/tmp/unmanic
     networks:
       - proxy
@@ -27,7 +31,7 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/unmanic.png
       net.unraid.docker.webui: https://${SERVICE_URL}
     restart: unless-stopped
-    
+
 networks:
   proxy:
     external: true

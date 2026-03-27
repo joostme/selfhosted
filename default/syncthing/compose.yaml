@@ -3,6 +3,10 @@ services:
     container_name: syncthing
     image: lscr.io/linuxserver/syncthing:2.0.16
     restart: unless-stopped
+    environment:
+      - PUID
+      - PGID
+      - TZ
     volumes:
       - ${MNT_PATH}/Syncthing:/data
       - ${APPDATA_PATH}/syncthing:/config"

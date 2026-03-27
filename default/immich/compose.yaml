@@ -3,6 +3,23 @@ services:
     container_name: immich
     image: ghcr.io/imagegenius/immich:2.7.2
     restart: unless-stopped
+    environment:
+      - TZ
+      - PUID
+      - PGID
+      - DB_HOSTNAME=postgres_immich
+      - DB_USERNAME=postgres
+      - DB_PASSWORD
+      - DB_DATABASE_NAME=immich
+      - DB_PORT=5432
+      - REDIS_HOSTNAME=redis
+      - REDIS_PORT=6379
+      - SERVER_HOST=0.0.0.0
+
+      - MACHINE_LEARNING_HOST=0.0.0.0
+      - MACHINE_LEARNING_PORT=3003
+      - MACHINE_LEARNING_WORKERS=1
+      - MACHINE_LEARNING_WORKER_TIMEOUT=120
     volumes:
       - ${MNT_PATH}/photos/immich/:/photos
       - ${MNT_PATH}/photos/libraries/:/libraries
@@ -32,6 +49,10 @@ services:
     container_name: postgres_immich
     image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.3.0
     restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=immich
     volumes:
       - ${APPDATA_PATH}/postgresql_immich:/var/lib/postgresql/data
     networks:

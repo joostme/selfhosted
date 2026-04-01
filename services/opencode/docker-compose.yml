@@ -35,13 +35,7 @@ services:
     image: mcr.microsoft.com/playwright/mcp:v0.0.70
     container_name: playwright-mcp
     restart: unless-stopped
-    entrypoint: node
     command:
-      - cli.js
-      - --headless
-      - --browser
-      - chromium
-      - --no-sandbox
       - --port
       - "8931"
       - --host

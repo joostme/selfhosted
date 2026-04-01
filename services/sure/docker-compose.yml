@@ -29,7 +29,7 @@
 
 services:
   web:
-    image: ghcr.io/we-promise/sure:0.6.8
+    image: ghcr.io/we-promise/sure:0.6.9
     volumes:
       - ${APPDATA_PATH}/sure/storage:/rails/storage
     restart: unless-stopped
@@ -57,7 +57,7 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL}
 
   worker:
-    image: ghcr.io/we-promise/sure:0.6.8
+    image: ghcr.io/we-promise/sure:0.6.9
     command: bundle exec sidekiq
     volumes:
       - ${APPDATA_PATH}/sure/storage:/rails/storage

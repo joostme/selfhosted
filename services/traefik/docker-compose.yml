@@ -10,20 +10,19 @@ services:
     security_opt:
       - no-new-privileges
     command:
-      - '-loglevel=info'
-      - '-listenip=0.0.0.0'
-      - '-allowfrom=traefik'
+      - "-loglevel=info"
+      - "-listenip=0.0.0.0"
+      - "-allowfrom=traefik"
       - '-allowGET=/v1\..{1,2}/(version|info|events.*|containers/.*)|/_ping'
-      - '-allowHEAD=/_ping'
-      - '-allowbindmountfrom=/var/log,/tmp'
-      - '-watchdoginterval=3600'
-      - '-stoponwatchdog'
-      - '-shutdowngracetime=5'
+      - "-allowHEAD=/_ping"
+      - "-allowbindmountfrom=/var/log,/tmp"
+      - "-watchdoginterval=3600"
+      - "-stoponwatchdog"
+      - "-shutdowngracetime=5"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - docker-proxynet 
-
+      - docker-proxynet
 
   traefik:
     container_name: traefik
@@ -67,9 +66,10 @@ services:
       - proxy
       - docker-proxynet
     ports:
-      - 80:80 
+      - 80:80
       - 443:443
-    env_file: .env 
+      - 2222:2222
+    env_file: .env
     labels:
       glance.name: Traefik
       glance.icon: sh:traefik

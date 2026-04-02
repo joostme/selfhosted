@@ -31,6 +31,11 @@ services:
       traefik.http.routers.code-server.service: code-server
       traefik.http.services.code-server.loadbalancer.server.port: 8080
 
+      traefik.tcp.routers.opencode-ssh.rule: HostSNI(`*`)
+      traefik.tcp.routers.opencode-ssh.entrypoints: ssh
+      traefik.tcp.routers.opencode-ssh.service: opencode-ssh
+      traefik.tcp.services.opencode-ssh.loadbalancer.server.port: 22
+
   playwright-mcp:
     image: mcr.microsoft.com/playwright/mcp:v0.0.70
     container_name: playwright-mcp

@@ -1,6 +1,6 @@
 services:
   booklore:
-    image: booklore/booklore:v2.2.0
+    image: grimmory/grimmory:v2.3.0
     container_name: booklore
     env_file:
       - .env
@@ -24,10 +24,10 @@ services:
       traefik.http.routers.booklore.service: booklore
       traefik.http.services.booklore.loadbalancer.server.port: 6060
 
-      glance.name: BookLore
-      glance.icon: sh:booklore
+      glance.name: Grimmory
+      glance.icon: https://raw.githubusercontent.com/grimmory-tools/grimmory/develop/assets/logo.svg
       glance.url: https://${SERVICE_URL}
-      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/booklore.png
+      net.unraid.docker.icon: https://raw.githubusercontent.com/grimmory-tools/grimmory/develop/assets/logo.svg
       net.unraid.docker.webui: https://${SERVICE_URL}
 
   mariadb:

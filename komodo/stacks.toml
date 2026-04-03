@@ -131,7 +131,7 @@ SERVICE_URL=backrest.[[DOMAIN]]
 ##
 
 [[stack]]
-name = "booklore"
+name = "grimmory"
 [stack.config]
 server = "nas"
 linked_repo = "selfhosted"

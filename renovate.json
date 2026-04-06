@@ -22,6 +22,22 @@
         "registryUrls": ["https://codeberg.org"],
         "sourceUrl": "https://codeberg.org/forgejo/forgejo",
         "changelogUrl": "https://codeberg.org/forgejo/forgejo/releases"
+      },
+      {
+        "matchPackageNames": ["ghcr.io/toniebox-reverse-engineering/teddycloud"],
+        "versioning": "regex:^tc_v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$",
+        "sourceUrl": "https://github.com/toniebox-reverse-engineering/teddycloud",
+        "changelogUrl": "https://github.com/toniebox-reverse-engineering/teddycloud/releases"
+      },
+      {
+        "matchPackageNames": ["ghcr.io/imagegenius/immich"],
+        "sourceUrl": "https://github.com/immich-app/immich",
+        "changelogUrl": "https://github.com/immich-app/immich/releases"
+      },
+      {
+        "matchPackageNames": ["jellyfin/jellyfin"],
+        "sourceUrl": "https://github.com/jellyfin/jellyfin",
+        "changelogUrl": "https://github.com/jellyfin/jellyfin/releases"
       }
     ]
   }

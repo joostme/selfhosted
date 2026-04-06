@@ -10,12 +10,18 @@
   "docker-compose": {
     "packageRules": [
       {
-        "matchPackageNames": "ghcr.io/immich-app/postgres",
+        "matchPackageNames": ["ghcr.io/immich-app/postgres"],
         "enabled": false
       },
       {
-        "matchPackageNames": "getmeili/meilisearch",
+        "matchPackageNames": ["getmeili/meilisearch"],
         "enabled": false
+      },
+      {
+        "matchPackageNames": ["codeberg.org/forgejo/forgejo"],
+        "registryUrls": ["https://codeberg.org"],
+        "sourceUrl": "https://codeberg.org/forgejo/forgejo",
+        "changelogUrl": "https://codeberg.org/forgejo/forgejo/releases"
       }
     ]
   }

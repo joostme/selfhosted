@@ -38,6 +38,11 @@
         "matchPackageNames": ["jellyfin/jellyfin"],
         "sourceUrl": "https://github.com/jellyfin/jellyfin",
         "changelogUrl": "https://github.com/jellyfin/jellyfin/releases"
+      },
+      {
+        "matchPackageNames": ["/^(?:lscr\\.io/)?linuxserver\/.+$/"],
+        "sourceUrl": "https://github.com/linuxserver/docker-{{replace '^(?:lscr\\.io/)?linuxserver/' '' packageName}}",
+        "changelogUrl": "https://github.com/linuxserver/docker-{{replace '^(?:lscr\\.io/)?linuxserver/' '' packageName}}/releases"
       }
     ]
   }

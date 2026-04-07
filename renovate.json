@@ -40,6 +40,26 @@
         "changelogUrl": "https://github.com/jellyfin/jellyfin/releases"
       },
       {
+        "matchPackageNames": ["linuxserver/radarr"],
+        "sourceUrl": "https://github.com/Radarr/Radarr",
+        "changelogUrl": "https://github.com/Radarr/Radarr/releases"
+      },
+      {
+        "matchPackageNames": ["linuxserver/sonarr"],
+        "sourceUrl": "https://github.com/Sonarr/Sonarr",
+        "changelogUrl": "https://github.com/Sonarr/Sonarr/releases"
+      },
+      {
+        "matchPackageNames": ["linuxserver/sabnzbd"],
+        "sourceUrl": "https://github.com/sabnzbd/sabnzbd",
+        "changelogUrl": "https://github.com/sabnzbd/sabnzbd/releases"
+      },
+      {
+        "matchPackageNames": ["lscr.io/linuxserver/syncthing"],
+        "sourceUrl": "https://github.com/syncthing/syncthing",
+        "changelogUrl": "https://github.com/syncthing/syncthing/releases"
+      },
+      {
         "matchPackageNames": ["/^(?:lscr\\.io/)?linuxserver\/.+$/"],
         "sourceUrl": "https://github.com/linuxserver/docker-{{replace '^(?:lscr\\.io/)?linuxserver/' '' packageName}}",
         "changelogUrl": "https://github.com/linuxserver/docker-{{replace '^(?:lscr\\.io/)?linuxserver/' '' packageName}}/releases"

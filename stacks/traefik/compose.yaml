@@ -1,0 +1,92 @@
+services:
+  dockerproxy:
+    image: ghcr.io/wollomatic/socket-proxy:1.11.4
+    restart: unless-stopped
+    user: "65534:281"
+    mem_limit: 64M
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    command:
+      - "-loglevel=info"
+      - "-listenip=0.0.0.0"
+      - "-allowfrom=traefik"
+      - '-allowGET=/v1\..{1,2}/(version|info|events.*|containers/.*)|/_ping'
+      - "-allowHEAD=/_ping"
+      - "-allowbindmountfrom=/var/log,/tmp"
+      - "-watchdoginterval=3600"
+      - "-stoponwatchdog"
+      - "-shutdowngracetime=5"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - docker-proxynet
+
+  traefik:
+    container_name: traefik
+    image: traefik:v3.6.13
+    environment:
+      - LOG_LEVEL=WARN
+      - PORKBUN_API_KEY
+      - PORKBUN_SECRET_API_KEY
+    command:
+      # Docker
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.endpoint=tcp://dockerproxy:2375"
+      - "--providers.docker.network=proxy"
+
+      # Entrypoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.ssh.address=:2222"
+      - "--entrypoints.websecure.asdefault=true"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
+      - "--entrypoints.websecure.http.tls.domains[0].main=${DOMAIN}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.${DOMAIN}"
+
+      # Certs
+      - "--certificatesresolvers.letsencrypt=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=webmaster@${DOMAIN}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/certificates/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=porkbun"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1,1.0.0.1"
+
+      # Logs
+      - "--log.level=${LOG_LEVEL}"
+    restart: unless-stopped
+    depends_on:
+      - dockerproxy
+    volumes:
+      - certificates:/certificates
+    networks:
+      - proxy
+      - docker-proxynet
+    ports:
+      - 80:80
+      - 443:443
+      - 2222:2222
+    labels:
+      glance.name: Traefik
+      glance.icon: sh:traefik
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+
+networks:
+  proxy:
+    external: true
+  docker-proxynet:
+    driver: bridge
+    internal: true
+
+volumes:
+  certificates:
+    name: certificates

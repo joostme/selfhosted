@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/joostme/conflux/main/conflux.schema.json
+
+global:
+  secrets:
+    - secrets.env
+
+networks: 
+  proxy: {}
+
+stacks:
+  directory: stacks
+  file: compose.yaml
+  parallel_deploy: 4
+  auto_prune: true

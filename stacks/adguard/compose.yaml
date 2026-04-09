@@ -1,0 +1,61 @@
+services:
+  adguard:
+    container_name: adguard
+    image: adguard/adguardhome:v0.107.73
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_PATH}/adguard/workingdir:/opt/adguardhome/work
+      - ${APPDATA_PATH}/adguard/config:/opt/adguardhome/conf
+    networks:
+      br0:
+        ipv4_address: ${ADGUARD_IP}
+      proxy:
+    labels:
+      traefik.enable: true
+      traefik.http.routers.adguard.tls: true
+      traefik.http.routers.adguard.tls.certresolver: letsencrypt
+      traefik.http.routers.adguard.rule: Host(`${SERVICE_URL_ADGUARD}`)
+      traefik.http.routers.adguard.entrypoints: websecure
+      traefik.http.routers.adguard.service: adguard
+      traefik.http.services.adguard.loadbalancer.server.port: 80
+
+      glance.id: adguard
+      glance.name: Adguard
+      glance.icon: sh:adguard-home
+      glance.url: https://${SERVICE_URL_ADGUARD}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/adguard-home.png
+      net.unraid.docker.webui: https://${SERVICE_URL_ADGUARD}
+
+  adguardhome-sync:
+    image: ghcr.io/bakito/adguardhome-sync:v0.9.0
+    container_name: adguardhome-sync
+    command: run
+    restart: unless-stopped
+    networks:
+      - proxy
+    environment:
+      - CRON=0 */2 * * *
+      - ORIGIN_URL
+      - ORIGIN_USERNAME
+      - ORIGIN_PASSWORD
+      - REPLICA1_URL
+      - REPLICA1_USERNAME
+      - REPLICA1_PASSWORD
+    labels:
+      traefik.enable: true
+      traefik.http.routers.adguard-sync.tls: true
+      traefik.http.routers.adguard-sync.tls.certresolver: letsencrypt
+      traefik.http.routers.adguard-sync.rule: Host(`${SERVICE_URL_ADGUARD_SYNC}`)
+      traefik.http.routers.adguard-sync.entrypoints: websecure
+
+      glance.parent: adguard
+      glance.icon: sh:adguardhome-sync
+      glance.url: https://${SERVICE_URL_ADGUARD_SYNC}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/adguardhome-sync.png
+      net.unraid.docker.webui: https://${SERVICE_URL_ADGUARD_SYNC}
+
+networks:
+  br0:
+    external: true
+  proxy:
+    external: true

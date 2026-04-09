@@ -1,0 +1,71 @@
+services:
+  immich:
+    container_name: immich
+    image: ghcr.io/imagegenius/immich:2.7.2
+    restart: unless-stopped
+    environment:
+      - TZ
+      - PUID
+      - PGID
+      - DB_HOSTNAME=postgres_immich
+      - DB_USERNAME=postgres
+      - DB_PASSWORD
+      - DB_DATABASE_NAME=immich
+      - DB_PORT=5432
+      - REDIS_HOSTNAME=redis
+      - REDIS_PORT=6379
+      - SERVER_HOST=0.0.0.0
+
+      - MACHINE_LEARNING_HOST=0.0.0.0
+      - MACHINE_LEARNING_PORT=3003
+      - MACHINE_LEARNING_WORKERS=1
+      - MACHINE_LEARNING_WORKER_TIMEOUT=120
+    volumes:
+      - ${MNT_PATH}/photos/immich/:/photos
+      - ${MNT_PATH}/photos/libraries/:/libraries
+      - ${APPDATA_PATH}/immich:/config
+    networks:
+      - proxy
+      - redis_net
+      - immich
+    devices:
+      - "/dev/dri:/dev/dri"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.immich.tls: true
+      traefik.http.routers.immich.tls.certresolver: letsencrypt
+      traefik.http.routers.immich.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.immich.entrypoints: websecure
+
+      glance.id: immich
+      glance.name: Immich
+      glance.icon: sh:immich
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/immich.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+
+
+  postgres_immich:
+    container_name: postgres_immich
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.3.0
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=immich
+    volumes:
+      - ${APPDATA_PATH}/postgresql_immich:/var/lib/postgresql/data
+    networks:
+      - immich
+    labels:
+      glance.parent: immich
+      glance.name: Immich Postgres
+      glance.icon: sh:postgresql
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/postgresql.png
+
+networks:
+  immich:
+  proxy:
+    external: true
+  redis_net:
+    external: true

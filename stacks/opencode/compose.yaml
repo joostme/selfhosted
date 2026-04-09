@@ -1,0 +1,59 @@
+services:
+  opencode:
+    image: ghcr.io/joostme/opencode-docker:2.3.1
+    container_name: opencode
+    restart: unless-stopped
+    environment:
+      - TZ
+      - PUID
+      - PGID
+      - OPENCODE_SERVER_PASSWORD
+    volumes:
+      - ${APPDATA_PATH}/repos:/repos
+      - ${APPDATA_PATH}/opencode/share:/home/opencode/.local/share
+      - ${APPDATA_PATH}/opencode/agents:/home/opencode/.agents
+      - ${APPDATA_PATH}/opencode/config:/home/opencode/.config
+
+      - ${APPDATA_PATH}/.ssh:/home/opencode/.ssh-keys:ro
+    networks:
+      - proxy
+      - backend
+    labels:
+      traefik.enable: true
+      traefik.http.routers.opencode.tls: true
+      traefik.http.routers.opencode.tls.certresolver: letsencrypt
+      traefik.http.routers.opencode.rule: Host(`${SERVICE_URL_OPENCODE}`)
+      traefik.http.routers.opencode.entrypoints: websecure
+      traefik.http.routers.opencode.service: opencode
+      traefik.http.services.opencode.loadbalancer.server.port: 4096
+
+      traefik.http.routers.code-server.tls: true
+      traefik.http.routers.code-server.tls.certresolver: letsencrypt
+      traefik.http.routers.code-server.rule: Host(`${SERVICE_URL_CODESERVER}`)
+      traefik.http.routers.code-server.entrypoints: websecure
+      traefik.http.routers.code-server.service: code-server
+      traefik.http.services.code-server.loadbalancer.server.port: 8080
+
+      traefik.tcp.routers.opencode-ssh.rule: HostSNI(`*`)
+      traefik.tcp.routers.opencode-ssh.entrypoints: ssh
+      traefik.tcp.routers.opencode-ssh.service: opencode-ssh
+      traefik.tcp.services.opencode-ssh.loadbalancer.server.port: 22
+
+  playwright-mcp:
+    image: mcr.microsoft.com/playwright/mcp:v0.0.70
+    container_name: playwright-mcp
+    restart: unless-stopped
+    command:
+      - --port
+      - "8931"
+      - --host
+      - 0.0.0.0
+      - --allowed-hosts
+      - "*"
+    networks:
+      - backend
+
+networks:
+  backend:
+  proxy:
+    external: true

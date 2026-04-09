@@ -1,0 +1,17 @@
+services:
+  teamspeak:
+    image: teamspeak:3.13.7
+    ports:
+      - 23761:9987/udp # Voice Port
+      #- 10011:10011 # Server Query
+      - 30033:30033 # File Transfer
+    logging:
+      driver: journald
+      options:
+        tag: teamspeak
+
+  db:
+    image: mariadb:12.2.2
+    restart: unless-stopped
+    volumes:
+      - ./data/mariadb:/var/lib/mysql

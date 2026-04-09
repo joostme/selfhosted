@@ -1,0 +1,204 @@
+services:
+  radarr:
+    container_name: radarr
+    image: linuxserver/radarr:6.1.1
+    environment:
+      - TZ
+      - PUID
+      - PGID
+    volumes:
+      - ${APPDATA_PATH}/radarr:/config
+      - ${DATA_PATH}/:/data
+    networks:
+      proxy:
+      data_net:
+        ipv4_address: 172.99.0.2
+    labels:
+      traefik.enable: true
+      traefik.http.routers.radarr.tls: true
+      traefik.http.routers.radarr.tls.certresolver: letsencrypt
+      traefik.http.routers.radarr.rule: Host(`${SERVICE_URL_RADARR}`)
+      traefik.http.routers.radarr.entrypoints: websecure
+      traefik.http.routers.radarr.middlewares: tinyauth
+      traefik.http.routers.radarr.priority: 99
+
+      traefik.http.routers.radarr-bypass.tls: true
+      traefik.http.routers.radarr-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.radarr-bypass.rule: Host(`${SERVICE_URL_RADARR}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.radarr-bypass.entrypoints: websecure
+      traefik.http.routers.radarr-bypass.priority: 100
+
+      tinyauth.apps.radarr.config.domain: ${SERVICE_URL_RADARR}
+      tinyauth.apps.radarr.oauth.groups: admin
+
+      glance.name: Radarr
+      glance.icon: sh:radarr
+      glance.category: media
+      glance.url: https://${SERVICE_URL_RADARR}
+      net.unraid.docker.webui: https://${SERVICE_URL_RADARR}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/radarr.png
+    restart: unless-stopped
+
+  sonarr:
+    container_name: sonarr
+    image: linuxserver/sonarr:4.0.17
+    environment:
+      - TZ
+      - PUID
+      - PGID
+    volumes:
+      - ${APPDATA_PATH}/sonarr:/config
+      - ${DATA_PATH}/:/data
+    networks:
+      proxy:
+      data_net:
+        ipv4_address: 172.99.0.3
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.tls: true
+      traefik.http.routers.sonarr.tls.certresolver: letsencrypt
+      traefik.http.routers.sonarr.rule: Host(`${SERVICE_URL_SONARR}`)
+      traefik.http.routers.sonarr.entrypoints: websecure
+      traefik.http.routers.sonarr.middlewares: tinyauth
+      traefik.http.routers.sonarr.priority: 99
+
+      traefik.http.routers.sonarr-bypass.tls: true
+      traefik.http.routers.sonarr-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.sonarr-bypass.rule: Host(`${SERVICE_URL_SONARR}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.sonarr-bypass.entrypoints: websecure
+      traefik.http.routers.sonarr-bypass.priority: 100
+
+      tinyauth.apps.sonarr.config.domain: ${SERVICE_URL_SONARR}
+      tinyauth.apps.sonarr.oauth.groups: admin
+
+      glance.name: Sonarr
+      glance.icon: sh:sonarr
+      glance.category: media
+      glance.url: https://${SERVICE_URL_SONARR}
+      net.unraid.docker.webui: https://${SERVICE_URL_SONARR}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sonarr.png
+    restart: unless-stopped
+
+  sabnzbd:
+    container_name: sabnzbd
+    image: linuxserver/sabnzbd:4.5.5
+    environment:
+      - TZ
+      - PUID
+      - PGID
+    volumes:
+      - ${APPDATA_PATH}/sabnzbd:/config
+      - ${DATA_PATH}/usenet/:/data/usenet
+    networks:
+      proxy:
+      data_net:
+        ipv4_address: 172.99.0.5
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sabnzbd.tls: true
+      traefik.http.routers.sabnzbd.tls.certresolver: letsencrypt
+      traefik.http.routers.sabnzbd.rule: Host(`${SERVICE_URL_SABNZBD}`)
+      traefik.http.routers.sabnzbd.entrypoints: websecure
+      traefik.http.routers.sabnzbd.middlewares: tinyauth
+      traefik.http.routers.sabnzbd.priority: 99
+
+      traefik.http.routers.sabnzbd-bypass.tls: true
+      traefik.http.routers.sabnzbd-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.sabnzbd-bypass.rule: Host(`${SERVICE_URL_SABNZBD}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.sabnzbd-bypass.entrypoints: websecure
+      traefik.http.routers.sabnzbd-bypass.priority: 100
+
+      tinyauth.apps.sabnzbd.config.domain: ${SERVICE_URL_SABNZBD}
+      tinyauth.apps.sabnzbd.oauth.groups: admin
+
+      glance.name: Sabnzbd
+      glance.icon: sh:sabnzbd
+      glance.category: media
+      glance.url: https://${SERVICE_URL_SABNZBD}
+      net.unraid.docker.webui: https://${SERVICE_URL_SABNZBD}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/sabnzbd.png
+    restart: unless-stopped
+
+  recyclarr:
+    container_name: recyclarr
+    image: ghcr.io/recyclarr/recyclarr:8.5.1
+    environment:
+      - TZ
+    volumes:
+      - ${APPDATA_PATH}/recyclarr:/config
+    networks:
+      data_net:
+        ipv4_address: 172.99.0.7
+    labels:
+      glance.name: Recyclarr
+      glance.icon: sh:recyclarr
+      glance.category: media
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/recyclarr.png
+    restart: unless-stopped
+    user: "${PUID}:${PGID}"
+
+  prowlarr:
+    container_name: prowlarr.internal
+    image: ghcr.io/hotio/prowlarr:release-2.3.0.5236
+    volumes:
+      - ${APPDATA_PATH}/prowlarr:/config
+    networks:
+      proxy:
+      data_net:
+        ipv4_address: 172.99.0.8
+    environment:
+      - TZ
+      - PUID
+      - PGID
+      - UMASK
+      - VPN_ENABLED=true #
+      - VPN_CONF=wg0 #
+      - VPN_PROVIDER=proton #
+      - VPN_LAN_NETWORK=192.168.1.0/24 #
+      - VPN_LAN_LEAK_ENABLED=false #
+      - VPN_AUTO_PORT_FORWARD=false #
+      - VPN_FIREWALL_TYPE=auto #
+      - VPN_HEALTHCHECK_ENABLED=false #
+      - PRIVOXY_ENABLED=false #
+      - UNBOUND_ENABLED=false #
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1 #
+      - net.ipv6.conf.all.disable_ipv6=1 #
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prowlarr.tls: true
+      traefik.http.routers.prowlarr.tls.certresolver: letsencrypt
+      traefik.http.routers.prowlarr.rule: Host(`${SERVICE_URL_PROWLARR}`)
+      traefik.http.routers.prowlarr.entrypoints: websecure
+      traefik.http.routers.prowlarr.middlewares: tinyauth
+      traefik.http.routers.prowlarr.priority: 99
+
+      traefik.http.routers.prowlarr-bypass.tls: true
+      traefik.http.routers.prowlarr-bypass.tls.certresolver: letsencrypt
+      traefik.http.routers.prowlarr-bypass.rule: Host(`${SERVICE_URL_PROWLARR}`) && Header(`traefik-auth-bypass-key`, `${TRAEFIK_AUTH_BYPASS_KEY}`)
+      traefik.http.routers.prowlarr-bypass.entrypoints: websecure
+      traefik.http.routers.prowlarr-bypass.priority: 100
+      
+      tinyauth.apps.prowlarr.config.domain: ${SERVICE_URL_PROWLARR}
+      tinyauth.apps.prowlarr.oauth.groups: admin
+
+      glance.name: Prowlarr
+      glance.icon: sh:prowlarr
+      glance.category: media
+      glance.url: https://${SERVICE_URL_PROWLARR}
+      net.unraid.docker.webui: https://${SERVICE_URL_PROWLARR}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/prowlarr.png
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+  data_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.99.0.0/24
+          gateway: 172.99.0.1
+

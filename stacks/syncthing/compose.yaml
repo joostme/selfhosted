@@ -9,7 +9,7 @@ services:
       - TZ
     volumes:
       - ${MNT_PATH}/Syncthing:/data
-      - ${APPDATA_PATH}/syncthing:/config"
+      - ${APPDATA_PATH}/syncthing:/config
     ports:
       - 22000:22000/tcp # TCP file transfers
       - 22000:22000/udp # QUIC file transfers

@@ -1,31 +1,25 @@
 # Selfhosted
 
-Declarative self-hosted infrastructure managed with [Dockform](https://github.com/gcstr/dockform) v0.8.0-rc.
+Declarative self-hosted infrastructure managed with [Conflux](https://github.com/joostme/conflux).
 
 ## Prerequisites
 
-- [Dockform](https://github.com/gcstr/dockform) v0.8.0-rc
-- Docker with a configured context named `nas`
+- [Conflux](https://github.com/joostme/conflux)
 - [SOPS](https://github.com/getsops/sops) + [Age](https://github.com/FiloSottile/age) (for secrets management)
 
 ## Project Structure
 
 ```
 .
-├── dockform.yaml          # Dockform manifest (source of truth)
+├── conflux.yaml           # Conflux manifest (source of truth)
 ├── renovate.json          # Renovate config for automated dependency updates
-└── default/               # Context: default (Docker host)
-    ├── secrets.env        # Global secrets (shared across stacks, SOPS-encrypted)
+├── secrets.env            # Global secrets
+└── stacks/
     ├── adguard/
-    │   ├── compose.yaml
-    │   ├── environment.env
-    │   └── secrets.env
+    │   └── compose.yaml
     ├── arr/
-    │   ├── compose.yaml
-    │   └── environment.env
+    │   └── compose.yaml
     ├── traefik/
-    │   ├── compose.yaml
-    │   ├── environment.env
-    │   └── secrets.env
-    └── .../               # Other stacks follow the same pattern
+    │   └── compose.yaml
+    └── .../
 ```

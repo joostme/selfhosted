@@ -1,7 +1,7 @@
 services:
   immich:
     container_name: immich
-    image: ghcr.io/imagegenius/immich:2.7.2
+    image: ghcr.io/imagegenius/immich:2.7.3
     restart: unless-stopped
     environment:
       - TZ

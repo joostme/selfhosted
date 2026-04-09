@@ -1,0 +1,16 @@
+services:
+  conflux:
+    image: ghcr.io/joostme/conflux:0.2.0
+    container_name: conflux
+    environment:
+      CONFLUX_GIT_URL: git@github.com:joostme/selfhosted.git
+      CONFLUX_GIT_BRANCH: main
+      CONFLUX_GIT_KEY: /ssh.key
+      SOPS_AGE_KEY_FILE: /age.key
+      CONFLUX_POLL_INTERVAL: 30m
+    volumes:
+      - ${APPDATA_PATH}/.ssh/id_ed25519:/ssh.key
+      - ${APPDATA_PATH}/.age/age.key:/age.key
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${APPDATA_PATH}/conflux/data:/data
+        

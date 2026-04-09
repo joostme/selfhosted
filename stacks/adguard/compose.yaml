@@ -34,7 +34,7 @@ services:
     networks:
       - proxy
     environment:
-      - CRON="0 */2 * * *""
+      - CRON="0 */2 * * *"
       - ORIGIN_URL
       - ORIGIN_USERNAME
       - ORIGIN_PASSWORD

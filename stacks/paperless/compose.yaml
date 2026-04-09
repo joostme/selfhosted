@@ -18,7 +18,6 @@ services:
       - PAPERLESS_REDIRECT_LOGIN_TO_SSO=true
       - PAPERLESS_SOCIALACCOUNT_PROVIDERS=${OAUTH_PROVIDER}
       - PAPERLESS_SECRET_KEY
-      - PAPERLESS_OAUTH_SECRET
     volumes:
       - ${APPDATA_PATH}/paperless-ngx/data:/usr/src/paperless/data
       - ${MNT_PATH}/paperless/media:/usr/src/paperless/media

@@ -13,4 +13,3 @@ services:
       - ${APPDATA_PATH}/.age/age.key:/age.key
       - /var/run/docker.sock:/var/run/docker.sock
       - ${APPDATA_PATH}/conflux/data:/data
-        

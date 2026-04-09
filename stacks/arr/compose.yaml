@@ -12,7 +12,7 @@ services:
     networks:
       proxy:
       data_net:
-        ipv4_address: 172.18.0.2
+        ipv4_address: 172.99.0.2
     labels:
       traefik.enable: true
       traefik.http.routers.radarr.tls: true
@@ -52,7 +52,7 @@ services:
     networks:
       proxy:
       data_net:
-        ipv4_address: 172.18.0.3
+        ipv4_address: 172.99.0.3
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr.tls: true
@@ -92,7 +92,7 @@ services:
     networks:
       proxy:
       data_net:
-        ipv4_address: 172.18.0.5
+        ipv4_address: 172.99.0.5
     labels:
       traefik.enable: true
       traefik.http.routers.sabnzbd.tls: true
@@ -128,7 +128,7 @@ services:
       - ${APPDATA_PATH}/recyclarr:/config
     networks:
       data_net:
-        ipv4_address: 172.18.0.7
+        ipv4_address: 172.99.0.7
     labels:
       glance.name: Recyclarr
       glance.icon: sh:recyclarr
@@ -145,7 +145,7 @@ services:
     networks:
       proxy:
       data_net:
-        ipv4_address: 172.18.0.8
+        ipv4_address: 172.99.0.8
     environment:
       - TZ
       - PUID
@@ -199,6 +199,6 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.18.0.0/24
-          gateway: 172.18.0.1
+        - subnet: 172.99.0.0/24
+          gateway: 172.99.0.1
 

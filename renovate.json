@@ -35,6 +35,10 @@
         "changelogUrl": "https://github.com/immich-app/immich/releases"
       },
       {
+        "matchPackageNames": ["ghcr.io/hotio/prowlarr"],
+        "versioning": "regex:^release-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
+      },
+      {
         "matchPackageNames": ["jellyfin/jellyfin"],
         "sourceUrl": "https://github.com/jellyfin/jellyfin",
         "changelogUrl": "https://github.com/jellyfin/jellyfin/releases"

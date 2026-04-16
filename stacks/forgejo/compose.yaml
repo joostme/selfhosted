@@ -1,7 +1,7 @@
 services:
   forgejo:
     container_name: forgejo
-    image: codeberg.org/forgejo/forgejo:14.0.4
+    image: codeberg.org/forgejo/forgejo:15.0.0
     restart: unless-stopped
     volumes:
       - ${APPDATA_PATH}/forgejo/data:/data

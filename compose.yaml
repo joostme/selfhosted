@@ -1,6 +1,6 @@
 services:
   conflux:
-    image: ghcr.io/joostme/conflux:0.2.2
+    image: ghcr.io/joostme/conflux:0.3.0
     container_name: conflux
     environment:
       CONFLUX_GIT_URL: git@github.com:joostme/selfhosted.git

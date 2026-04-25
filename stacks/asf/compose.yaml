@@ -1,7 +1,7 @@
 services:
   asf:
     container_name: asf
-    image: justarchi/archisteamfarm:6.3.5.0
+    image: justarchi/archisteamfarm:6.3.5.1
     restart: unless-stopped
     environment:
       - ASF_UID=${PUID}

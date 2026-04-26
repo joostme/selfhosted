@@ -1,6 +1,6 @@
 services:
   booklore:
-    image: grimmory/grimmory:v2.3.0
+    image: grimmory/grimmory:v3.0.2
     container_name: booklore
     depends_on:
       mariadb:

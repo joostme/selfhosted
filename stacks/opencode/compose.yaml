@@ -40,7 +40,7 @@ services:
       traefik.tcp.services.opencode-ssh.loadbalancer.server.port: 22
 
   playwright-mcp:
-    image: mcr.microsoft.com/playwright/mcp:v0.0.71
+    image: mcr.microsoft.com/playwright/mcp:v0.0.72
     container_name: playwright-mcp
     restart: unless-stopped
     command:

@@ -11,7 +11,7 @@ services:
         tag: teamspeak
 
   db:
-    image: mariadb:12.2.2
+    image: mariadb:12.3.2
     restart: unless-stopped
     volumes:
       - ./data/mariadb:/var/lib/mysql

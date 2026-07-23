@@ -139,7 +139,7 @@ services:
 
   prowlarr:
     container_name: prowlarr.internal
-    image: ghcr.io/hotio/prowlarr:release-2.4.0.5397
+    image: ghcr.io/hotio/prowlarr:release-2.5.2.5491
     volumes:
       - ${APPDATA_PATH}/prowlarr:/config
     networks:

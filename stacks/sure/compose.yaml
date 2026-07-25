@@ -89,7 +89,7 @@ services:
       - sure_net
 
   redis:
-    image: redis:8.4.0
+    image: redis:8.8.1
     restart: unless-stopped
     volumes:
       - ${APPDATA_PATH}/sure/redis/data:/data

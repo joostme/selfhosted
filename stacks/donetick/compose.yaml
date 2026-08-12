@@ -1,0 +1,36 @@
+services:
+  donetick:
+    image: donetick/donetick:v0.1.76
+    container_name: donetick
+    restart: unless-stopped
+    volumes:
+      - ${APPDATA_PATH}/donetick/data:/donetick-data
+      - ${APPDATA_PATH}/donetick/config:/config
+      - ${APPDATA_PATH}/donetick/assets:/app/assets
+    environment:
+      - TZ
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:2021/api/v1/health || exit 1
+      start_period: 1m
+      timeout: 5s
+      interval: 1m
+      retries: 3
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.donetick.tls: true
+      traefik.http.routers.donetick.tls.certresolver: letsencrypt
+      traefik.http.routers.donetick.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.donetick.entrypoints: websecure
+      traefik.http.routers.donetick.service: donetick
+      traefik.http.services.donetick.loadbalancer.server.port: 2021
+
+      glance.name: DoneTick
+      glance.icon: https://raw.githubusercontent.com/donetick/donetick/master/assets/logo.svg
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://raw.githubusercontent.com/donetick/donetick/master/assets/logo.svg
+      net.unraid.docker.webui: https://${SERVICE_URL}
+networks:
+  proxy:
+    external: true

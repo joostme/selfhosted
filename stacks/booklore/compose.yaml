@@ -12,6 +12,7 @@ services:
       - DATABASE_URL=jdbc:mariadb://mariadb:3306/booklore
       - DATABASE_USERNAME=booklore
       - DATABASE_PASSWORD
+      - OIDC_ALLOW_UNSAFE_HOSTS=true
     volumes:
       - ${APPDATA_PATH}/booklore/data:/app/data
       - ${APPDATA_PATH}/booklore/books:/books
@@ -63,4 +64,3 @@ networks:
   booklore:
     driver: bridge
     internal: true
-        

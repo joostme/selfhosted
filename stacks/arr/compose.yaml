@@ -81,7 +81,7 @@ services:
 
   sabnzbd:
     container_name: sabnzbd
-    image: linuxserver/sabnzbd:5.1.1
+    image: linuxserver/sabnzbd:5.1.2
     environment:
       - TZ
       - PUID

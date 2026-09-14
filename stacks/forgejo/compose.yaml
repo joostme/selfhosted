@@ -37,7 +37,13 @@ services:
     image: docker:29.3.0-dind
     restart: unless-stopped
     privileged: true
-    command: dockerd --host=tcp://0.0.0.0:2375 --tls=false
+    command:
+      - dockerd
+      - --host=tcp://0.0.0.0:2375
+      - --tls=false
+      # Nested OverlayFS is unsupported by the host Docker filesystem.
+      - --feature=containerd-snapshotter=false
+      - --storage-driver=vfs
     volumes:
       - ${APPDATA_PATH}/forgejo/dind:/var/lib/docker
     networks:

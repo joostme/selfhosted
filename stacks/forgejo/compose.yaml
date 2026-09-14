@@ -45,9 +45,9 @@ services:
       - --dns=${DNS_SERVER_B}
       # Nested OverlayFS is unsupported by the host Docker filesystem.
       - --feature=containerd-snapshotter=false
-      - --storage-driver=vfs
+      - --storage-driver=overlay2
     volumes:
-      - ${APPDATA_PATH}/forgejo/dind:/var/lib/docker
+      - ${DIND_PATH}:/var/lib/docker
     networks:
       - forgejo-runner
 

@@ -12,6 +12,7 @@ services:
     environment:
       - USER_UID=${PUID}
       - USER_GID=${PGID}
+      - FORGEJO__actions__ENABLED=true
       - FORGEJO__webhook__ALLOWED_HOST_LIST=private,*.${DOMAIN}
       - FORGEJO__server__ROOT_URL=https://${SERVICE_URL}
       - FORGEJO__server__DOMAIN=${SERVICE_URL}
@@ -30,6 +31,36 @@ services:
       glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/forgejo.png
       net.unraid.docker.webui: https://${SERVICE_URL}
+
+  forgejo-dind:
+    container_name: forgejo-dind
+    image: docker:29.3.0-dind
+    restart: unless-stopped
+    privileged: true
+    command: dockerd --host=tcp://0.0.0.0:2375 --tls=false
+    volumes:
+      - ${APPDATA_PATH}/forgejo/dind:/var/lib/docker
+    networks:
+      - forgejo-runner
+
+  forgejo-runner:
+    container_name: forgejo-runner
+    image: data.forgejo.org/forgejo/runner:13.1.0
+    restart: unless-stopped
+    depends_on:
+      forgejo-dind:
+        condition: service_started
+    environment:
+      DOCKER_HOST: tcp://forgejo-dind:2375
+    user: "${PUID}:${PGID}"
+    working_dir: /data
+    command: forgejo-runner daemon --config /data/runner-config.yml
+    volumes:
+      - ${APPDATA_PATH}/forgejo/runner:/data
+    networks:
+      - forgejo-runner
 networks:
   proxy:
     external: true
+  forgejo-runner:
+    driver: bridge

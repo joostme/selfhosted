@@ -41,6 +41,8 @@ services:
       - dockerd
       - --host=tcp://0.0.0.0:2375
       - --tls=false
+      - --dns=${DNS_SERVER_A}
+      - --dns=${DNS_SERVER_B}
       # Nested OverlayFS is unsupported by the host Docker filesystem.
       - --feature=containerd-snapshotter=false
       - --storage-driver=vfs

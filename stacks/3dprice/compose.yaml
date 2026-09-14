@@ -1,0 +1,37 @@
+services:
+  3dprice:
+    image: git.${DOMAIN}/joost/3dprice:sha-199e03f
+    container_name: 3dprice
+    restart: unless-stopped
+    pull_policy: always
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATA_DIR: /data
+      DATABASE_PATH: /data/app.sqlite
+      UPLOAD_DIR: /data/uploads
+      TZ: ${TZ}
+    volumes:
+      - ${APPDATA_PATH}/3dprice/data:/data
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.3dprice.tls: true
+      traefik.http.routers.3dprice.tls.certresolver: letsencrypt
+      traefik.http.routers.3dprice.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.3dprice.entrypoints: websecure
+      traefik.http.routers.3dprice.service: 3dprice
+      traefik.http.services.3dprice.loadbalancer.server.port: 3000
+      traefik.http.routers.3dprice.middlewares: tinyauth
+
+      tinyauth.apps.3dprice.config.domain: ${SERVICE_URL}
+      tinyauth.apps.3dprice.oauth.groups: admin
+
+      glance.name: 3D Price
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.webui: https://${SERVICE_URL}
+
+networks:
+  proxy:
+    external: true

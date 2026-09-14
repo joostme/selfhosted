@@ -8,8 +8,10 @@ services:
       CONFLUX_GIT_KEY: /ssh.key
       SOPS_AGE_KEY_FILE: /age.key
       CONFLUX_POLL_INTERVAL: 30m
+      DOCKER_CONFIG: /docker-config
     volumes:
       - ${APPDATA_PATH}/.ssh/id_ed25519:/ssh.key
       - ${APPDATA_PATH}/.age/age.key:/age.key
       - /var/run/docker.sock:/var/run/docker.sock
       - ${APPDATA_PATH}/conflux/data:/data
+      - ${APPDATA_PATH}/conflux/docker:/docker-config:ro

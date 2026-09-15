@@ -1,6 +1,6 @@
 services:
   tonies:
-    image: git.${DOMAIN}/joost/tonies:sha-5d36426
+    image: git.${DOMAIN}/joost/tonies:sha-a42ab93
     container_name: tonies
     restart: unless-stopped
     pull_policy: always
@@ -9,6 +9,7 @@ services:
       PORT: 3000
       CONTENT_DIR: /content
       CACHE_DIR: /data
+      TEDDYCLOUD_URL: http://teddycloud
       TZ: ${TZ}
     volumes:
       - ${APPDATA_PATH}/teddycloud/data/content/default:/content

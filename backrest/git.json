@@ -1,0 +1,26 @@
+{
+  "id": "git",
+  "repo": "b2-ungreen",
+  "paths": [
+    "/userdata/appdata/git/joost"
+  ],
+  "excludes": [],
+  "retention": {
+    "policyTimeBucketed": {
+      "hourly": 24,
+      "daily": 30,
+      "weekly": 0,
+      "monthly": 12,
+      "yearly": 0,
+      "keepLastN": 0
+    }
+  },
+  "hooks": [],
+  "iexcludes": [],
+  "backup_flags": [],
+  "schedule": {
+    "cron": "0 0 * * *",
+    "clock": "CLOCK_LOCAL"
+  },
+  "skipIfUnchanged": false
+}

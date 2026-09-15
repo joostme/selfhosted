@@ -1,6 +1,6 @@
 services:
   tonies:
-    image: git.${DOMAIN}/joost/tonies:sha-d88d61a
+    image: git.${DOMAIN}/joost/tonies:sha-5d36426
     container_name: tonies
     restart: unless-stopped
     pull_policy: always

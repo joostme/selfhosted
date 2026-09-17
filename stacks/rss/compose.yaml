@@ -23,6 +23,8 @@ services:
 
           tinyauth.apps.freshrss.config.domain: ${SERVICE_URL_FRESHRSS}
           tinyauth.apps.freshrss.oauth.groups: admin
+          # Native clients authenticate with FreshRSS's API password, without an SSO session.
+          tinyauth.apps.freshrss.path.allow: '^/api/greader[.]php(/|\z)'
 
           glance.name: FreshRSS
           glance.icon: sh:freshrss

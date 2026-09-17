@@ -10,10 +10,23 @@
   "docker-compose": {
     "packageRules": [
       {
+        "description": "Track RSS-Bridge's latest builds through digest updates; dated releases lag behind",
+        "matchPackageNames": ["rssbridge/rss-bridge"],
+        "matchCurrentValue": "latest",
+        "pinDigests": true
+      },
+      {
+        "description": "Track all four Chrome version parts and image packaging revisions",
+        "matchPackageNames": ["ghcr.io/karakeep-app/karakeep-chrome"],
+        "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-r(?<revision>\\d+)$"
+      },
+      {
+        "description": "Upgrade Immich's database image manually together with its required extensions",
         "matchPackageNames": ["ghcr.io/immich-app/postgres"],
         "enabled": false
       },
       {
+        "description": "Upgrade Meilisearch manually with the Karakeep compatibility and database migration checks",
         "matchPackageNames": ["getmeili/meilisearch"],
         "enabled": false
       },

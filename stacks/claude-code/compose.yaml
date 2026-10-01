@@ -1,6 +1,6 @@
 services:
   claude-code:
-    image: git.${DOMAIN}/joost/claude-code-docker:sha-c1a6aa1
+    image: git.${DOMAIN}/joost/claude-code-docker:sha-bd303be
     container_name: claude-code
     restart: unless-stopped
     environment:

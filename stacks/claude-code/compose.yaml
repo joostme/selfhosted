@@ -1,8 +1,10 @@
 services:
   claude-code:
-    image: git.${DOMAIN}/joost/claude-code-docker:sha-48de5ac
+    image: git.${DOMAIN}/joost/claude-code-docker:sha-c784853
     container_name: claude-code
     restart: unless-stopped
+    tty: true
+    stdin_open: true
     environment:
       - TZ
       - PUID

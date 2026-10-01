@@ -34,8 +34,12 @@ services:
       - ${APPDATA_PATH}/dozzle:/data
     environment:
       - DOZZLE_REMOTE_HOST=tcp://dockerproxy:2375
-      - DOZZLE_AUTH_PROVIDER=forward-proxy
+      - DOZZLE_AUTH_PROVIDER=oidc
+      - DOZZLE_AUTH_OIDC_ISSUER=https://id.${DOMAIN}
+      - DOZZLE_AUTH_OIDC_CLIENT_ID=dozzle
+      - DOZZLE_AUTH_OIDC_CLIENT_SECRET
       - DOZZLE_NO_ANALYTICS=true
+      - DOZZLE_ENABLE_MCP=true
     networks:
       - proxy
       - docker-proxynet
@@ -45,10 +49,6 @@ services:
       traefik.http.routers.dozzle.tls.certresolver: letsencrypt
       traefik.http.routers.dozzle.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.dozzle.entrypoints: websecure
-      traefik.http.routers.dozzle.middlewares: tinyauth
-
-      tinyauth.apps.dozzle.config.domain: ${SERVICE_URL}
-      tinyauth.apps.dozzle.oauth.groups: admin
 
       glance.name: Dozzle
       glance.icon: sh:dozzle

@@ -20,6 +20,7 @@ services:
       - ${APPDATA_PATH}/.ssh:/home/claude/.ssh-keys:ro
     networks:
       - proxy
+      - browser
     labels:
       traefik.enable: true
       traefik.http.routers.claude-code.tls: true
@@ -33,6 +34,28 @@ services:
       glance.url: https://${SERVICE_URL}
       net.unraid.docker.webui: https://${SERVICE_URL}
 
+  playwright-mcp:
+    image: mcr.microsoft.com/playwright/mcp:v0.0.82
+    container_name: playwright-mcp
+    restart: unless-stopped
+    command:
+      - /ms-playwright/mcp/cli.js
+      - --headless
+      - --browser
+      - chromium
+      - --no-sandbox
+      - --port
+      - "8931"
+      - --host
+      - 0.0.0.0
+      - --allowed-hosts
+      - "*"
+    networks:
+      - browser
+
 networks:
   proxy:
     external: true
+  # private link between claude-code and its browser sidecar; the MCP endpoint
+  # has no auth, so it must not sit on the shared proxy network
+  browser: {}

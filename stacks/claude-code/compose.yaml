@@ -21,6 +21,7 @@ services:
     networks:
       - proxy
       - browser
+      - angebote
     labels:
       traefik.enable: true
       traefik.http.routers.claude-code.tls: true
@@ -63,3 +64,5 @@ networks:
   # private link between claude-code and its browser sidecar; the MCP endpoint
   # has no auth, so it must not sit on the shared proxy network
   browser: {}
+  angebote:
+    external: true

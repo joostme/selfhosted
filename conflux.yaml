@@ -6,6 +6,8 @@ global:
 
 networks: 
   proxy: {}
+  # private link between claude-code and the angebote MCP endpoint, which has no auth
+  angebote: {}
 
 stacks:
   directory: stacks

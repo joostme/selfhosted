@@ -1,6 +1,6 @@
 services:
   angebote:
-    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-5d094cd
+    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-68843c8
     container_name: angebote
     restart: unless-stopped
     pull_policy: always
@@ -10,3 +10,12 @@ services:
       - EDEKA_MARKET_ID
     volumes:
       - ${APPDATA_PATH}/angebote/data:/data
+    networks:
+      # outbound internet access for fetching the store pages
+      - default
+      - angebote
+
+networks:
+  # the MCP endpoint has no auth, so it is only reachable from claude-code
+  angebote:
+    external: true

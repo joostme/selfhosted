@@ -1,6 +1,6 @@
 services:
   angebote:
-    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-5db1092
+    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-f503eef
     container_name: angebote
     restart: unless-stopped
     pull_policy: always
@@ -8,6 +8,8 @@ services:
     environment:
       - TZ
       - EDEKA_MARKET_ID
+      # turns the Lidl offers on, kept in the secrets file
+      - ZIP_CODE
       # matching offers to favorites via Cloudflare Workers AI, off without both
       - CF_ACCOUNT_ID
       - CF_AI_API_KEY

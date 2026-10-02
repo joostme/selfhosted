@@ -1,6 +1,6 @@
 services:
   angebote:
-    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-6db5503
+    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-7572ec3
     container_name: angebote
     restart: unless-stopped
     pull_policy: always
@@ -11,6 +11,8 @@ services:
       # matching offers to favorites via Cloudflare Workers AI, off without both
       - CF_ACCOUNT_ID
       - CF_AI_API_KEY
+      # iCloud link of the shortcut that puts the shopping note into Reminders
+      - SHORTCUT_INSTALL_URL
     volumes:
       - ${APPDATA_PATH}/angebote/data:/data
     networks:

@@ -1,0 +1,12 @@
+services:
+  angebote:
+    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-5d094cd
+    container_name: angebote
+    restart: unless-stopped
+    pull_policy: always
+    user: "${PUID}:${PGID}"
+    environment:
+      - TZ
+      - EDEKA_MARKET_ID
+    volumes:
+      - ${APPDATA_PATH}/angebote/data:/data

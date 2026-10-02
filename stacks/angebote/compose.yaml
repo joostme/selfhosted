@@ -1,6 +1,6 @@
 services:
   angebote:
-    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-ac6f732
+    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-5bedb48
     container_name: angebote
     restart: unless-stopped
     pull_policy: always
@@ -8,14 +8,39 @@ services:
     environment:
       - TZ
       - EDEKA_MARKET_ID
+      # matching offers to favorites via Cloudflare Workers AI, off without both
+      - CF_ACCOUNT_ID
+      - CF_AI_API_KEY
     volumes:
       - ${APPDATA_PATH}/angebote/data:/data
     networks:
       # outbound internet access for fetching the store pages
       - default
       - angebote
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.docker.network: proxy
+      traefik.http.routers.angebote.tls: true
+      traefik.http.routers.angebote.tls.certresolver: letsencrypt
+      traefik.http.routers.angebote.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.angebote.entrypoints: websecure
+      traefik.http.routers.angebote.service: angebote
+      # only the web page, not the MCP endpoint on 8080
+      traefik.http.services.angebote.loadbalancer.server.port: 8081
+      traefik.http.routers.angebote.middlewares: tinyauth
+
+      tinyauth.apps.angebote.config.domain: ${SERVICE_URL}
+      tinyauth.apps.angebote.oauth.groups: admin
+
+      glance.name: Angebote
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.webui: https://${SERVICE_URL}
 
 networks:
   # the MCP endpoint has no auth, so it is only reachable from claude-code
   angebote:
+    external: true
+  # the web page has no auth of its own, Traefik puts tinyauth in front of it
+  proxy:
     external: true

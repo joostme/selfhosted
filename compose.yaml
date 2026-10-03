@@ -7,7 +7,7 @@ services:
       CONFLUX_GIT_BRANCH: main
       CONFLUX_GIT_KEY: /ssh.key
       SOPS_AGE_KEY_FILE: /age.key
-      CONFLUX_POLL_INTERVAL: 30m
+      CONFLUX_POLL_INTERVAL: 3m
       DOCKER_CONFIG: /docker-config
     volumes:
       - ${APPDATA_PATH}/.ssh/id_ed25519:/ssh.key

@@ -1,6 +1,6 @@
 services:
   angebote:
-    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-f503eef
+    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-5d0ebdd
     container_name: angebote
     restart: unless-stopped
     pull_policy: always
@@ -10,9 +10,6 @@ services:
       - EDEKA_MARKET_ID
       # turns the Lidl offers on, kept in the secrets file
       - ZIP_CODE
-      # matching offers to favorites via Cloudflare Workers AI, off without both
-      - CF_ACCOUNT_ID
-      - CF_AI_API_KEY
       # iCloud link of the shortcut that puts the shopping note into Reminders
       - SHORTCUT_INSTALL_URL
     volumes:

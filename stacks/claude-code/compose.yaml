@@ -2,6 +2,7 @@ services:
   claude-code:
     image: git.${DOMAIN}/joost/claude-code-docker:sha-e44290d
     container_name: claude-code
+    hostname: claude-code
     restart: unless-stopped
     tty: true
     stdin_open: true
@@ -13,6 +14,7 @@ services:
       - CODE_SERVER_PASSWORD
     volumes:
       - ${APPDATA_PATH}/repos:/repos
+      - ${MNT_PATH}/Syncthing/obsidian:/obsidian
       - ${APPDATA_PATH}/claude-code/claude:/home/claude/.claude
       - ${APPDATA_PATH}/claude-code/share:/home/claude/.local/share
       - ${APPDATA_PATH}/claude-code/config:/home/claude/.config

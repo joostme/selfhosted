@@ -35,7 +35,8 @@ services:
       traefik.http.routers.angebote.middlewares: tinyauth
 
       tinyauth.apps.angebote.config.domain: ${SERVICE_URL}
-      tinyauth.apps.angebote.oauth.groups: admin
+      # the group allowed in comes from the secrets file
+      tinyauth.apps.angebote.oauth.groups: ${TINYAUTH_GROUPS}
 
       glance.name: Angebote
       glance.url: https://${SERVICE_URL}

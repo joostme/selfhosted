@@ -14,7 +14,9 @@ services:
       - GUNICORN_WORKERS=1
       - GUNICORN_THREADS=1
       - SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
-      - SOCIALACCOUNT_PROVIDERS
+      # inline so Compose substitutes the secret; Conflux expands environment.env
+      # before it reads secrets.env, so a reference there resolves to empty
+      - 'SOCIALACCOUNT_PROVIDERS={"openid_connect": {"OAUTH_PKCE_ENABLED": True, "SCOPE": ["openid","profile","email","groups"], "APPS": [{"provider_id": "pocketid","name": "SSO","client_id": "tandoor","secret": "${TANDOOR_OAUTH_SECRET}","settings": {"server_url": "https://id.${DOMAIN}/.well-known/openid-configuration"}}]}}'
       - SECRET_KEY
     volumes:
       - ${APPDATA_PATH}/recipes/data:/data

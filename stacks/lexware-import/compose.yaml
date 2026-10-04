@@ -1,6 +1,6 @@
 services:
   lexware-import:
-    image: git.${DOMAIN}/joost/lexware-import:sha-47bd610
+    image: git.${DOMAIN}/joost/lexware-import:sha-4a68eeb
     container_name: lexware-import
     restart: unless-stopped
     pull_policy: always

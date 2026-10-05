@@ -1,6 +1,6 @@
 services:
   nordmake-hub:
-    image: git.${DOMAIN}/joost/nordmake-hub:sha-251e65b
+    image: git.${DOMAIN}/joost/nordmake-hub:sha-6cf42df
     container_name: nordmake-hub
     restart: unless-stopped
     pull_policy: always
@@ -10,13 +10,21 @@ services:
       TZ: ${TZ}
       # shared secret of the Firefox extension, kept in the secrets file
       EXTENSION_API_KEY: ${EXTENSION_API_KEY}
+      # the extension's update_url points here
+      PUBLIC_URL: https://${SERVICE_URL}
+      # addons.mozilla.org API key for signing the extension, kept in the secrets file
+      MOZILLA_API_USER: ${MOZILLA_API_USER}
+      MOZILLA_API_TOKEN: ${MOZILLA_API_TOKEN}
     volumes:
       # pricing.sqlite, uploads/, automation.sqlite and accounting/
       - ${APPDATA_PATH}/nordmake-hub/data:/data
     networks:
+      # outbound internet access for signing the extension at addons.mozilla.org
+      - default
       - proxy
     labels:
       traefik.enable: true
+      traefik.docker.network: proxy
       traefik.http.services.nordmake-hub.loadbalancer.server.port: 3000
 
       # the web interface has no auth of its own, Traefik puts tinyauth in front of it
@@ -28,10 +36,11 @@ services:
       traefik.http.routers.nordmake-hub.middlewares: tinyauth
       traefik.http.routers.nordmake-hub.priority: 99
 
-      # the Firefox extension cannot log in to tinyauth; the app checks its X-API-Key itself
+      # the Firefox extension cannot log in to tinyauth: the API checks its X-API-Key itself,
+      # /extension/ only serves the extension package and its update manifest
       traefik.http.routers.nordmake-hub-extension-api.tls: true
       traefik.http.routers.nordmake-hub-extension-api.tls.certresolver: letsencrypt
-      traefik.http.routers.nordmake-hub-extension-api.rule: Host(`${SERVICE_URL}`) && PathPrefix(`/api/extension/`)
+      traefik.http.routers.nordmake-hub-extension-api.rule: Host(`${SERVICE_URL}`) && (PathPrefix(`/api/extension/`) || PathPrefix(`/extension/`))
       traefik.http.routers.nordmake-hub-extension-api.entrypoints: websecure
       traefik.http.routers.nordmake-hub-extension-api.service: nordmake-hub
       traefik.http.routers.nordmake-hub-extension-api.priority: 100

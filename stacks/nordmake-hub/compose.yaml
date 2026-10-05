@@ -1,0 +1,48 @@
+services:
+  nordmake-hub:
+    image: git.${DOMAIN}/joost/nordmake-hub:sha-288d948
+    container_name: nordmake-hub
+    restart: unless-stopped
+    pull_policy: always
+    user: "${PUID}:${PGID}"
+    environment:
+      DATA_DIR: /data
+      TZ: ${TZ}
+      # shared secret of the Firefox extension, kept in the secrets file
+      EXTENSION_API_KEY: ${EXTENSION_API_KEY}
+    volumes:
+      # pricing.sqlite, uploads/, automation.sqlite and accounting/
+      - ${APPDATA_PATH}/nordmake-hub/data:/data
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.services.nordmake-hub.loadbalancer.server.port: 3000
+
+      # the web interface has no auth of its own, Traefik puts tinyauth in front of it
+      traefik.http.routers.nordmake-hub.tls: true
+      traefik.http.routers.nordmake-hub.tls.certresolver: letsencrypt
+      traefik.http.routers.nordmake-hub.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.nordmake-hub.entrypoints: websecure
+      traefik.http.routers.nordmake-hub.service: nordmake-hub
+      traefik.http.routers.nordmake-hub.middlewares: tinyauth
+      traefik.http.routers.nordmake-hub.priority: 99
+
+      # the Firefox extension cannot log in to tinyauth; the app checks its X-API-Key itself
+      traefik.http.routers.nordmake-hub-extension-api.tls: true
+      traefik.http.routers.nordmake-hub-extension-api.tls.certresolver: letsencrypt
+      traefik.http.routers.nordmake-hub-extension-api.rule: Host(`${SERVICE_URL}`) && PathPrefix(`/api/extension/`)
+      traefik.http.routers.nordmake-hub-extension-api.entrypoints: websecure
+      traefik.http.routers.nordmake-hub-extension-api.service: nordmake-hub
+      traefik.http.routers.nordmake-hub-extension-api.priority: 100
+
+      tinyauth.apps.nordmake-hub.config.domain: ${SERVICE_URL}
+      tinyauth.apps.nordmake-hub.oauth.groups: admin
+
+      glance.name: Nordmake Hub
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.webui: https://${SERVICE_URL}
+
+networks:
+  proxy:
+    external: true

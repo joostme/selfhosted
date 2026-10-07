@@ -4,6 +4,9 @@ services:
     image: bellamy/wallos:5.8.3
     environment:
       - TZ
+      # id.${DOMAIN} resolves to a LAN address internally; Wallos blocks private
+      # IPs for OIDC endpoints unless the host is allowlisted
+      - SSRF_ALLOWLIST=id.${DOMAIN}
     volumes:
       - ${APPDATA_PATH}/wallos/db:/var/www/html/db
       - ${APPDATA_PATH}/wallos/logos:/var/www/html/images/uploads/logos

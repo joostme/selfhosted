@@ -1,6 +1,6 @@
 services:
   angebote:
-    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-3de930b
+    image: git.${DOMAIN}/${FORGEJO_USER}/angebote:sha-61a8fe5
     container_name: angebote
     restart: unless-stopped
     pull_policy: always

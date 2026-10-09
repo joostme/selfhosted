@@ -38,7 +38,7 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL}
 
   playwright-mcp:
-    image: mcr.microsoft.com/playwright/mcp:v0.0.82
+    image: mcr.microsoft.com/playwright/mcp:v0.0.83
     container_name: playwright-mcp
     restart: unless-stopped
     command:

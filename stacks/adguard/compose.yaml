@@ -31,6 +31,9 @@ services:
     container_name: adguardhome-sync
     command: run
     restart: unless-stopped
+    # without adguard on the proxy network, "adguard" resolves upstream (raspi) to 127.0.1.1
+    depends_on:
+      - adguard
     networks:
       - proxy
     environment:

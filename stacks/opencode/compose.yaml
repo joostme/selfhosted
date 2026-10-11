@@ -2,7 +2,7 @@ services:
   opencode:
     # v3 beta: opencode, gh and code-server are installed by mise on start
     # and upgraded on every restart (AUTO_UPDATE defaults to true)
-    image: ghcr.io/joostme/opencode-docker:3.0.0-beta.0
+    image: ghcr.io/joostme/opencode-docker:3.0.0-beta.1
     container_name: opencode
     restart: unless-stopped
     environment:

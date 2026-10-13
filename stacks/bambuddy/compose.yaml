@@ -6,6 +6,20 @@ services:
       - TZ
       - PUID
       - PGID
+      # base for the OIDC redirect URI (/api/v1/auth/oidc/callback)
+      - APP_URL=https://${SERVICE_URL}
+      - BAMBUDDY_OIDC_NAME=Pocket ID
+      - BAMBUDDY_OIDC_ISSUER_URL=https://id.${DOMAIN}
+      - BAMBUDDY_OIDC_CLIENT_ID=bambuddy
+      - BAMBUDDY_OIDC_CLIENT_SECRET
+      - BAMBUDDY_OIDC_SCOPES=openid email profile groups
+      - BAMBUDDY_OIDC_AUTO_CREATE_USERS=true
+      # links to the existing local admin by email, needs email_verified from Pocket ID
+      - BAMBUDDY_OIDC_AUTO_LINK_EXISTING=true
+      - 'BAMBUDDY_OIDC_GROUP_MAPPING={"admin": "Administrators"}'
+      - BAMBUDDY_OIDC_ICON_URL=https://cdn.jsdelivr.net/gh/selfhst/icons/png/pocket-id.png
+      # the login page goes straight to Pocket ID
+      - BAMBUDDY_OIDC_AUTOLOGIN=true
     volumes:
       - ${APPDATA_PATH}/bambuddy/data:/app/data
       - ${APPDATA_PATH}/bambuddy/logs:/app/logs
@@ -21,11 +35,7 @@ services:
       traefik.http.routers.bambuddy.tls.certresolver: letsencrypt
       traefik.http.routers.bambuddy.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.bambuddy.entrypoints: websecure
-      traefik.http.routers.bambuddy.middlewares: tinyauth
       traefik.http.services.bambuddy.loadbalancer.server.port: 8000
-
-      tinyauth.apps.bambuddy.config.domain: ${SERVICE_URL}
-      tinyauth.apps.bambuddy.oauth.groups: admin
 
       glance.name: Bambuddy
       glance.icon: sh:bambuddy

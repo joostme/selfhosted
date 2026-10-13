@@ -20,6 +20,8 @@ services:
       - BAMBUDDY_OIDC_ICON_URL=https://cdn.jsdelivr.net/gh/selfhst/icons/png/pocket-id.png
       # the login page goes straight to Pocket ID
       - BAMBUDDY_OIDC_AUTOLOGIN=true
+      # slicer sidecar, used once "Use Slicer API" is on in Settings → Slicer
+      - BAMBU_STUDIO_API_URL=http://bambu-studio-api:3000
     volumes:
       - ${APPDATA_PATH}/bambuddy/data:/app/data
       - ${APPDATA_PATH}/bambuddy/logs:/app/logs
@@ -29,6 +31,7 @@ services:
     # bridge instead of host mode: the P1S is added by IP, no discovery and no virtual printer needed
     networks:
       - proxy
+      - bambuddy
     labels:
       traefik.enable: true
       traefik.http.routers.bambuddy.tls: true
@@ -43,6 +46,30 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/bambuddy.png
       net.unraid.docker.webui: https://${SERVICE_URL}
 
+  # Bambu Studio CLI behind an HTTP wrapper, slices for Bambuddy's "Slice" button.
+  # Keep the tag in step with the bambuddy image above.
+  bambu-studio-api:
+    image: ghcr.io/maziggy/bambu-studio-api:bambuddy-1.2.5.7
+    container_name: bambu-studio-api
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - ${APPDATA_PATH}/bambuddy/bambu-studio-api:/app/data
+    restart: unless-stopped
+    networks:
+      - bambuddy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+
 networks:
   proxy:
     external: true
+  # only Bambuddy talks to the slicer
+  bambuddy:
+    driver: bridge
+    internal: true

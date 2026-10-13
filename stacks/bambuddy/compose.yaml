@@ -1,0 +1,38 @@
+services:
+  bambuddy:
+    image: ghcr.io/maziggy/bambuddy:1.2.5.7
+    container_name: bambuddy
+    environment:
+      - TZ
+      - PUID
+      - PGID
+    volumes:
+      - ${APPDATA_PATH}/bambuddy/data:/app/data
+      - ${APPDATA_PATH}/bambuddy/logs:/app/logs
+    restart: unless-stopped
+    # Bambuddy shuts down MQTT and SQLite cleanly, give it time for that
+    stop_grace_period: 30s
+    # bridge instead of host mode: the P1S is added by IP, no discovery and no virtual printer needed
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.bambuddy.tls: true
+      traefik.http.routers.bambuddy.tls.certresolver: letsencrypt
+      traefik.http.routers.bambuddy.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.bambuddy.entrypoints: websecure
+      traefik.http.routers.bambuddy.middlewares: tinyauth
+      traefik.http.services.bambuddy.loadbalancer.server.port: 8000
+
+      tinyauth.apps.bambuddy.config.domain: ${SERVICE_URL}
+      tinyauth.apps.bambuddy.oauth.groups: admin
+
+      glance.name: Bambuddy
+      glance.icon: sh:bambuddy
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/bambuddy.png
+      net.unraid.docker.webui: https://${SERVICE_URL}
+
+networks:
+  proxy:
+    external: true

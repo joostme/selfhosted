@@ -86,6 +86,8 @@ services:
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
       net.unraid.docker.webui: https://${SERVICE_URL}
 
+# Routen zu Geräten im LAN ohne Docker-Labels, gelesen vom File-Provider.
+# Conflux kopiert den Inhalt beim Start in den Container (ab 0.4.0).
 configs:
   external:
     content: |

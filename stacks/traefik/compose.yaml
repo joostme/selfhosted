@@ -94,13 +94,16 @@ configs:
           homeassistant:
             rule: Host(`home.${DOMAIN}`)
             service: homeassistant
+            tls: { certResolver: letsencrypt }
           udm:
             rule: Host(`udm.${DOMAIN}`)
             service: udm
+            tls: { certResolver: letsencrypt }
             middlewares: [lan-only]
           nas:
             rule: Host(`nas.${DOMAIN}`)
             service: nas
+            tls: { certResolver: letsencrypt }
             middlewares: [lan-only]
 
         services:

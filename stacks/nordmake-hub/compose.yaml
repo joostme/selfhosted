@@ -1,6 +1,6 @@
 services:
   nordmake-hub:
-    image: git.${DOMAIN}/joost/nordmake-hub:sha-4a85ed0
+    image: git.${DOMAIN}/joost/nordmake-hub:sha-af89924
     container_name: nordmake-hub
     restart: unless-stopped
     pull_policy: always
@@ -15,6 +15,10 @@ services:
       # addons.mozilla.org API key for signing the extension, kept in the secrets file
       MOZILLA_API_USER: ${MOZILLA_API_USER}
       MOZILLA_API_TOKEN: ${MOZILLA_API_TOKEN}
+      # build plates from prints in Bambuddy, over the shared proxy network;
+      # read-only API key from Bambuddy, kept in the secrets file
+      BAMBUDDY_URL: http://bambuddy:8000
+      BAMBUDDY_API_KEY: ${BAMBUDDY_API_KEY}
     volumes:
       # pricing.sqlite, uploads/, automation.sqlite and accounting/
       - ${APPDATA_PATH}/nordmake-hub/data:/data

@@ -38,6 +38,9 @@ services:
       - "--providers.docker.endpoint=tcp://dockerproxy:2375"
       - "--providers.docker.network=proxy"
 
+      # Externe Geräte im LAN (siehe configs.external)
+      - "--providers.file.filename=/etc/traefik/external.yaml"
+
       # Entrypoints
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
@@ -64,6 +67,9 @@ services:
     restart: unless-stopped
     depends_on:
       - dockerproxy
+    configs:
+      - source: external
+        target: /etc/traefik/external.yaml
     volumes:
       - certificates:/certificates
     networks:
@@ -79,6 +85,45 @@ services:
       glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png
       net.unraid.docker.webui: https://${SERVICE_URL}
+
+configs:
+  external:
+    content: |
+      http:
+        routers:
+          homeassistant:
+            rule: Host(`home.${DOMAIN}`)
+            service: homeassistant
+          udm:
+            rule: Host(`udm.${DOMAIN}`)
+            service: udm
+            middlewares: [lan-only]
+          nas:
+            rule: Host(`nas.${DOMAIN}`)
+            service: nas
+            middlewares: [lan-only]
+
+        services:
+          homeassistant:
+            loadBalancer:
+              servers: [{ url: "http://10.0.0.85:8123" }]
+          udm:
+            loadBalancer:
+              servers: [{ url: "https://10.0.0.1" }]
+              serversTransport: self-signed
+          nas:
+            loadBalancer:
+              servers: [{ url: "https://10.0.0.150:8443" }]
+              serversTransport: self-signed
+
+        middlewares:
+          lan-only:
+            ipAllowList:
+              sourceRange: [10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16]
+
+        serversTransports:
+          self-signed:
+            insecureSkipVerify: true
 
 networks:
   proxy:

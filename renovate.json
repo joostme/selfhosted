@@ -7,6 +7,17 @@
   "labels": ["renovate"],
   "configMigration": true,
   "prHourlyLimit": 0,
+  "minimumReleaseAge": "3 days",
+  "minimumReleaseAgeBehaviour": "timestamp-optional",
+  "internalChecksFilter": "strict",
+  "packageRules": [
+    {
+      "description": "Automerge patch releases; the repo has no CI checks to wait for",
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "ignoreTests": true
+    }
+  ],
   "docker-compose": {
     "packageRules": [
       {

@@ -3,7 +3,6 @@
   "extends": ["config:recommended"],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
-  "assignees": ["joostme"],
   "labels": ["renovate"],
   "configMigration": true,
   "prHourlyLimit": 0,
@@ -12,9 +11,10 @@
   "internalChecksFilter": "strict",
   "packageRules": [
     {
-      "description": "Automerge patch releases; the repo has no CI checks to wait for",
+      "description": "Automerge patch releases straight to main without a PR; the repo has no CI checks to wait for",
       "matchUpdateTypes": ["patch"],
       "automerge": true,
+      "automergeType": "branch",
       "ignoreTests": true
     }
   ],

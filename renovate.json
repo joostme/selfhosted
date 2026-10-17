@@ -48,7 +48,9 @@
         "changelogUrl": "https://github.com/toniebox-reverse-engineering/teddycloud/releases"
       },
       {
-        "matchPackageNames": ["ghcr.io/imagegenius/immich"],
+        "description": "Server and machine learning must always run the same Immich version",
+        "matchPackageNames": ["ghcr.io/immich-app/immich-server", "ghcr.io/immich-app/immich-machine-learning"],
+        "groupName": "immich",
         "sourceUrl": "https://github.com/immich-app/immich",
         "changelogUrl": "https://github.com/immich-app/immich/releases"
       },

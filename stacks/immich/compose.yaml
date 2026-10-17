@@ -1,12 +1,14 @@
 services:
   immich:
     container_name: immich
-    image: ghcr.io/imagegenius/immich:3.3.3
+    image: ghcr.io/immich-app/immich-server:v3.3.3
     restart: unless-stopped
+    user: "${PUID}:${PGID}"
+    # render group of /dev/dri/renderD128 on the host, needed for hardware transcoding as non-root
+    group_add:
+      - "18"
     environment:
       - TZ
-      - PUID
-      - PGID
       - DB_HOSTNAME=postgres_immich
       - DB_USERNAME=postgres
       - DB_PASSWORD
@@ -14,28 +16,27 @@ services:
       - DB_PORT=5432
       - REDIS_HOSTNAME=redis
       - REDIS_PORT=6379
-      - SERVER_HOST=0.0.0.0
-
-      - MACHINE_LEARNING_HOST=0.0.0.0
-      - MACHINE_LEARNING_PORT=3003
-      - MACHINE_LEARNING_WORKERS=1
-      - MACHINE_LEARNING_WORKER_TIMEOUT=120
+      # keep the paths the database already references from the imagegenius image
+      - IMMICH_MEDIA_LOCATION=/photos
+      - IMMICH_MACHINE_LEARNING_URL=http://immich-machine-learning:3003
     volumes:
       - ${MNT_PATH}/photos/immich/:/photos
       - ${MNT_PATH}/photos/libraries/:/libraries
-      - ${APPDATA_PATH}/immich:/config
     networks:
       - proxy
       - redis_net
       - immich
     devices:
       - "/dev/dri:/dev/dri"
+    depends_on:
+      - postgres_immich
     labels:
       traefik.enable: true
       traefik.http.routers.immich.tls: true
       traefik.http.routers.immich.tls.certresolver: letsencrypt
       traefik.http.routers.immich.rule: Host(`${SERVICE_URL}`)
       traefik.http.routers.immich.entrypoints: websecure
+      traefik.http.services.immich.loadbalancer.server.port: 2283
 
       glance.id: immich
       glance.name: Immich
@@ -43,6 +44,26 @@ services:
       glance.url: https://${SERVICE_URL}
       net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/immich.png
       net.unraid.docker.webui: https://${SERVICE_URL}
+
+  immich-machine-learning:
+    container_name: immich-machine-learning
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.3
+    restart: unless-stopped
+    user: "${PUID}:${PGID}"
+    environment:
+      - TZ
+      - MACHINE_LEARNING_WORKERS=1
+      - MACHINE_LEARNING_WORKER_TIMEOUT=120
+    volumes:
+      # model cache downloaded by the imagegenius image, same layout including hf-cache
+      - ${APPDATA_PATH}/immich/machine-learning/models:/cache
+    networks:
+      - immich
+    labels:
+      glance.parent: immich
+      glance.name: Immich Machine Learning
+      glance.icon: sh:immich
+      net.unraid.docker.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/immich.png
 
 
   postgres_immich:

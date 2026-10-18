@@ -37,18 +37,18 @@ services:
       glance.url: https://${SERVICE_URL}
       net.unraid.docker.webui: https://${SERVICE_URL}
 
+  # Playwright MCP on Patchright (image from claude-code-docker/patchright-mcp)
+  # driving full Google Chrome over CDP, the same setup as Karakeep's crawler.
+  # Trips bot protection far less than the stock image's headless Chromium.
+  # --isolated gives every MCP client its own context in the shared browser.
   playwright-mcp:
-    image: mcr.microsoft.com/playwright/mcp:v0.0.83
+    image: git.${DOMAIN}/joost/patchright-mcp:sha-72c09b6
     container_name: playwright-mcp
     restart: unless-stopped
     command:
-      - --headless
-      - --browser
-      - chromium
-      - --no-sandbox
-      # default UA contains "HeadlessChrome", which many sites block
-      - --user-agent
-      - "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+      - --cdp-endpoint
+      - http://chrome:9222
+      - --isolated
       - --viewport-size
       - 1920x1080
       - --port
@@ -60,11 +60,26 @@ services:
     networks:
       - browser
 
+  chrome:
+    image: ghcr.io/karakeep-app/karakeep-chrome:154.0.8037.57-r1
+    container_name: playwright-chrome
+    restart: unless-stopped
+    init: true
+    environment:
+      - TZ
+    command:
+      - --disable-gpu
+      - --disable-dev-shm-usage
+      - --disable-blink-features=AutomationControlled
+      - --window-size=1920,1080
+    networks:
+      - browser
+
 networks:
   proxy:
     external: true
-  # private link between claude-code and its browser sidecar; the MCP endpoint
-  # has no auth, so it must not sit on the shared proxy network
+  # private link between claude-code and its browser sidecars; neither the MCP
+  # nor the CDP endpoint has auth, so they must not sit on the shared proxy network
   browser: {}
   angebote:
     external: true

@@ -1,6 +1,6 @@
 services:
   karakeep:
-    image: ghcr.io/karakeep-app/karakeep:0.33.2
+    image: ghcr.io/karakeep-app/karakeep:0.34.0
     restart: unless-stopped
     volumes:
       - ${APPDATA_PATH}/karakeep/data:/data
@@ -16,9 +16,9 @@ services:
       - OAUTH_CLIENT_ID=karakeep
       - OAUTH_PROVIDER_NAME=SSO
       - OAUTH_ALLOW_DANGEROUS_EMAIL_ACCOUNT_LINKING=true
-      - OAUTH_TIMEOUT=30000
       - OAUTH_CLIENT_SECRET
       - MEILI_MASTER_KEY
+      - CRAWLER_BROWSER_TIMEZONE=Europe/Berlin
     networks:
       - karakeep
       - proxy

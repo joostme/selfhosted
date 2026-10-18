@@ -1,6 +1,8 @@
 services:
   bambuddy:
-    image: ghcr.io/maziggy/bambuddy:1.2.5.7
+    # fork of 1.2.5.7 with the SuperTack bed type and AMS auto-unlink fixes,
+    # back to ghcr.io/maziggy/bambuddy once both are upstream
+    image: ghcr.io/joostme/bambuddy:sha-b444a05
     container_name: bambuddy
     environment:
       - TZ
@@ -47,7 +49,7 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL}
 
   # Bambu Studio CLI behind an HTTP wrapper, slices for Bambuddy's "Slice" button.
-  # Keep the tag in step with the bambuddy image above.
+  # Keep the tag in step with the Bambuddy version above (the fork is 1.2.5.7).
   bambu-studio-api:
     image: ghcr.io/maziggy/bambu-studio-api:bambuddy-1.2.5.7
     container_name: bambu-studio-api

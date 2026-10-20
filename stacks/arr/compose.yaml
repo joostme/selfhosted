@@ -6,6 +6,7 @@ services:
       - TZ
       - PUID
       - PGID
+      - RADARR__AUTH__METHOD=External
     volumes:
       - ${APPDATA_PATH}/radarr:/config
       - ${DATA_PATH}/:/data
@@ -46,6 +47,7 @@ services:
       - TZ
       - PUID
       - PGID
+      - SONARR__AUTH__METHOD=External
     volumes:
       - ${APPDATA_PATH}/sonarr:/config
       - ${DATA_PATH}/:/data
@@ -151,6 +153,7 @@ services:
       - PUID
       - PGID
       - UMASK
+      - PROWLARR__AUTH__METHOD=External
       - VPN_ENABLED=true #
       - VPN_CONF=wg0 #
       - VPN_PROVIDER=proton #

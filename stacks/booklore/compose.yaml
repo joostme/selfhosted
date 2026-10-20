@@ -37,7 +37,7 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL}
 
   mariadb:
-    image: lscr.io/linuxserver/mariadb:11.8.8
+    image: lscr.io/linuxserver/mariadb:11.8.9
     container_name: mariadb
     environment:
       - TZ

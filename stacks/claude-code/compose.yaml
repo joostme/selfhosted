@@ -1,6 +1,6 @@
 services:
   claude-code:
-    image: git.${DOMAIN}/joost/claude-code-docker:sha-4608461
+    image: git.${DOMAIN}/joost/claude-code-docker:sha-87c4464
     container_name: claude-code
     hostname: claude-code
     restart: unless-stopped
@@ -18,6 +18,8 @@ services:
       - ${APPDATA_PATH}/claude-code/claude:/home/claude/.claude
       - ${APPDATA_PATH}/claude-code/share:/home/claude/.local/share
       - ${APPDATA_PATH}/claude-code/config:/home/claude/.config
+      # npm, go, pip, uv, mise and other caches; otherwise they fill docker.img
+      - ${APPDATA_PATH}/claude-code/cache:/home/claude/.cache
 
       - ${APPDATA_PATH}/.ssh:/home/claude/.ssh-keys:ro
     networks:

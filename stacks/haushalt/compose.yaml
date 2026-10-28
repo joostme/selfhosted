@@ -1,0 +1,40 @@
+services:
+  haushalt:
+    image: git.${DOMAIN}/joost/haushalt:sha-355a5cd
+    container_name: haushalt
+    restart: unless-stopped
+    pull_policy: always
+    user: "${PUID}:${PGID}"
+    environment:
+      - TZ
+    volumes:
+      - ${APPDATA_PATH}/haushalt/data:/data
+    networks:
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.docker.network: proxy
+      traefik.http.routers.haushalt.tls: true
+      traefik.http.routers.haushalt.tls.certresolver: letsencrypt
+      traefik.http.routers.haushalt.rule: Host(`${SERVICE_URL}`)
+      traefik.http.routers.haushalt.entrypoints: websecure
+      traefik.http.routers.haushalt.service: haushalt
+      traefik.http.services.haushalt.loadbalancer.server.port: 3000
+      # the page has no login of its own
+      traefik.http.routers.haushalt.middlewares: tinyauth
+
+      tinyauth.apps.haushalt.config.domain: ${SERVICE_URL}
+      tinyauth.apps.haushalt.oauth.groups: admin
+
+      glance.name: Haushalt
+      glance.url: https://${SERVICE_URL}
+      net.unraid.docker.webui: https://${SERVICE_URL}
+    stop_grace_period: 30s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+networks:
+  proxy:
+    external: true

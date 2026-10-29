@@ -1,6 +1,6 @@
 services:
   haushalt:
-    image: git.${DOMAIN}/joost/haushalt:sha-c08a68b
+    image: git.${DOMAIN}/joost/haushalt:sha-e783925
     container_name: haushalt
     restart: unless-stopped
     pull_policy: always

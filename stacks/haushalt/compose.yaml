@@ -1,15 +1,21 @@
 services:
   haushalt:
-    image: git.${DOMAIN}/joost/haushalt:sha-9fd2211
+    image: git.${DOMAIN}/joost/haushalt:sha-05bb692
     container_name: haushalt
     restart: unless-stopped
     pull_policy: always
     user: "${PUID}:${PGID}"
     environment:
       - TZ
+      # a task in Todoist for the next monthly payment of person 1, token in the secrets file
+      - TODOIST_API_TOKEN
+      - TODOIST_PERSON=1
+      - APP_URL=https://${SERVICE_URL}
     volumes:
       - ${APPDATA_PATH}/haushalt/data:/data
     networks:
+      # outbound internet access for the Todoist API
+      - default
       - proxy
     labels:
       traefik.enable: true

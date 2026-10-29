@@ -10,11 +10,15 @@ services:
       # a task in Todoist for the next monthly payment of person 1, token in the secrets file
       - TODOIST_API_TOKEN
       - TODOIST_PERSON=1
+      # the address the bank sends back to after the consent, /bank/callback
       - APP_URL=https://${SERVICE_URL}
+      # reading the joint account through Enable Banking, both in the secrets file
+      - ENABLE_BANKING_APP_ID
+      - ENABLE_BANKING_PRIVATE_KEY
     volumes:
       - ${APPDATA_PATH}/haushalt/data:/data
     networks:
-      # outbound internet access for the Todoist API
+      # outbound internet access for the Todoist and Enable Banking APIs
       - default
       - proxy
     labels:

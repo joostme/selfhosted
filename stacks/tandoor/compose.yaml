@@ -1,7 +1,7 @@
 services:
   tandoor:
     container_name: tandoor
-    image: vabene1111/recipes:2.7.1
+    image: vabene1111/recipes:2.7.2
     restart: unless-stopped
     environment:
       - TZ

@@ -1,6 +1,6 @@
 services:
   claude-code:
-    image: git.${DOMAIN}/joost/claude-code-docker:sha-87c4464
+    image: git.${DOMAIN}/joost/claude-code-docker:sha-f738e9f
     container_name: claude-code
     hostname: claude-code
     restart: unless-stopped
@@ -12,6 +12,10 @@ services:
       - PGID
       - CLAUDE_REMOTE_NAME=nas
       - CODE_SERVER_PASSWORD
+      # T3 Code server, paired directly (no T3 Connect account) through the
+      # route below: docker compose exec claude-code t3-pair
+      - T3_ENABLE=true
+      - T3_PUBLIC_URL=https://${T3_URL}
     volumes:
       - ${APPDATA_PATH}/repos:/repos
       - ${MNT_PATH}/Syncthing/obsidian:/obsidian
@@ -20,6 +24,8 @@ services:
       - ${APPDATA_PATH}/claude-code/config:/home/claude/.config
       # npm, go, pip, uv, mise and other caches; otherwise they fill docker.img
       - ${APPDATA_PATH}/claude-code/cache:/home/claude/.cache
+      # T3 Code: server executable, paired devices, threads
+      - ${APPDATA_PATH}/claude-code/t3:/home/claude/.t3
 
       - ${APPDATA_PATH}/.ssh:/home/claude/.ssh-keys:ro
     networks:
@@ -34,6 +40,14 @@ services:
       traefik.http.routers.claude-code.entrypoints: websecure
       traefik.http.routers.claude-code.service: claude-code
       traefik.http.services.claude-code.loadbalancer.server.port: 8080
+
+      # T3 Code speaks plain HTTP; Traefik adds TLS (needed by app.t3.codes)
+      traefik.http.routers.t3.tls: true
+      traefik.http.routers.t3.tls.certresolver: letsencrypt
+      traefik.http.routers.t3.rule: Host(`${T3_URL}`)
+      traefik.http.routers.t3.entrypoints: websecure
+      traefik.http.routers.t3.service: t3
+      traefik.http.services.t3.loadbalancer.server.port: 3773
 
       glance.name: Claude Code
       glance.url: https://${SERVICE_URL}

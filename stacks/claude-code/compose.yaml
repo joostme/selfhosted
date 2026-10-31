@@ -1,31 +1,32 @@
 services:
   claude-code:
-    image: git.${DOMAIN}/joost/claude-code-docker:sha-f738e9f
+    image: git.${DOMAIN}/joost/claude-code-docker:sha-9d25cfa
     container_name: claude-code
     hostname: claude-code
     restart: unless-stopped
-    tty: true
-    stdin_open: true
     environment:
       - TZ
       - PUID
       - PGID
-      - CLAUDE_REMOTE_NAME=nas
       - CODE_SERVER_PASSWORD
       # T3 Code server, paired directly (no T3 Connect account) through the
       # route below: docker compose exec claude-code t3-pair
-      - T3_ENABLE=true
       - T3_PUBLIC_URL=https://${T3_URL}
     volumes:
       - ${APPDATA_PATH}/repos:/repos
       - ${MNT_PATH}/Syncthing/obsidian:/obsidian
-      - ${APPDATA_PATH}/claude-code/claude:/home/claude/.claude
+      # Straight on the cache pool instead of the /mnt/user FUSE share: shfs
+      # renames are not atomic for readers, so a claude starting during
+      # another one's config write saw no .claude.json and replaced it with
+      # an empty one (MCP servers and login gone)
+      - /mnt/cache/appdata/claude-code/claude:/home/claude/.claude
       - ${APPDATA_PATH}/claude-code/share:/home/claude/.local/share
       - ${APPDATA_PATH}/claude-code/config:/home/claude/.config
       # npm, go, pip, uv, mise and other caches; otherwise they fill docker.img
       - ${APPDATA_PATH}/claude-code/cache:/home/claude/.cache
-      # T3 Code: server executable, paired devices, threads
-      - ${APPDATA_PATH}/claude-code/t3:/home/claude/.t3
+      # T3 Code: server executable, paired devices, threads. Also on the pool:
+      # its state is SQLite in WAL mode, which needs a real filesystem
+      - /mnt/cache/appdata/claude-code/t3:/home/claude/.t3
 
       - ${APPDATA_PATH}/.ssh:/home/claude/.ssh-keys:ro
     networks:

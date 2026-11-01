@@ -1,6 +1,6 @@
 services:
   nordmake-hub:
-    image: git.${DOMAIN}/joost/nordmake-hub:sha-5aefd33
+    image: git.${DOMAIN}/joost/nordmake-hub:sha-1b59121
     container_name: nordmake-hub
     restart: unless-stopped
     pull_policy: always

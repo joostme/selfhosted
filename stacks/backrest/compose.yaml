@@ -15,7 +15,7 @@ services:
       - '-allowfrom=backrest'
       - '-allowGET=/v1\..{1,2}/(info|containers/.*|exec/.*)|/_ping'
       - '-allowHEAD=/_ping'
-      - '-allowPOST=/v1\..{1,2}/(exec/.*|containers/(paperless|postgres_immich)/(exec|start|stop|pause|unpause))'
+      - '-allowPOST=/v1\..{1,2}/(exec/.*|containers/(paperless|postgres_immich|nordmake-hub)/(exec|start|stop|pause|unpause))'
       - '-allowbindmountfrom=/var/log,/tmp'
       - '-watchdoginterval=3600'
       - '-stoponwatchdog'
@@ -39,6 +39,7 @@ services:
       - ${APPDATA_PATH}/karakeep/data:/userdata/appdata/karakeep/data:ro
       - ${APPDATA_PATH}/recipes:/userdata/appdata/recipes:ro
       - ${APPDATA_PATH}/forgejo/data/git/repositories:/userdata/appdata/git:ro
+      - ${APPDATA_PATH}/nordmake-hub/data:/userdata/appdata/nordmake-hub/data:ro
 
       - ${MNT_PATH}/photos:/userdata/photos:ro
       - ${MNT_PATH}/paperless:/userdata/paperless:ro

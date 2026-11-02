@@ -1,6 +1,6 @@
 services:
   nordmake-hub:
-    image: git.${DOMAIN}/joost/nordmake-hub:sha-d6f7018
+    image: git.${DOMAIN}/joost/nordmake-hub:sha-27b8987
     container_name: nordmake-hub
     restart: unless-stopped
     pull_policy: always
@@ -23,6 +23,11 @@ services:
       # the app's callback URL is https://${SERVICE_URL}/accounting/etsy/callback
       ETSY_API_KEY: ${ETSY_API_KEY}
       ETSY_SHARED_SECRET: ${ETSY_SHARED_SECRET}
+      # eBay developer app (Sell Finances API, read-only), kept in the secrets file; the RuName's
+      # accept and decline URL is https://${SERVICE_URL}/accounting/ebay/callback
+      EBAY_CLIENT_ID: ${EBAY_CLIENT_ID}
+      EBAY_CLIENT_SECRET: ${EBAY_CLIENT_SECRET}
+      EBAY_RU_NAME: ${EBAY_RU_NAME}
     volumes:
       # pricing.sqlite, uploads/, automation.sqlite and accounting/
       - ${APPDATA_PATH}/nordmake-hub/data:/data

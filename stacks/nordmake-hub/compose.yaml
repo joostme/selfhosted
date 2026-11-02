@@ -1,6 +1,6 @@
 services:
   nordmake-hub:
-    image: git.${DOMAIN}/joost/nordmake-hub:sha-1b59121
+    image: git.${DOMAIN}/joost/nordmake-hub:sha-d6f7018
     container_name: nordmake-hub
     restart: unless-stopped
     pull_policy: always
@@ -19,6 +19,10 @@ services:
       # read-only API key from Bambuddy, kept in the secrets file
       BAMBUDDY_URL: http://bambuddy:8000
       BAMBUDDY_API_KEY: ${BAMBUDDY_API_KEY}
+      # Etsy "Seller API" app of the own shop (read-only), kept in the secrets file;
+      # the app's callback URL is https://${SERVICE_URL}/accounting/etsy/callback
+      ETSY_API_KEY: ${ETSY_API_KEY}
+      ETSY_SHARED_SECRET: ${ETSY_SHARED_SECRET}
     volumes:
       # pricing.sqlite, uploads/, automation.sqlite and accounting/
       - ${APPDATA_PATH}/nordmake-hub/data:/data

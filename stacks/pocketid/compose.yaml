@@ -1,5 +1,6 @@
 services:
   pocket-id:
+    container_name: pocketid
     image: ghcr.io/pocket-id/pocket-id:v2.19.1
     restart: unless-stopped
     environment:

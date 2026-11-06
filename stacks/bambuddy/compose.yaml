@@ -1,7 +1,7 @@
 services:
   bambuddy:
-    # fork of 1.2.5.7 with the SuperTack bed type and AMS auto-unlink fixes,
-    # back to ghcr.io/maziggy/bambuddy once both are upstream
+    # fork of 1.3.0 with the AMS auto-unlink fix (tray colour 00000000),
+    # back to ghcr.io/maziggy/bambuddy once it is upstream
     image: ghcr.io/joostme/bambuddy:sha-7e3a951
     container_name: bambuddy
     environment:

@@ -1,0 +1,44 @@
+services:
+  ali-coins:
+    # built from the repo ali-coins, which pins the reviewed upstream commit
+    image: git.${DOMAIN}/${FORGEJO_USER}/ali-coins:sha-eef40fe
+    container_name: ali-coins
+    restart: unless-stopped
+    pull_policy: always
+    user: "${PUID}:${PGID}"
+    # forwards the stop signal to the scheduler loop
+    init: true
+    environment:
+      - TZ
+      # daily run at this local time plus a random delay of up to an hour;
+      # the AliExpress day starts at midnight in Los Angeles, 09:00 here
+      - RUN_AT=10:30
+      - START_DELAY_MIN_MS=0
+      - START_DELAY_MAX_MS=3600000
+      # random pause before each task, so the run looks less mechanical
+      - TASK_PAUSE_MIN_MS=5000
+      - TASK_PAUSE_MAX_MS=30000
+      - HEADLESS=true
+      - MANUAL_LOGIN=never
+      - APP_LANGUAGE=en
+      # AliExpress login and the key that encrypts the saved session, in the secrets file
+      - ALI_USER
+      - ALI_PASSWORD
+      - SESSION_SECRET
+    volumes:
+      # code copy, encrypted session and diagnostics of failed runs
+      - ${APPDATA_PATH}/ali-coins:/data
+    tmpfs:
+      - /tmp:size=256m
+    shm_size: 256m
+    # outbound internet access for AliExpress
+    networks:
+      - default
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

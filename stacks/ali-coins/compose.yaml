@@ -1,7 +1,7 @@
 services:
   ali-coins:
     # built from the repo ali-coins, which pins the reviewed upstream commit
-    image: git.${DOMAIN}/${FORGEJO_USER}/ali-coins:sha-eef40fe
+    image: git.${DOMAIN}/joost/ali-coins:sha-eef40fe
     container_name: ali-coins
     restart: unless-stopped
     pull_policy: always

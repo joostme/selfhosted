@@ -1,8 +1,8 @@
 services:
   bambuddy:
-    # fork of 1.3.0 with the AMS auto-unlink fix (tray colour 00000000),
-    # back to ghcr.io/maziggy/bambuddy once it is upstream
-    image: ghcr.io/joostme/bambuddy:sha-7e3a951
+    # fork of 1.3.1 with the AMS auto-unlink fix (tray colour 00000000),
+    # back to ghcr.io/maziggy/bambuddy from 1.3.2 (fixed upstream in #3526)
+    image: ghcr.io/joostme/bambuddy:sha-191dac3
     container_name: bambuddy
     environment:
       - TZ
@@ -49,9 +49,9 @@ services:
       net.unraid.docker.webui: https://${SERVICE_URL}
 
   # Bambu Studio CLI behind an HTTP wrapper, slices for Bambuddy's "Slice" button.
-  # Keep the tag in step with the Bambuddy version above (the fork is 1.2.5.7).
+  # Keep the tag in step with the Bambuddy version above (the fork is 1.3.1).
   bambu-studio-api:
-    image: ghcr.io/maziggy/bambu-studio-api:bambuddy-1.3.0
+    image: ghcr.io/maziggy/bambu-studio-api:bambuddy-1.3.1
     container_name: bambu-studio-api
     environment:
       - NODE_ENV=production

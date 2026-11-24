@@ -57,14 +57,24 @@
         "changelogUrl": "https://github.com/immich-app/immich/releases"
       },
       {
+        "description": "Split off hotio's release- prefix so versions match Prowlarr's upstream v<version> release tags",
         "matchPackageNames": ["ghcr.io/hotio/prowlarr"],
-        "versioning": "regex:^release-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
+        "versionCompatibility": "^(?<compatibility>release)-(?<version>.+)$",
+        "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
+        "sourceUrl": "https://github.com/Prowlarr/Prowlarr",
+        "changelogUrl": "https://github.com/Prowlarr/Prowlarr/releases"
       },
       {
         "matchPackageNames": ["jellyfin/jellyfin"],
         "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?$",
         "sourceUrl": "https://github.com/jellyfin/jellyfin",
         "changelogUrl": "https://github.com/jellyfin/jellyfin/releases"
+      },
+      {
+        "description": "Default links for linuxserver images; must stay before the app-specific rules below, later rules win",
+        "matchPackageNames": ["/^(?:lscr\\.io/)?linuxserver\/.+$/"],
+        "sourceUrl": "https://github.com/linuxserver/docker-{{replace '^(?:lscr\\.io/)?linuxserver/' '' packageName}}",
+        "changelogUrl": "https://github.com/linuxserver/docker-{{replace '^(?:lscr\\.io/)?linuxserver/' '' packageName}}/releases"
       },
       {
         "matchPackageNames": ["linuxserver/radarr"],
@@ -85,11 +95,6 @@
         "matchPackageNames": ["lscr.io/linuxserver/syncthing"],
         "sourceUrl": "https://github.com/syncthing/syncthing",
         "changelogUrl": "https://github.com/syncthing/syncthing/releases"
-      },
-      {
-        "matchPackageNames": ["/^(?:lscr\\.io/)?linuxserver\/.+$/"],
-        "sourceUrl": "https://github.com/linuxserver/docker-{{replace '^(?:lscr\\.io/)?linuxserver/' '' packageName}}",
-        "changelogUrl": "https://github.com/linuxserver/docker-{{replace '^(?:lscr\\.io/)?linuxserver/' '' packageName}}/releases"
       }
     ]
   }

@@ -1,6 +1,6 @@
 services:
   claude-code:
-    image: git.${DOMAIN}/joost/claude-code-docker:sha-9d25cfa
+    image: git.${DOMAIN}/joost/claude-code-docker:sha-e88b75e
     container_name: claude-code
     hostname: claude-code
     restart: unless-stopped
@@ -12,6 +12,15 @@ services:
       # T3 Code server, paired directly (no T3 Connect account) through the
       # route below: docker compose exec claude-code t3-pair
       - T3_PUBLIC_URL=https://${T3_URL}
+      # Paseo daemon behind the route below (web UI there; apps: direct
+      # connection to ${PASEO_URL}:443 with TLS and the password). No relay
+      # through paseo.sh.
+      - PASEO_ENABLED=true
+      - PASEO_LISTEN=0.0.0.0:6767
+      - PASEO_HOSTNAMES=${PASEO_URL}
+      - PASEO_PASSWORD
+      - PASEO_WEB_UI_ENABLED=true
+      - PASEO_RELAY_ENABLED=false
     volumes:
       - ${APPDATA_PATH}/repos:/repos
       - ${MNT_PATH}/Syncthing/obsidian:/obsidian
@@ -27,6 +36,8 @@ services:
       # T3 Code: server executable, paired devices, threads. Also on the pool:
       # its state is SQLite in WAL mode, which needs a real filesystem
       - /mnt/cache/appdata/claude-code/t3:/home/claude/.t3
+      # Paseo: daemon state, pairing keys, worktrees, dictation model
+      - /mnt/cache/appdata/claude-code/paseo:/home/claude/.paseo
 
       - ${APPDATA_PATH}/.ssh:/home/claude/.ssh-keys:ro
     networks:
@@ -49,6 +60,14 @@ services:
       traefik.http.routers.t3.entrypoints: websecure
       traefik.http.routers.t3.service: t3
       traefik.http.services.t3.loadbalancer.server.port: 3773
+
+      # Paseo speaks plain HTTP + WebSocket; Traefik adds TLS
+      traefik.http.routers.paseo.tls: true
+      traefik.http.routers.paseo.tls.certresolver: letsencrypt
+      traefik.http.routers.paseo.rule: Host(`${PASEO_URL}`)
+      traefik.http.routers.paseo.entrypoints: websecure
+      traefik.http.routers.paseo.service: paseo
+      traefik.http.services.paseo.loadbalancer.server.port: 6767
 
       glance.name: Claude Code
       glance.url: https://${SERVICE_URL}

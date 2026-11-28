@@ -97,7 +97,7 @@ services:
       - browser
 
   chrome:
-    image: ghcr.io/karakeep-app/karakeep-chrome:158.0.8127.88-r1
+    image: ghcr.io/karakeep-app/karakeep-chrome:158.0.8127.88-r2
     container_name: playwright-chrome
     restart: unless-stopped
     init: true
